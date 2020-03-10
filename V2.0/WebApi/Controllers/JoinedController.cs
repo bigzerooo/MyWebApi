@@ -19,37 +19,77 @@ namespace WebApi.Controllers
         }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Joined> Get()
+        public IActionResult Get()
         {
-            return _joinedService.GetAllJoined();
+            try
+            {
+                return Ok(_joinedService.GetAllJoined());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }            
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Joined Get(int id)
+        public IActionResult Get(int id)
         {
-            return _joinedService.GetJoinedById(id);
+            try
+            {
+                return Ok(_joinedService.GetJoinedById(id));
+            }
+            catch
+            {
+                return StatusCode(404);
+            }            
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Joined value)
+        public IActionResult Post([FromBody]Joined value)
         {
-            _joinedService.AddJoined(value);
+            try
+            {
+                _joinedService.AddJoined(value);
+                return StatusCode(201);
+            }
+            catch
+            {
+                return StatusCode(400);
+            }
         }
 
         // PUT api/<controller>/5
         [HttpPut/*("{id}")*/]
-        public void Put(/*int id, */[FromBody]Joined value)
+        public IActionResult Put(/*int id, */[FromBody]Joined value)
         {
-            _joinedService.UpdateJoined(value);
+            try
+            {
+                _joinedService.UpdateJoined(value);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _joinedService.DeleteJoined(id);
+            try
+            {
+                _joinedService.DeleteJoined(id);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+
         }
     }
 }

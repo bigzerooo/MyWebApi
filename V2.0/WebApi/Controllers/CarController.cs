@@ -21,37 +21,79 @@ namespace WebApi.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Car> Get()
-        {            
-             return _carService.GetAllCars();
+        public IActionResult Get()
+        {
+            try
+            {
+                return Ok(_carService.GetAllCars());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Car Get(int id)
+        public IActionResult Get(int id)
         {
-            return _carService.GetCarById(id);
+            try
+            {
+                return Ok(_carService.GetCarById(id));
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+            //return _carService.GetCarById(id);
+            
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Car value)
+        public IActionResult Post([FromBody]Car value)
         {
-            _carService.AddCar(value);
+            try
+            {
+                _carService.AddCar(value);
+                return StatusCode(201);
+            }
+            catch
+            {
+                return StatusCode(400);
+            }
+            
         }
 
         // PUT api/<controller>/5
         [HttpPut/*("{id}")*/]
-        public void Put([FromBody]Car value)
+        public IActionResult Put([FromBody]Car value)
         {
-            _carService.UpdateCar(value);
+            try
+            {
+                _carService.UpdateCar(value);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _carService.DeleteCar(id);
+            try
+            {
+                _carService.DeleteCar(id);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+            
         }
     }
 }

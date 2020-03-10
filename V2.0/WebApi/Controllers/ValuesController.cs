@@ -30,7 +30,7 @@ namespace WebApi.Controllers
             //var configuration = GetConfiguration();
             //string con = configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
 
-            return new string[] { MyConnection._connectionString };          
+            return Ok(new string[] { MyConnection._connectionString });          
             //return new string[] { ConfigurationManager.ConnectionStrings };
             //return new string[] { ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString };
         }
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            return "value";
+            return Ok("value");
         }
 
         // POST api/values

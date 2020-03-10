@@ -19,37 +19,76 @@ namespace WebApi.Controllers
         }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<CarHire> Get()
+        public IActionResult Get()
         {
-            return _carHireService.GetAllCarHires();
+            try
+            {
+                return Ok(_carHireService.GetAllCarHires());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }            
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public CarHire Get(int id)
+        public IActionResult Get(int id)
         {
-            return _carHireService.GetCarHireById(id);
+            try
+            {
+                return Ok(_carHireService.GetCarHireById(id));
+            }
+            catch
+            {
+                return StatusCode(404);
+            }            
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]CarHire value)
+        public IActionResult Post([FromBody]CarHire value)
         {
-            _carHireService.AddCarHire(value);
+            try
+            {
+                _carHireService.AddCarHire(value);
+                return StatusCode(201);
+            }
+            catch
+            {
+                return StatusCode(400);
+            }
+            
         }
 
         // PUT api/<controller>/5
         [HttpPut/*("{id}")*/]
-        public void Put([FromBody]CarHire value)
+        public IActionResult Put([FromBody]CarHire value)
         {
-            _carHireService.UpdateCarHire(value);
+            try
+            {            
+                _carHireService.UpdateCarHire(value);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _carHireService.DeleteCarHire(id);
+            try
+            {            
+                _carHireService.DeleteCarHire(id);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
     }
 }

@@ -19,37 +19,77 @@ namespace WebApi.Controllers
         }
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Client> Get()
+        public IActionResult Get()
         {
-            return _clientService.GetAllClients();
+            try
+            {
+                return Ok(_clientService.GetAllClients());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+            
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public Client Get(int id)
+        public IActionResult Get(int id)
         {
-            return _clientService.GetClientById(id);
+            try
+            {
+                return Ok(_clientService.GetClientById(id));
+            }
+            catch
+            {
+                return StatusCode(404);
+            }            
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]Client value)
+        public IActionResult Post([FromBody]Client value)
         {
-            _clientService.AddClient(value);
+            try
+            {
+                _clientService.AddClient(value);
+                return StatusCode(201);
+            }
+            catch
+            {
+                return StatusCode(400);
+            }
+            
         }
 
         // PUT api/<controller>/5
         [HttpPut/*("{id}")*/]
-        public void Put(/*int id, */[FromBody]Client value)
-        {
-            _clientService.UpdateClient(value);
+        public IActionResult Put(/*int id, */[FromBody]Client value)
+        {            
+            try
+            {            
+                _clientService.UpdateClient(value);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
-            _clientService.DeleteClient(id);
+            try
+            {            
+                _clientService.DeleteClient(id);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
     }
 }
