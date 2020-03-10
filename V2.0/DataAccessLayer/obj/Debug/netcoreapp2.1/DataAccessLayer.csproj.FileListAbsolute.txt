@@ -1,0 +1,8 @@
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\bin\Debug\netcoreapp2.1\DataAccessLayer.deps.json
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\bin\Debug\netcoreapp2.1\DataAccessLayer.dll
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\bin\Debug\netcoreapp2.1\DataAccessLayer.pdb
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\obj\Debug\netcoreapp2.1\DataAccessLayer.csprojAssemblyReference.cache
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\obj\Debug\netcoreapp2.1\DataAccessLayer.AssemblyInfoInputs.cache
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\obj\Debug\netcoreapp2.1\DataAccessLayer.AssemblyInfo.cs
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\obj\Debug\netcoreapp2.1\DataAccessLayer.dll
+D:\Programms\C#\Курсовая2_2\V2.0\DataAccessLayer\obj\Debug\netcoreapp2.1\DataAccessLayer.pdb

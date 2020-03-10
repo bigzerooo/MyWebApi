@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{d527ddd4-2bb5-4bcf-8b9b-12282800c5fb}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Database</RootNamespace>
+    <AssemblyName>Database</AssemblyName>
+    <ModelCollation>1049,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Cyrillic_General_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\ClientTypes.sql" />
+    <Build Include="dbo\Tables\Clients.sql" />
+    <Build Include="dbo\Tables\CarTypes.sql" />
+    <Build Include="dbo\Tables\Cars.sql" />
+    <Build Include="dbo\Tables\CarStates.sql" />
+    <Build Include="dbo\Tables\CarHires.sql" />
+    <Build Include="dbo\Functions\FuncClientType.sql" />
+    <Build Include="dbo\Functions\FuncDiscount.sql" />
+    <Build Include="dbo\Functions\FuncPenalty.sql" />
+    <Build Include="dbo\Functions\FuncPrice.sql" />
+    <Build Include="dbo\Stored Procedures\createClientType.sql" />
+    <Build Include="dbo\Stored Procedures\createCarType.sql" />
+    <Build Include="dbo\Stored Procedures\createCarState.sql" />
+    <Build Include="dbo\Stored Procedures\createClient.sql" />
+    <Build Include="dbo\Stored Procedures\createCar.sql" />
+    <Build Include="dbo\Stored Procedures\createCarHire.sql" />
+    <Build Include="dbo\Stored Procedures\readAll.sql" />
+    <Build Include="dbo\Stored Procedures\readAllCar.sql" />
+    <Build Include="dbo\Stored Procedures\readAllClient.sql" />
+    <Build Include="dbo\Stored Procedures\readAllById.sql" />
+    <Build Include="dbo\Stored Procedures\readCarById.sql" />
+    <Build Include="dbo\Stored Procedures\readClientById.sql" />
+    <Build Include="dbo\Stored Procedures\updateCar.sql" />
+    <Build Include="dbo\Stored Procedures\updateClient.sql" />
+    <Build Include="dbo\Stored Procedures\updateCarHire.sql" />
+    <Build Include="dbo\Stored Procedures\deleteClientType.sql" />
+    <Build Include="dbo\Stored Procedures\deleteCarType.sql" />
+    <Build Include="dbo\Stored Procedures\deleteCarState.sql" />
+    <Build Include="dbo\Stored Procedures\deleteCar.sql" />
+    <Build Include="dbo\Stored Procedures\deleteClient.sql" />
+    <Build Include="dbo\Stored Procedures\deleteCarHire.sql" />
+    <Build Include="dbo\Stored Procedures\SP_InsertRecordToTable.sql" />
+    <Build Include="dbo\Stored Procedures\SP_UpdateRecordInTable.sql" />
+    <Build Include="dbo\Stored Procedures\SP_UnActivateRecordInTable.sql" />
+    <Build Include="dbo\Stored Procedures\SP_DeleteRecordFromTable.sql" />
+    <Build Include="dbo\Stored Procedures\SP_GetAllRecordsFromTable.sql" />
+    <Build Include="dbo\Stored Procedures\SP_GetRecordByIdFromTable.sql" />
+  </ItemGroup>
+</Project>

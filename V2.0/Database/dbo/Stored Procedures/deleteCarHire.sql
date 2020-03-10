@@ -1,0 +1,10 @@
+﻿
+CREATE PROCEDURE deleteCarHire
+	@Id INT
+AS
+BEGIN
+DELETE
+FROM CarHires
+WHERE Id=@Id
+END
+

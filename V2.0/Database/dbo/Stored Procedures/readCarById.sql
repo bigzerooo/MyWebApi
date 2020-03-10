@@ -1,0 +1,8 @@
+﻿
+CREATE PROCEDURE readCarById
+@Id INT
+AS
+BEGIN
+SELECT * FROM Cars
+WHERE Id=@Id
+END
