@@ -14,7 +14,7 @@ BEGIN
 
 	declare @V_sql as nvarchar(MAX) = null
 	if (@V_table is not null and @P_Id is not null)
-		select @V_sql = 'delete from ' + @V_table + 'where Id = ' + cast(@P_Id as nchar) + '; select 1;'/*фиксик*/
+		select @V_sql = 'delete from ' + @V_table + 'where Id = ' + cast(@P_Id as nchar) + '; select 1;'
 
 	if(@V_sql is not null)
 		exec(@V_sql)

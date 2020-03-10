@@ -9,6 +9,7 @@ namespace DataAccessLayer.Interfaces
         ICarHireRepository carHireRepository { get; }
         ICarRepository carRepository { get; }
         IClientRepository clientRepository { get; }
+        IJoinedRepository joinedRepository { get; }
         void Complete();
     }
 }

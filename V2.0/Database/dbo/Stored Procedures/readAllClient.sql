@@ -1,6 +1,0 @@
-﻿
-CREATE PROCEDURE readAllClient
-AS
-BEGIN
-SELECT * FROM Clients
-END

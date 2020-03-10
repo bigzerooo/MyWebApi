@@ -40,12 +40,14 @@ namespace WebApi
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<ICarHireRepository, CarHireRepository>();
             services.AddTransient<IClientRepository, ClientRepository>();
+            services.AddTransient<IJoinedRepository, JoinedRepository>();
             #endregion
 
             #region SQL services
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<ICarHireService, CarHireService>();
-            services.AddTransient<IClientService, ClientService>();            
+            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IJoinedService, JoinedService>();
             #endregion
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();

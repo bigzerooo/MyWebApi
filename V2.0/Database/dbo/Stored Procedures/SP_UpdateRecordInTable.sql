@@ -15,7 +15,7 @@ BEGIN
 
 	declare @V_sql as nvarchar(MAX) = null
 	if (@V_table is not null and @P_columnsString is not null and @P_Id is not null)
-		select @V_sql = 'update ' + @V_table + ' set ' + @P_columnsString + ' where Id = ' + cast(@P_Id as nvarchar) + '; select 1;'
+		select @V_sql = 'update ' + @V_table + ' set ' + @P_columnsString + ' where Id = ' +CAST( @P_Id as nvarchar) + '; select 1;'
 
 	if(@V_sql is not null)
 		exec(@V_sql)

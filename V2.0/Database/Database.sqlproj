@@ -6,7 +6,7 @@
     <Name>Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{d527ddd4-2bb5-4bcf-8b9b-12282800c5fb}</ProjectGuid>
+    <ProjectGuid>{6efd2306-0979-4116-924c-bad264183231}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
@@ -74,32 +74,17 @@
     <Build Include="dbo\Functions\FuncDiscount.sql" />
     <Build Include="dbo\Functions\FuncPenalty.sql" />
     <Build Include="dbo\Functions\FuncPrice.sql" />
-    <Build Include="dbo\Stored Procedures\createClientType.sql" />
-    <Build Include="dbo\Stored Procedures\createCarType.sql" />
-    <Build Include="dbo\Stored Procedures\createCarState.sql" />
-    <Build Include="dbo\Stored Procedures\createClient.sql" />
-    <Build Include="dbo\Stored Procedures\createCar.sql" />
-    <Build Include="dbo\Stored Procedures\createCarHire.sql" />
-    <Build Include="dbo\Stored Procedures\readAll.sql" />
-    <Build Include="dbo\Stored Procedures\readAllCar.sql" />
-    <Build Include="dbo\Stored Procedures\readAllClient.sql" />
-    <Build Include="dbo\Stored Procedures\readAllById.sql" />
-    <Build Include="dbo\Stored Procedures\readCarById.sql" />
-    <Build Include="dbo\Stored Procedures\readClientById.sql" />
-    <Build Include="dbo\Stored Procedures\updateCar.sql" />
-    <Build Include="dbo\Stored Procedures\updateClient.sql" />
-    <Build Include="dbo\Stored Procedures\updateCarHire.sql" />
-    <Build Include="dbo\Stored Procedures\deleteClientType.sql" />
-    <Build Include="dbo\Stored Procedures\deleteCarType.sql" />
-    <Build Include="dbo\Stored Procedures\deleteCarState.sql" />
-    <Build Include="dbo\Stored Procedures\deleteCar.sql" />
-    <Build Include="dbo\Stored Procedures\deleteClient.sql" />
-    <Build Include="dbo\Stored Procedures\deleteCarHire.sql" />
     <Build Include="dbo\Stored Procedures\SP_InsertRecordToTable.sql" />
     <Build Include="dbo\Stored Procedures\SP_UpdateRecordInTable.sql" />
     <Build Include="dbo\Stored Procedures\SP_UnActivateRecordInTable.sql" />
     <Build Include="dbo\Stored Procedures\SP_DeleteRecordFromTable.sql" />
     <Build Include="dbo\Stored Procedures\SP_GetAllRecordsFromTable.sql" />
     <Build Include="dbo\Stored Procedures\SP_GetRecordByIdFromTable.sql" />
+    <Build Include="dbo\Stored Procedures\Pagination.sql" />
+    <Build Include="dbo\Stored Procedures\JoinGet.sql" />
+    <Build Include="dbo\Stored Procedures\JoinGetById.sql" />
+    <Build Include="dbo\Stored Procedures\JoinDelete.sql" />
+    <Build Include="dbo\Stored Procedures\JoinInsert.sql" />
+    <Build Include="dbo\Stored Procedures\JoinUpdate.sql" />
   </ItemGroup>
 </Project>

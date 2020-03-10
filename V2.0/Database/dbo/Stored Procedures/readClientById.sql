@@ -1,8 +1,0 @@
-﻿
-CREATE PROCEDURE readClientById
-@Id INT
-AS
-BEGIN
-SELECT * FROM Clients
-WHERE Id=@Id
-END

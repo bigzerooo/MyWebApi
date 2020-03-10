@@ -5,19 +5,21 @@ using DataAccessLayer.Interfaces;
 using DataAccessLayer.Interfaces.IRepositories;
 namespace DataAccessLayer.UnitOfWork
 {
-    public class UnitOfWork:IUnitOfWork
+    public class UnitOfWork: IUnitOfWork
     {
         private readonly ICarHireRepository _carHireRepository;
         private readonly ICarRepository _carRepository;
-        private readonly IClientRepository _clientRepository;        
-
+        private readonly IClientRepository _clientRepository;
+        private readonly IJoinedRepository _joinedRepository;
         public UnitOfWork(ICarHireRepository carHireRepository,
             ICarRepository carRepository,
-            IClientRepository clientRepository)
+            IClientRepository clientRepository,
+            IJoinedRepository joinedRepository)
         {
             _carHireRepository = carHireRepository;
             _carRepository = carRepository;
             _clientRepository = clientRepository;
+            _joinedRepository = joinedRepository;
         }
         public ICarHireRepository carHireRepository
         {
@@ -43,6 +45,13 @@ namespace DataAccessLayer.UnitOfWork
             }
         }
         
+        public IJoinedRepository joinedRepository
+        {
+            get
+            {
+                return _joinedRepository;
+            }
+        }
 
         public void Complete()
         {

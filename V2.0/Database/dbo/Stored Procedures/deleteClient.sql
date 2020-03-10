@@ -1,9 +1,0 @@
-﻿
-CREATE PROCEDURE deleteClient
-	@Id INT
-AS
-BEGIN
-DELETE
-FROM Clients
-WHERE Id=@Id
-END

@@ -1,6 +1,0 @@
-﻿
-CREATE PROCEDURE readAllCar
-AS
-BEGIN
-SELECT * FROM Cars
-END

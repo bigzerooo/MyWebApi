@@ -1,9 +1,0 @@
-﻿
-CREATE PROCEDURE deleteCar
-	@Id INT
-AS
-BEGIN
-DELETE
-FROM Cars
-WHERE Id=@Id
-END

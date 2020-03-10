@@ -14,7 +14,7 @@ BEGIN
 
 	declare @V_sql as nvarchar(MAX) = null
 	if (@V_table is not null and @P_Id is not null)
-		select @V_sql = 'select * from ' + @V_table + ' where Id = ' + CAST(@P_Id AS nvarchar) + ';'
+		select @V_sql = 'select * from ' + @V_table + ' where Id = ' + CAST(@P_Id AS nvarchar)+ ';'/*тут чутка исправлено с приведением типов*/
 
 	if(@V_sql is not null)
 		exec(@V_sql)
