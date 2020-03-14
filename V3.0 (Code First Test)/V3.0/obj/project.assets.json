@@ -4957,11 +4957,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V3.0\\V3.0\\V3.0.csproj",
+      "projectUniqueName": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V3.0 (Code First Test)\\V3.0\\V3.0.csproj",
       "projectName": "V3.0",
-      "projectPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V3.0\\V3.0\\V3.0.csproj",
+      "projectPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V3.0 (Code First Test)\\V3.0\\V3.0.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V3.0\\V3.0\\obj\\",
+      "outputPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V3.0 (Code First Test)\\V3.0\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Microsoft\\Xamarin\\NuGet\\",
