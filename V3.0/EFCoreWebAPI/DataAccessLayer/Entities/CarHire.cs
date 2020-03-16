@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DataAccessLayer.Interfaces.EntityInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DataAccessLayer.Entities
 {
-    public class CarHire
+    public class CarHire : IEntity<int>
     {
         public int Id { get; set; }
 
@@ -13,7 +14,7 @@ namespace DataAccessLayer.Entities
 
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string CarState { get; set; }
+        public int CarStateId { get; set; }
         public decimal? Discount { get; set; }
         public decimal? Penalty { get; set; }
         public decimal Price { get; set; }

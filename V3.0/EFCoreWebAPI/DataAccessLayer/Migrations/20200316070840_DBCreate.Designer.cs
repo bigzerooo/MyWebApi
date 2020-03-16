@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20200314141954_DBCreate")]
+    [Migration("20200316070840_DBCreate")]
     partial class DBCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,22 +33,21 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
+                    b.Property<int>("CarTypeId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("PricePerHour")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(45)")
-                        .HasMaxLength(45);
-
                     b.Property<int?>("Year")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Type");
+                    b.HasIndex("CarTypeId");
 
                     b.ToTable("Cars");
                 });
@@ -66,10 +65,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CarState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(45)")
-                        .HasMaxLength(45);
+                    b.Property<int>("CarStateId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
@@ -90,7 +87,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.HasIndex("CarState");
+                    b.HasIndex("CarStateId");
 
                     b.HasIndex("ClientId");
 
@@ -99,22 +96,32 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.CarState", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
-                    b.HasKey("State");
+                    b.HasKey("Id");
 
                     b.ToTable("CarStates");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.CarType", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
-                    b.HasKey("Type");
+                    b.HasKey("Id");
 
                     b.ToTable("CarTypes");
                 });
@@ -129,6 +136,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Adress")
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
+
+                    b.Property<int>("ClientTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -149,25 +159,25 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
-                    b.Property<string>("TypeOfClient")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(45)")
-                        .HasMaxLength(45);
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TypeOfClient");
+                    b.HasIndex("ClientTypeId");
 
                     b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.ClientType", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
-                    b.HasKey("Type");
+                    b.HasKey("Id");
 
                     b.ToTable("ClientTypes");
                 });
@@ -176,7 +186,9 @@ namespace DataAccessLayer.Migrations
                 {
                     b.HasOne("DataAccessLayer.Entities.CarType", "CarType")
                         .WithMany("Cars")
-                        .HasForeignKey("Type");
+                        .HasForeignKey("CarTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.CarHire", b =>
@@ -189,7 +201,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasOne("DataAccessLayer.Entities.CarState", "State")
                         .WithMany("CarHires")
-                        .HasForeignKey("CarState")
+                        .HasForeignKey("CarStateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -204,7 +216,7 @@ namespace DataAccessLayer.Migrations
                 {
                     b.HasOne("DataAccessLayer.Entities.ClientType", "ClientType")
                         .WithMany("Clients")
-                        .HasForeignKey("TypeOfClient")
+                        .HasForeignKey("ClientTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

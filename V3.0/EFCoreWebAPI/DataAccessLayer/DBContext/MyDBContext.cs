@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.DBContext
 {
-    public class MyDBContext:DbContext
+    public class MyDBContext : DbContext
     {
-        public MyDBContext(DbContextOptions options) :base(options)
-        {            
-            
+        public MyDBContext(DbContextOptions options) : base(options)
+        {
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region CarType
 
             modelBuilder.Entity<CarType>()
-                .HasKey(p => p.Type);
+                .HasKey(p => p.Id);
 
             modelBuilder.Entity<CarType>()
                 .Property(p => p.Type)
@@ -27,7 +27,7 @@ namespace DataAccessLayer.DBContext
             #region CarState
 
             modelBuilder.Entity<CarState>()
-                .HasKey(p => p.State);
+                .HasKey(p => p.Id);
 
             modelBuilder.Entity<CarState>()
                 .Property(p => p.State)
@@ -37,7 +37,7 @@ namespace DataAccessLayer.DBContext
             #region ClientType
 
             modelBuilder.Entity<ClientType>()
-                .HasKey(p => p.Type);
+                .HasKey(p => p.Id);
 
             modelBuilder.Entity<ClientType>()
                 .Property(p => p.Type)
@@ -49,7 +49,7 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<Car>()
                 .HasOne<CarType>(c => c.CarType)
                 .WithMany(t => t.Cars)
-                .HasForeignKey(c => c.Type);
+                .HasForeignKey(c => c.CarTypeId);
 
             modelBuilder.Entity<Car>()
                 .Property(p => p.Brand)
@@ -67,9 +67,9 @@ namespace DataAccessLayer.DBContext
                 .Property(p => p.PricePerHour)
                 .IsRequired();
 
-            modelBuilder.Entity<Car>()
-                .Property(p => p.Type)
-                .HasMaxLength(45);
+            //modelBuilder.Entity<Car>()
+            //    .Property(p => p.Type)
+            //    .HasMaxLength(45);
 
             #endregion
             #region Client
@@ -77,7 +77,7 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<Client>()
                 .HasOne<ClientType>(c => c.ClientType)
                 .WithMany(t => t.Clients)
-                .HasForeignKey(c => c.TypeOfClient);
+                .HasForeignKey(c => c.ClientTypeId);
 
             modelBuilder.Entity<Client>()
                 .Property(p => p.LastName)
@@ -112,12 +112,12 @@ namespace DataAccessLayer.DBContext
                 .HasMaxLength(45);
 
             modelBuilder.Entity<Client>()
-                .Property(p => p.TypeOfClient)
+                .Property(p => p.ClientTypeId)
                 .IsRequired();
 
-            modelBuilder.Entity<Client>()
-                .Property(p => p.TypeOfClient)
-                .HasMaxLength(45);
+            //modelBuilder.Entity<Client>()
+            //    .Property(p => p.TypeOfClient)
+            //    .HasMaxLength(45);
             #endregion
             #region CarHire
             #region ForeignKeys
@@ -135,7 +135,7 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<CarHire>()
                 .HasOne<CarState>(h => h.State)
                 .WithMany(s => s.CarHires)
-                .HasForeignKey(h => h.CarState);
+                .HasForeignKey(h => h.CarStateId);
 
             #endregion
             modelBuilder.Entity<CarHire>()
@@ -155,12 +155,12 @@ namespace DataAccessLayer.DBContext
                 .IsRequired();
 
             modelBuilder.Entity<CarHire>()
-                .Property(p => p.CarState)
+                .Property(p => p.CarStateId)
                 .IsRequired();
 
-            modelBuilder.Entity<CarHire>()
-                .Property(p => p.CarState)
-                .HasMaxLength(45);
+            //modelBuilder.Entity<CarHire>()
+            //    .Property(p => p.CarState)
+            //    .HasMaxLength(45);
 
             modelBuilder.Entity<CarHire>()
                 .Property(p => p.Price)

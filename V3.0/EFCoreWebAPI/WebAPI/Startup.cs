@@ -13,6 +13,12 @@ using Microsoft.Extensions.Logging;
 using DataAccessLayer.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using DataAccessLayer.Interfaces.IRepositories;
+using DataAccessLayer.Repositories.SpecificRepositories;
+using DataAccessLayer.Interfaces.IServices;
+using DataAccessLayer.Services;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.UnitOfWork;
 
 namespace WebAPI
 {
@@ -30,8 +36,29 @@ namespace WebAPI
         {
             services.AddDbContext<MyDBContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("Default"));
+                options.UseSqlServer(Configuration.GetConnectionString("Default"),b=>b.MigrationsAssembly("DataAccessLayer"));
             });
+
+            #region repositories
+            services.AddTransient<ICarStateRepository, CarStateRepository>();
+            services.AddTransient<ICarTypeRepository, CarTypeRepository>();
+            services.AddTransient<IClientTypeRepository, ClientTypeRepository>();
+            services.AddTransient<ICarRepository, CarRepository>();
+            services.AddTransient<ICarHireRepository, CarHireRepository>();
+            services.AddTransient<IClientRepository, ClientRepository>();
+            #endregion
+
+            #region services
+            services.AddTransient<ICarStateService, CarStateService>();
+            services.AddTransient<ICarTypeService, CarTypeService>();
+            services.AddTransient<IClientTypeService, ClientTypeService>();
+            services.AddTransient<ICarService, CarService>();
+            services.AddTransient<ICarHireService, CarHireService>();
+            services.AddTransient<IClientService, ClientService>();
+            #endregion
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             services.AddControllers();
         }
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer.Entities;
 using DataAccessLayer.DBContext;
+using DataAccessLayer.Interfaces.IServices;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebAPI.Controllers
@@ -12,68 +13,87 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class CarTypeController : Controller
     {
-        //это важно (депенденси инжекшн)
-        private readonly MyDBContext _context;
-        public CarTypeController(MyDBContext context)
+
+        ICarTypeService _carTypeService;
+        public CarTypeController(ICarTypeService carTypeService)
         {
-            _context = context;
+            _carTypeService = carTypeService;
         }
 
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<CarType> Get()
+        public IActionResult Get()
         {
-            using (_context)
+            try
             {
-                return _context.CarTypes.ToList();
-            }            
+                return Ok(_carTypeService.GetAllCarTypes());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public CarType Get(string id)
+        public IActionResult Get(int id)
         {
-            using (_context)
-            {                
-                return _context.CarTypes.First(t => t.Type == id);
+            try
+            {
+                return Ok(_carTypeService.GetCarTypeById(id));
+            }
+            catch
+            {
+                return StatusCode(404);
             }
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]CarType value)
-        {            
-            using(_context)
+        public IActionResult Post([FromBody]CarType value)
+        {
+            try
             {
-                _context.CarTypes.Add(value);
-                _context.SaveChanges();
+                _carTypeService.AddCarType(value);
+                return StatusCode(201);
+            }
+            catch
+            {
+                return StatusCode(400);
             }
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(string id, [FromBody]CarType value)
+        [HttpPut]
+        public IActionResult Put([FromBody]CarType value)
         {
             //не пашет 
-            using (_context)
+            try
             {
-                CarType x = _context.CarTypes.First(t => t.Type == id);
-                x = value;
-                _context.SaveChanges();
+                _carTypeService.UpdateCarType(value);
+                return StatusCode(204);
+            }
+            catch
+            {
+                return StatusCode(404);
             }
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(string id)
+        public IActionResult Delete(int id)
         {
-            using (_context)
+            try
             {
-                _context.CarTypes.Remove(_context.CarTypes.First(x => x.Type == id));
-                _context.SaveChanges();
+                _carTypeService.DeleteCarType(id);
+                return StatusCode(204);
             }
-            
+            catch
+            {
+                return StatusCode(404);
+            }
+
         }
     }
 }

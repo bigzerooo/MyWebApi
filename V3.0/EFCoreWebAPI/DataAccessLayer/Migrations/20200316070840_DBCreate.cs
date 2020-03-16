@@ -11,33 +11,39 @@ namespace DataAccessLayer.Migrations
                 name: "CarStates",
                 columns: table => new
                 {
-                    State = table.Column<string>(maxLength: 45, nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    State = table.Column<string>(maxLength: 45, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarStates", x => x.State);
+                    table.PrimaryKey("PK_CarStates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "CarTypes",
                 columns: table => new
                 {
-                    Type = table.Column<string>(maxLength: 45, nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(maxLength: 45, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarTypes", x => x.Type);
+                    table.PrimaryKey("PK_CarTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ClientTypes",
                 columns: table => new
                 {
-                    Type = table.Column<string>(maxLength: 45, nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Type = table.Column<string>(maxLength: 45, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientTypes", x => x.Type);
+                    table.PrimaryKey("PK_ClientTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,18 +55,18 @@ namespace DataAccessLayer.Migrations
                     Brand = table.Column<string>(maxLength: 45, nullable: false),
                     Price = table.Column<decimal>(nullable: false),
                     PricePerHour = table.Column<decimal>(nullable: false),
-                    Type = table.Column<string>(maxLength: 45, nullable: true),
+                    CarTypeId = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cars_CarTypes_Type",
-                        column: x => x.Type,
+                        name: "FK_Cars_CarTypes_CarTypeId",
+                        column: x => x.CarTypeId,
                         principalTable: "CarTypes",
-                        principalColumn: "Type",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,16 +80,16 @@ namespace DataAccessLayer.Migrations
                     SecondName = table.Column<string>(maxLength: 45, nullable: false),
                     Adress = table.Column<string>(maxLength: 45, nullable: true),
                     PhoneNumber = table.Column<string>(maxLength: 45, nullable: true),
-                    TypeOfClient = table.Column<string>(maxLength: 45, nullable: false)
+                    ClientTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clients_ClientTypes_TypeOfClient",
-                        column: x => x.TypeOfClient,
+                        name: "FK_Clients_ClientTypes_ClientTypeId",
+                        column: x => x.ClientTypeId,
                         principalTable: "ClientTypes",
-                        principalColumn: "Type",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -97,7 +103,7 @@ namespace DataAccessLayer.Migrations
                     ClientId = table.Column<int>(nullable: false),
                     BeginDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    CarState = table.Column<string>(maxLength: 45, nullable: false),
+                    CarStateId = table.Column<int>(nullable: false),
                     Discount = table.Column<decimal>(nullable: true),
                     Penalty = table.Column<decimal>(nullable: true),
                     Price = table.Column<decimal>(nullable: false)
@@ -112,10 +118,10 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CarHires_CarStates_CarState",
-                        column: x => x.CarState,
+                        name: "FK_CarHires_CarStates_CarStateId",
+                        column: x => x.CarStateId,
                         principalTable: "CarStates",
-                        principalColumn: "State",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CarHires_Clients_ClientId",
@@ -131,9 +137,9 @@ namespace DataAccessLayer.Migrations
                 column: "CarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarHires_CarState",
+                name: "IX_CarHires_CarStateId",
                 table: "CarHires",
-                column: "CarState");
+                column: "CarStateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CarHires_ClientId",
@@ -141,14 +147,14 @@ namespace DataAccessLayer.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cars_Type",
+                name: "IX_Cars_CarTypeId",
                 table: "Cars",
-                column: "Type");
+                column: "CarTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_TypeOfClient",
+                name: "IX_Clients_ClientTypeId",
                 table: "Clients",
-                column: "TypeOfClient");
+                column: "ClientTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
