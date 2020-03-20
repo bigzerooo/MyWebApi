@@ -12,5 +12,7 @@ namespace DataAccessLayer.Interfaces.IServices
         void DeleteClientType(int Id);
         ClientType GetClientTypeById(int Id);
         IEnumerable<ClientType> GetAllClientTypes();
+        ClientType GetClientTypeDetailsById(int Id);
+        List<ClientType> GetClientTypeDetails();
     }
 }

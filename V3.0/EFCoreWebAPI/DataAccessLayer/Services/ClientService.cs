@@ -40,5 +40,14 @@ namespace DataAccessLayer.Services
         {
             _unitOfWork.clientRepository.Update(client);
         }
+
+        public Client GetClientDetailsById(int Id)
+        {
+            return _unitOfWork.clientRepository.GetClientDetailsById(Id);
+        }
+        public List<Client> GetClientDetails()
+        {
+            return _unitOfWork.clientRepository.GetClientDetails();
+        }
     }
 }

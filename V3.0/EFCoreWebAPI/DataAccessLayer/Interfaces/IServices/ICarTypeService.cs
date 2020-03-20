@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Entities;
+﻿    using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +12,7 @@ namespace DataAccessLayer.Interfaces.IServices
         void DeleteCarType(int Id);
         CarType GetCarTypeById(int Id);
         IEnumerable<CarType> GetAllCarTypes();
+        CarType GetCarTypeDetailsById(int Id);
+        List<CarType> GetCarTypeDetails();
     }
 }

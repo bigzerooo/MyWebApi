@@ -35,6 +35,34 @@ namespace WebAPI.Controllers
             }
         }
 
+        // GET: api/<controller>/details/5
+        [HttpGet("details/{id}")]
+        public IActionResult GetDetails(int id)
+        {
+            try
+            {
+                return Ok(_clientService.GetClientDetailsById(id));
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+        }
+
+        // GET: api/<controller>/details/
+        [HttpGet("details")]
+        public IActionResult GetDetails()
+        {
+            try
+            {
+                return Ok(_clientService.GetClientDetails());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+        }
+
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)

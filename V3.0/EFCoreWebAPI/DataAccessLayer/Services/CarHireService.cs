@@ -40,5 +40,13 @@ namespace DataAccessLayer.Services
         {
             _unitOfWork.carHireRepository.Update(carHire);
         }
+        public CarHire GetCarHireDetailsById(int Id)
+        {
+            return _unitOfWork.carHireRepository.GetCarHireDetailsById(Id);
+        }
+        public List<CarHire> GetCarHireDetails()
+        {
+            return _unitOfWork.carHireRepository.GetCarHireDetails();
+        }
     }
 }

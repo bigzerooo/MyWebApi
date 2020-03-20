@@ -7,5 +7,7 @@ namespace DataAccessLayer.Interfaces.IRepositories
 {
     public interface IClientTypeRepository : IGenericRepository<ClientType, int>
     {
+        public ClientType GetClientTypeDetailsById(int Id);
+        public List<ClientType> GetClientTypeDetails();
     }
 }

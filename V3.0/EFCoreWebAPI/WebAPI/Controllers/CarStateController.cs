@@ -49,6 +49,34 @@ namespace WebAPI.Controllers
             }
         }
 
+        // GET: api/<controller>/details/5
+        [HttpGet("details/{id}")]
+        public IActionResult GetDetails(int id)
+        {
+            try
+            {
+                return Ok(_carStateService.GetCarStateDetailsById(id));
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+        }
+
+        // GET: api/<controller>/details/
+        [HttpGet("details")]
+        public IActionResult GetDetails()
+        {
+            try
+            {
+                return Ok(_carStateService.GetCarStateDetails());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+        }
+
         // POST api/<controller>
         [HttpPost]
         public IActionResult Post([FromBody]CarState value)

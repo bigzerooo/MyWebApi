@@ -1,8 +1,10 @@
 ﻿using DataAccessLayer.DBContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.IRepositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataAccessLayer.Repositories.SpecificRepositories
@@ -13,5 +15,25 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
         {
             
         }
+        public CarHire GetCarHireDetailsById(int Id)
+        {
+            var carHire = _myDBContext.CarHires
+                .Include(c => c.Car)
+                .Include(c => c.Client)
+                .Include(c => c.State)
+                .Where(c=>c.Id==Id)
+                .FirstOrDefault();
+            return carHire;                
+        }
+        public List<CarHire> GetCarHireDetails()
+        {
+            var carHires = _myDBContext.CarHires
+                .Include(c => c.Car)
+                .Include(c => c.Client)
+                .Include(c => c.State)
+                .ToList();
+            return carHires;
+        }
+
     }
 }

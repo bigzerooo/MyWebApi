@@ -7,5 +7,7 @@ namespace DataAccessLayer.Interfaces.IRepositories
 {
     public interface ICarRepository : IGenericRepository<Car, int>
     {
+        public Car GetCarDetailsById(int Id);
+        public List<Car> GetCarDetails();
     }
 }

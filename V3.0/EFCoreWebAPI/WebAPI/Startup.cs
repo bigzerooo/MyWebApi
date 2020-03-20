@@ -19,6 +19,7 @@ using DataAccessLayer.Interfaces.IServices;
 using DataAccessLayer.Services;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.UnitOfWork;
+using Newtonsoft.Json;
 
 namespace WebAPI
 {
@@ -60,6 +61,12 @@ namespace WebAPI
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers();
+
+
+            //игнорирует looping и позволяет доставать ассоциированые данные
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

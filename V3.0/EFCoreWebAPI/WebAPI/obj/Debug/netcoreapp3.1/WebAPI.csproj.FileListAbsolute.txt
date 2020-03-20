@@ -49,4 +49,8 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\obj\Debug\netcoreapp3
 D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.pdb
 D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.0\EFCoreWebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.MvcApplicationPartsAssemblyInfo.cache

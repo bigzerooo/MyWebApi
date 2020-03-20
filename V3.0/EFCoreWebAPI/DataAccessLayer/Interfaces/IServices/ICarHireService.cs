@@ -12,5 +12,7 @@ namespace DataAccessLayer.Interfaces.IServices
         void DeleteCarHire(int Id);
         CarHire GetCarHireById(int Id);
         IEnumerable<CarHire> GetAllCarHires();
+        CarHire GetCarHireDetailsById(int Id);
+        List<CarHire> GetCarHireDetails();
     }
 }
