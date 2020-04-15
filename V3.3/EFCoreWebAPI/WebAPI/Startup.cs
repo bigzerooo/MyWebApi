@@ -24,6 +24,7 @@ using BusinessLogicLayer.Services;
 using AutoMapper;
 using DataAccessLayer.Entities;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.DTO.Identity;
 
 namespace WebAPI
 {
@@ -39,17 +40,18 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MyDBContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("DataAccessLayer"));
+            });
+
             //Identity
-            
             services.AddIdentity<MyUser, MyRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<MyDBContext>();
 
-            services.AddDbContext<MyDBContext>(cfg =>
-            {
-                cfg.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("DataAccessLayer"));
-            });            
+         
 
            
 
@@ -77,7 +79,10 @@ namespace WebAPI
                 cfg.CreateMap<CarDTO, Car>();
                 cfg.CreateMap<ClientDTO, Client>();
                 cfg.CreateMap<ClientTypeDTO, ClientType>();
+                
+
             },typeof(Startup));//Startup?
+
             #region services
             services.AddTransient<ICarStateService, CarStateService>();
             services.AddTransient<ICarTypeService, CarTypeService>();
@@ -111,7 +116,7 @@ namespace WebAPI
             app.UseRouting();
 
             app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

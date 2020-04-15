@@ -1,0 +1,47 @@
+﻿@page "/register"
+@using UI.ViewModels;
+<h3>Register</h3>
+<hr />
+<EditForm Model="@myUser" OnValidSubmit="@SaveUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="col-12 row">
+        <label class="col-2 font-weight-bold">username :</label>
+        <input class="form-control col-3" @bind-value="myUser.UserName" placeholder="username" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <label class="col-2 font-weight-bold">email adress :</label>
+        <input class="form-control col-3" @bind-value="myUser.Email" placeholder="email adress" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <label class="col-2 font-weight-bold">password :</label>
+        <input type="password" class="form-control col-3" @bind-value="myUser.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <label class="col-2 font-weight-bold">password confirm :</label>
+        <input type="password" class="form-control col-3" @bind-value="myUser.PasswordConfirm" placeholder="password confirm" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <span class="col-2"></span>
+        <input type="submit" class="form-control col-1 btn btn-primary" value="Save" />
+        <span>&nbsp;</span>
+        <input type="submit" class="form-control col-1 btn btn-primary" value="Clear" />
+    </div>
+
+</EditForm>
+@code {
+    public MyUserRegisterViewModel myUser { get; set; }
+    protected override void OnInitialized()
+    {
+        myUser = new MyUserRegisterViewModel();
+    }
+    private void SaveUser()
+    {
+        //something to save user
+        myUser = new MyUserRegisterViewModel();
+    }
+}

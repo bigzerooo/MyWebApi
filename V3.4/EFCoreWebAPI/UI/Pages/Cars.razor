@@ -1,0 +1,43 @@
+﻿@page "/cars"
+@inject Services.CarService carService
+@using BusinessLogicLayer.DTO
+<h3>Cars</h3>
+@if (cars == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Price per hour</th>
+                <th>CarTypeId</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in cars)
+            {
+            <tr>
+                <td>@car.Id</td>
+                <td>@car.Brand</td>
+                <td>@car.Price</td>
+                <td>@car.PricePerHour</td>
+                <td>@car.CarTypeId</td>
+                <td>@car.Year</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    List<CarDTO> cars;
+    protected override async Task OnInitializedAsync()
+    {
+        cars = await carService.GetCarsAsync();
+    }
+}
