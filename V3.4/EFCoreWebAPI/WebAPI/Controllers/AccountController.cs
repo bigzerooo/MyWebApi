@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessLogicLayer.DTO.Identity;
+using BusinessLogicLayer.Interfaces.IServices;
+using BusinessLogicLayer.Services;
 using DataAccessLayer.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,78 +13,65 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
+    [Route("api/[controller]")]    
     public class AccountController : Controller
     {
-        private UserManager<MyUser> UserManager { get; }
-        private SignInManager<MyUser> SignInManager { get; }
+        private readonly IAccountService _accountService;
+        public AccountController(IAccountService accountService)
+        {
+            _accountService = accountService;            
+        }
+
         // GET: /<controller>/
-        
-        public AccountController(UserManager<MyUser> userManager,
-            SignInManager<MyUser> signInManager)
+        [HttpGet]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] MyUserRegisterDTO myUser)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            return Ok(await _accountService.Register(myUser));
         }
 
         [HttpGet]
-        [Route("api/[controller]/register")]
-        public async Task<IActionResult> Register([FromHeader]string username, [FromHeader]string email, [FromHeader]string password)
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] MyUserLoginDTO myUser)
         {
-            string resultMessage = "";
-            try
-            {
-                MyUser myUser = await UserManager.FindByNameAsync(username);
-                if (myUser == null)
-                {
-                    myUser = new MyUser();
-                    myUser.UserName = username;
-                    myUser.Email = email;
-                    IdentityResult result = await UserManager.CreateAsync(myUser, password);
-                    resultMessage = result.ToString();
-                    //resultMessage = "User was created";
-                    //return Ok("User was created");
-                }
-                else
-                    resultMessage = "User already registered";
-                //return Ok("User already registered");
-            }
-            catch (Exception x)
-            {
-                resultMessage = x.Message;
-                //return Ok(x.Message);
-            }
-            return Ok(resultMessage);
+            return Ok(await _accountService.Login(myUser));
         }
-
         [HttpGet]
-        [Route("api/[controller]/login")]
-        public async Task<IActionResult> Login([FromHeader]string username, [FromHeader]string password)
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
         {
-            string resultMessage = "";
-            var result = await SignInManager.PasswordSignInAsync(username, password, false, false);            
-            if(result.Succeeded)
-            {
-                resultMessage = "Success";
-            }
-            else
-            {
-                resultMessage = result.ToString();
-            }
-            return Ok(resultMessage);
+            return Ok(await _accountService.Logout());
+        }
+        [HttpGet]
+        [Route("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return Ok(await _accountService.Delete(id));
+        }
+        [HttpGet]
+        [Route("edit")]
+        public async Task<IActionResult> Edit([FromBody]MyUserEditDTO myUser)
+        {
+            return Ok(await _accountService.Edit(myUser));
+        }
+        [HttpGet]
+        [Route("create")]
+        public async Task<IActionResult> Create([FromBody]MyUserCreateDTO myUser)
+        {
+            return Ok(await _accountService.Create(myUser));
+        }
+        [HttpGet]
+        [Route("changepassword")]
+        public async Task<IActionResult> ChangePassword([FromBody]MyUserChangePasswordDTO myUser)
+        {
+            return Ok(await _accountService.ChangePassword(myUser));
+        }
+        [HttpGet]
+        public async Task<IActionResult> UserList()
+        {
+            return Ok(await _accountService.UserList());
         }
 
-        //[Route("api/[controller]/logout")]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await SignInManager.SignOutAsync();
-        //    return Ok("Logged out");
-        //}
-
-        //[Route("api/[controller]/words")]
-        //public IActionResult Words([FromHeader]string word1, [FromHeader]string word2)
-        //{            
-        //    return Ok(word1+" "+word2);
-        //}
     }
 
 }

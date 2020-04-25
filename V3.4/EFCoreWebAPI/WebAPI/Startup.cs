@@ -25,6 +25,8 @@ using AutoMapper;
 using DataAccessLayer.Entities;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.DTO.Identity;
+using BusinessLogicLayer;
+using System.Reflection;
 
 namespace WebAPI
 {
@@ -64,24 +66,8 @@ namespace WebAPI
             services.AddTransient<IClientRepository, ClientRepository>();
             #endregion
 
-            services.AddAutoMapper(cfg =>
-            {
-                cfg.CreateMap<CarHire, CarHireDTO>();
-                cfg.CreateMap<CarType, CarTypeDTO>();
-                cfg.CreateMap<CarState, CarStateDTO>();
-                cfg.CreateMap<Car, CarDTO>();
-                cfg.CreateMap<Client, ClientDTO>();
-                cfg.CreateMap<ClientType, ClientTypeDTO>();
-
-                cfg.CreateMap<CarHireDTO, CarHire>();
-                cfg.CreateMap<CarTypeDTO, CarType>();
-                cfg.CreateMap<CarStateDTO, CarState>();
-                cfg.CreateMap<CarDTO, Car>();
-                cfg.CreateMap<ClientDTO, Client>();
-                cfg.CreateMap<ClientTypeDTO, ClientType>();
-                
-
-            },typeof(Startup));//Startup?
+            services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);//сборка профайла
+            
 
             #region services
             services.AddTransient<ICarStateService, CarStateService>();
@@ -91,6 +77,7 @@ namespace WebAPI
             services.AddTransient<ICarHireService, CarHireService>();
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IRoleService, RoleService>();
             #endregion
             
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -98,7 +85,7 @@ namespace WebAPI
             services.AddControllers();
 
 
-            //игнорирует looping и позволяет доставать ассоциированые данные
+            //игнорирует looping и позволяет доставать ассоциированые данные (для eager loading)
             services.AddMvc(option => option.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
