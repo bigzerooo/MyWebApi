@@ -1,4 +1,6 @@
 ﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
+using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +12,6 @@ namespace DataAccessLayer.Interfaces.IRepositories
     {
         public Task<Car> GetCarDetailsByIdAsync(int Id);
         public Task<List<Car>> GetCarDetailsAsync();
+        public Task<PagedList<Car>> GetAllPagesFilteredAsync(CarParameters parameters);
     }
 }

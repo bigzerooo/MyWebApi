@@ -2,7 +2,9 @@
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces;
+using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,9 +38,10 @@ namespace BusinessLogicLayer.Services
         public async Task<IEnumerable<CarDTO>> GetAllCarsAsync()
         {
             var x = await _unitOfWork.carRepository.GetAllAsync();
-            List<CarDTO> result = new List<CarDTO>();
-            foreach (var element in x)
-                result.Add(_mapper.Map<Car, CarDTO>(element));
+            List<CarDTO> result = _mapper.Map<List<CarDTO>>(x);//надо проверить
+            //List<CarDTO> result = new List<CarDTO>();
+            //foreach (var element in x)
+            //    result.Add(_mapper.Map<Car, CarDTO>(element));
             return result;                                
         }
 
@@ -60,6 +63,12 @@ namespace BusinessLogicLayer.Services
         public async Task<List<Car>> GetCarDetailsAsync()
         {
             return await _unitOfWork.carRepository.GetCarDetailsAsync();
+        }
+        public async Task<PagedList<CarDTO>> GetCarPagesFilteredAsync(CarParameters parameters)
+        {
+            var x = await _unitOfWork.carRepository.GetAllPagesFilteredAsync(parameters);
+            var result = _mapper.Map<PagedList<CarDTO>>(x);            
+            return result;
         }
     }
 }

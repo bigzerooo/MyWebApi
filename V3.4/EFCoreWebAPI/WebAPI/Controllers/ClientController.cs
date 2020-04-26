@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Parameters;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,20 +22,32 @@ namespace WebAPI.Controllers
             _clientService = clientService;
         }
 
-
-        // GET: api/<controller>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]ClientParameters parameters)
         {
             try
             {
-                return Ok(await _clientService.GetAllClientsAsync());
+                return Ok(await _clientService.GetClientPages(parameters));
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
+
+        // GET: api/<controller>
+        //[HttpGet]
+        //public async Task<IActionResult> Get()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _clientService.GetAllClientsAsync());
+        //    }
+        //    catch
+        //    {
+        //        return StatusCode(404);
+        //    }
+        //}
 
         // GET: api/<controller>/details/5
         [HttpGet("details/{id}")]

@@ -1,6 +1,8 @@
 ﻿using DataAccessLayer.DBContext;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces.IRepositories;
+using DataAccessLayer.Parameters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,6 +40,10 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
                 .Include(c => c.State)
                 .ToListAsync();
             return carHires;
+        }
+        public async Task<PagedList<CarHire>> GetAllPagesAsync(CarHireParameters parameters)//он не асинхронный, надо что-то делать
+        {
+            return await PagedList<CarHire>.ToPagedListAsync(_dbSet, parameters.PageNumber, parameters.PageSize);
         }
 
     }

@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer.DTO;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
+using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,5 +19,6 @@ namespace BusinessLogicLayer.Interfaces.IServices
 
         Task<Car> GetCarDetailsByIdAsync(int Id);
         Task<List<Car>> GetCarDetailsAsync();
+        Task<PagedList<CarDTO>> GetCarPagesFilteredAsync(CarParameters parameters);
     }
 }

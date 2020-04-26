@@ -1,6 +1,8 @@
 ﻿using DataAccessLayer.DBContext;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces.IRepositories;
+using DataAccessLayer.Parameters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,10 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
                 .Include(c => c.ClientType)
                 .ToListAsync();
             return clients;
+        }
+        public async Task<PagedList<Client>> GetAllPagesAsync(ClientParameters parameters)//он не асинхронный, надо что-то делать
+        {
+            return await PagedList<Client>.ToPagedListAsync(_dbSet, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

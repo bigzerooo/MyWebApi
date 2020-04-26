@@ -2,7 +2,9 @@
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces;
+using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -60,6 +62,12 @@ namespace BusinessLogicLayer.Services
         public async Task<List<Client>> GetClientDetailsAsync()
         {
             return await _unitOfWork.clientRepository.GetClientDetailsAsync();
+        }
+        public async Task<PagedList<ClientDTO>> GetClientPages(ClientParameters parameters)
+        {
+            var x = await _unitOfWork.clientRepository.GetAllPagesAsync(parameters);
+            var result = _mapper.Map<PagedList<ClientDTO>>(x);
+            return result;
         }
     }
 }

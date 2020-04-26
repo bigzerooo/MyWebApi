@@ -1,6 +1,8 @@
 ﻿using DataAccessLayer.DBContext;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces.IRepositories;
+using DataAccessLayer.Parameters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,22 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
                 .Include(c => c.CarHires)
                 .ToListAsync();
             return cars;
+        }
+
+        public async Task<PagedList<Car>> GetAllPagesFilteredAsync(CarParameters parameters)//фильтрация, поиск, пагинация и сортировка
+        {
+            var cars = FindByConditionAsync(x => x.Price >= parameters.MinPrice && x.Price <= parameters.MaxPrice);
+
+            SearchByBrand(ref cars, parameters.Brand);
+
+            return await PagedList<Car>.ToPagedListAsync(cars, parameters.PageNumber, parameters.PageSize);            
+        }
+        private void SearchByBrand(ref IQueryable<Car> cars, string brand)
+        {
+            if (!cars.Any() || string.IsNullOrWhiteSpace(brand))
+                return;
+
+            cars = cars.Where(x => x.Brand.ToLower().Contains(brand.Trim().ToLower()));
         }
     }
 }

@@ -3,6 +3,7 @@ using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.DTO.Identity;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
+using DataAccessLayer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,14 +20,7 @@ namespace BusinessLogicLayer
             CreateMap<Car, CarDTO>().ReverseMap();
             CreateMap<Client, ClientDTO>().ReverseMap();
             CreateMap<ClientType, ClientTypeDTO>().ReverseMap();
-            CreateMap<MyRole, RoleDTO>().ReverseMap();
-            //CreateMap<CarHireDTO, CarHire>();
-            //CreateMap<CarTypeDTO, CarType>();
-            //CreateMap<CarStateDTO, CarState>();
-            //CreateMap<CarDTO, Car>();
-            //CreateMap<ClientDTO, Client>();
-            //CreateMap<ClientTypeDTO, ClientType>();
-
+            CreateMap<MyRole, RoleDTO>().ReverseMap();            
         }
     }
 }

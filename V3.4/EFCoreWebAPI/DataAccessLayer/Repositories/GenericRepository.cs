@@ -1,10 +1,13 @@
 ﻿using DataAccessLayer.DBContext;
+using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Interfaces.EntityInterfaces;
+using DataAccessLayer.Parameters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +50,10 @@ namespace DataAccessLayer.Repositories
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
+        }
+        public IQueryable<TEntity> FindByConditionAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return _dbSet.Where(expression);            
         }
     }
 }

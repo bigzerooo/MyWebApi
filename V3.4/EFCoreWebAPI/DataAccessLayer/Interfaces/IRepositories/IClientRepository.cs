@@ -1,4 +1,6 @@
 ﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Helpers;
+using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +12,6 @@ namespace DataAccessLayer.Interfaces.IRepositories
     {
         public Task<Client> GetClientDetailsByIdAsync(int Id);
         public Task<List<Client>> GetClientDetailsAsync();
+        public Task<PagedList<Client>> GetAllPagesAsync(ClientParameters parameters);
     }
 }

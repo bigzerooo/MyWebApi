@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BusinessLogicLayer.DTO;
+using DataAccessLayer.Parameters;
+using DataAccessLayer.Helpers;
 
 namespace BusinessLogicLayer.Services
 {
@@ -61,6 +63,12 @@ namespace BusinessLogicLayer.Services
         public async Task<List<CarHire>> GetCarHireDetailsAsync()
         {
             return await _unitOfWork.carHireRepository.GetCarHireDetailsAsync();
+        }
+        public async Task<PagedList<CarHireDTO>> GetCarHirePages(CarHireParameters parameters)
+        {
+            var x = await _unitOfWork.carHireRepository.GetAllPagesAsync(parameters);
+            var result = _mapper.Map<PagedList<CarHireDTO>>(x);
+            return result;
         }
     }
 }

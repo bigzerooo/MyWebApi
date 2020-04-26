@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
+using DataAccessLayer.Parameters;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,20 +22,32 @@ namespace WebAPI.Controllers
             _carHireService = carHireService;
         }
 
-
-        // GET: api/<controller>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery]CarHireParameters parameters)
         {
             try
             {
-                return Ok(await _carHireService.GetAllCarHiresAsync());
+                return Ok(await _carHireService.GetCarHirePages(parameters));
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
+
+        // GET: api/<controller>
+        //[HttpGet]
+        //public async Task<IActionResult> Get()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _carHireService.GetAllCarHiresAsync());
+        //    }
+        //    catch
+        //    {
+        //        return StatusCode(404);
+        //    }
+        //}
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
