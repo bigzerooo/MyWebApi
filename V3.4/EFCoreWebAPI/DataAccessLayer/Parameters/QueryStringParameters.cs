@@ -5,7 +5,7 @@ using System.Text;
 namespace DataAccessLayer.Parameters
 {
     public abstract class QueryStringParameters
-    {
+    {		
 		const int maxPageSize = 50;
 		public int PageNumber { get; set; } = 1;
 

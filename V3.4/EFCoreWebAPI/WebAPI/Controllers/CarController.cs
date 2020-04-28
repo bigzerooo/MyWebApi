@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         {
             if (!parameters.ValidPriceRange)
             {
-                return BadRequest("Invalid price range!");
+                return BadRequest("Invalid price range!");//не знаю надо ли
             }
             try
             {
@@ -39,19 +39,6 @@ namespace WebAPI.Controllers
                 return NotFound();
             }            
         }        
-        //[HttpGet]
-        //public async Task<IActionResult> Get()
-        //{
-        //    try
-        //    {
-        //        return Ok(await _carService.GetAllCarsAsync());
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(404);
-        //    }
-        //}
-
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

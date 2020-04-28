@@ -7,16 +7,18 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Linq.Dynamic.Core;
 namespace DataAccessLayer.Repositories.SpecificRepositories
 {
     public class CarRepository : GenericRepository<Car, int>, ICarRepository
     {
-        public CarRepository(MyDBContext myDBContext) : base(myDBContext)
+        private readonly ISortHelper<Car> _sortHelper;
+        public CarRepository(MyDBContext myDBContext,ISortHelper<Car> sortHelper) : base(myDBContext)
         {
-
+            _sortHelper = sortHelper;
         }
         public async Task<Car> GetCarDetailsByIdAsync(int Id)
         {
@@ -36,14 +38,17 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
             return cars;
         }
 
-        public async Task<PagedList<Car>> GetAllPagesFilteredAsync(CarParameters parameters)//фильтрация, поиск, пагинация и сортировка
+        public async Task<PagedList<Car>> GetAllPagesFilteredAsync(CarParameters parameters)
         {
-            var cars = FindByConditionAsync(x => x.Price >= parameters.MinPrice && x.Price <= parameters.MaxPrice);
+            var cars = FindByConditionAsync(x => x.Price >= parameters.MinPrice && x.Price <= parameters.MaxPrice);//фильтрация
 
-            SearchByBrand(ref cars, parameters.Brand);
+            SearchByBrand(ref cars, parameters.Brand);//поиск
 
-            return await PagedList<Car>.ToPagedListAsync(cars, parameters.PageNumber, parameters.PageSize);            
-        }
+            cars=_sortHelper.ApplySort(cars, parameters);//сортировка
+
+            return await PagedList<Car>.ToPagedListAsync(cars, parameters.PageNumber, parameters.PageSize);//пагинация          
+    }
+
         private void SearchByBrand(ref IQueryable<Car> cars, string brand)
         {
             if (!cars.Any() || string.IsNullOrWhiteSpace(brand))
@@ -51,5 +56,6 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
 
             cars = cars.Where(x => x.Brand.ToLower().Contains(brand.Trim().ToLower()));
         }
+        
     }
 }

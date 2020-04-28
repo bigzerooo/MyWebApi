@@ -164,3 +164,4 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\R
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\_Imports.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Cars.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\Cars.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\System.Linq.Dynamic.Core.dll

@@ -27,6 +27,7 @@ using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.DTO.Identity;
 using BusinessLogicLayer;
 using System.Reflection;
+using DataAccessLayer.Helpers;
 
 namespace WebAPI
 {
@@ -42,6 +43,7 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //DbContext
             services.AddDbContext<MyDBContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("DataAccessLayer"));
@@ -53,10 +55,6 @@ namespace WebAPI
                 options.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<MyDBContext>();
 
-         
-
-           
-
             #region repositories
             services.AddTransient<ICarStateRepository, CarStateRepository>();
             services.AddTransient<ICarTypeRepository, CarTypeRepository>();
@@ -66,8 +64,12 @@ namespace WebAPI
             services.AddTransient<IClientRepository, ClientRepository>();
             #endregion
 
+            //AutoMapper
             services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);//сборка профайла
-            
+
+            //SortHelpers
+            services.AddTransient<ISortHelper<Car>, SortHelper<Car>>();
+            services.AddTransient<ISortHelper<Client>,SortHelper<Client>>();
 
             #region services
             services.AddTransient<ICarStateService, CarStateService>();
@@ -80,6 +82,7 @@ namespace WebAPI
             services.AddTransient<IRoleService, RoleService>();
             #endregion
             
+            //UnitOfWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers();

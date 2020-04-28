@@ -1,5 +1,7 @@
 ﻿using DataAccessLayer.DBContext;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
+using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +24,8 @@ namespace DataAccessLayer.UnitOfWork
         private readonly UserManager<MyUser> _userManager;
         private readonly SignInManager<MyUser> _signInManager;
         private readonly RoleManager<MyRole> _roleManager;
+        private readonly ISortHelper<Car> _carSortHelper;
+        private readonly ISortHelper<Client> _clientSortHelper;
         public UnitOfWork(
             MyDBContext context,
             ICarStateRepository carStateRepository,
@@ -32,7 +36,9 @@ namespace DataAccessLayer.UnitOfWork
             IClientRepository clientRepository,
             UserManager<MyUser> userManager,
             SignInManager<MyUser> signInManager,
-            RoleManager<MyRole> roleManager)
+            RoleManager<MyRole> roleManager,
+            ISortHelper<Car> carSortHelper,
+            ISortHelper<Client> clientSortHelper)
         {
             _context = context;
             _carStateRepository = carStateRepository;
@@ -43,7 +49,9 @@ namespace DataAccessLayer.UnitOfWork
             _clientRepository = clientRepository;
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;                        
+            _roleManager = roleManager;
+            _carSortHelper = carSortHelper;
+            _clientSortHelper = clientSortHelper;
         }
         public ICarStateRepository carStateRepository
         {
@@ -108,6 +116,9 @@ namespace DataAccessLayer.UnitOfWork
                 return _signInManager;
             }
         }
+
+
+
 
         public Task<int> Complete() => _context.SaveChangesAsync();
         private bool disposed = false;

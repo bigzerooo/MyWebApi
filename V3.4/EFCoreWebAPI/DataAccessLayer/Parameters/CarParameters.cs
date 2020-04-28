@@ -9,7 +9,6 @@ namespace DataAccessLayer.Parameters
         public decimal MinPrice { get; set; } = 0;
         public decimal MaxPrice { get; set; } = decimal.MaxValue;
         public bool ValidPriceRange => MaxPrice >= MinPrice && MinPrice >= 0;
-        public string Brand { get; set; }
-
+        public string Brand { get; set; }        
     }
 }
