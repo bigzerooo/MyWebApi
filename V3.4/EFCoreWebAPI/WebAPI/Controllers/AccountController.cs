@@ -6,6 +6,7 @@ using BusinessLogicLayer.DTO.Identity;
 using BusinessLogicLayer.Interfaces.IServices;
 using BusinessLogicLayer.Services;
 using DataAccessLayer.Entities.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]    
     public class AccountController : Controller
     {
@@ -31,6 +33,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] MyUserLoginDTO myUser)
         {
@@ -65,8 +68,8 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> ChangePassword([FromBody]MyUserChangePasswordDTO myUser)
         {
             return Ok(await _accountService.ChangePassword(myUser));
-        }
-        [HttpGet]
+        }        
+        [HttpGet]        
         public async Task<IActionResult> UserList()
         {
             return Ok(await _accountService.UserList());

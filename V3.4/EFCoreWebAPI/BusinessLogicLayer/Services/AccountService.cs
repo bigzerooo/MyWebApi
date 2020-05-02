@@ -5,9 +5,13 @@ using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,10 +22,12 @@ namespace BusinessLogicLayer.Services
         //it's just here, but not used yet
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public AccountService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        public AccountService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _configuration = configuration;
         }
         public async Task<string> Register(MyUserRegisterDTO myUser)
         {
@@ -32,7 +38,8 @@ namespace BusinessLogicLayer.Services
             var result = await _unitOfWork.userManager.CreateAsync(user, myUser.Password);
             if (result.Succeeded)
             {
-                await _unitOfWork.signInManager.SignInAsync(user, false);
+                await _unitOfWork.userManager.AddToRoleAsync(user, "user");
+                //await _unitOfWork.signInManager.SignInAsync(user, false);
                 return "User registered";
             }
             else
@@ -51,7 +58,8 @@ namespace BusinessLogicLayer.Services
             var result = await _unitOfWork.userManager.CreateAsync(user, myUser.Password);
             if (result.Succeeded)
             {
-                await _unitOfWork.signInManager.SignInAsync(user, false);
+                await _unitOfWork.userManager.AddToRoleAsync(user, "user");
+                //await _unitOfWork.signInManager.SignInAsync(user, false);
                 return "User registered";
             }
             else
@@ -64,17 +72,23 @@ namespace BusinessLogicLayer.Services
                 return ErrorMessage;
             }
         }
-        public async Task<string> Login(MyUserLoginDTO myUser)
+        public async Task<object> Login(MyUserLoginDTO myUser)
         {
-            var result = await _unitOfWork.signInManager.PasswordSignInAsync(myUser.UserName, myUser.Password, myUser.RememberMe, false);
-            if (result.Succeeded)
+            MyUser user = await _unitOfWork.userManager.FindByNameAsync(myUser.UserName);
+            if(user != null)
             {
-                return "Login successful";
+                var result = await _unitOfWork.signInManager.PasswordSignInAsync(myUser.UserName, myUser.Password, myUser.RememberMe, false);                
+                if (result.Succeeded)
+                {
+                    //return "Login successful";
+                    return BuildToken(user);                    
+                }
+                else
+                {
+                    return "Not succeeded (invalid password)";
+                }
             }
-            else
-            {
-                return "Invalid username and (or) password";
-            }
+            return "User not found";
         }
         public async Task<string> Logout()
         {
@@ -151,7 +165,51 @@ namespace BusinessLogicLayer.Services
         {
             return await _unitOfWork.userManager.Users.ToListAsync();
         }
+        //далі буде jwt
+        private object BuildToken(MyUser user)
+        {
+            //seems working, but something isn't right
 
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Email,user.Email)
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expiration = DateTime.UtcNow.AddDays(double.Parse(_configuration["JwtExpiryInDays"]));
+            JwtSecurityToken token = new JwtSecurityToken(
+                issuer: _configuration["JwtIssuer"],
+                audience: _configuration["JwtAudience"],
+                claims: claims,
+                notBefore: DateTime.UtcNow,
+                expires: expiration,
+                signingCredentials: creds); 
+            return new
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
+            };
+
+            //kinda working too
+
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var key = Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]);
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(new Claim[]
+            //    {
+            //        new Claim(ClaimTypes.Name, user.UserName),
+            //        new Claim(ClaimTypes.Email, user.Email)
+            //    }),
+            //    Expires = DateTime.UtcNow.AddDays(double.Parse(_configuration["JwtExpiryInDays"])),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            //    Audience = _configuration["JwtAudience"],
+            //    Issuer = _configuration["JwtIssuer"]
+            //};
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+            //return tokenHandler.WriteToken(token);
+
+        }
 
     }
 }

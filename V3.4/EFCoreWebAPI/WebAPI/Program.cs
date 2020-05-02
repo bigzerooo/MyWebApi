@@ -26,6 +26,7 @@ namespace WebAPI
             
             var host = CreateHostBuilder(args).Build();
 
+            //делает сидинг данных через RoleInitializer
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
