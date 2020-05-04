@@ -326,3 +326,7 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\FluentValidation.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\FluentValidation.AspNetCore.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\FluentValidation.DependencyInjectionExtensions.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.MvcApplicationPartsAssemblyInfo.cs

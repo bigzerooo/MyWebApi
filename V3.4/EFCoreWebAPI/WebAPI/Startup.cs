@@ -32,6 +32,9 @@ using Microsoft.IdentityModel.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using BusinessLogicLayer.Validators;
 
 namespace WebAPI
 {
@@ -89,6 +92,16 @@ namespace WebAPI
             //UnitOfWork
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+            //игнорирует looping и позволяет доставать ассоциированые данные (для eager loading)
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
+                .AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<CarDTOValidator>());//добавляет флюент валидацию
+
+            //#region validators            
+            //services.AddTransient<IValidator<CarDTO>, CarDTOValidator>();
+            //#endregion
+
             //JWT конфигурация
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -117,12 +130,6 @@ namespace WebAPI
                     });
 
             services.AddControllers();
-
-
-            //игнорирует looping и позволяет доставать ассоциированые данные (для eager loading)
-            services.AddMvc(option => option.EnableEndpointRouting = false)
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

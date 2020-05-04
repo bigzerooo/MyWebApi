@@ -25,6 +25,7 @@ namespace BusinessLogicLayer.Services
         public async Task<int> AddCarHireAsync(CarHireDTO carHire)
         {
             var x = _mapper.Map<CarHireDTO, CarHire>(carHire);
+            x.BeginDate = DateTime.Now;
             return await _unitOfWork.carHireRepository.AddAsync(x);
             //_sqlunitOfWork.Complete();
         }

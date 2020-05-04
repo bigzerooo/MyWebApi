@@ -84,6 +84,8 @@ namespace WebAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest("Invalid model");
                 await _carStateService.AddCarStateAsync(value);
                 return StatusCode(201);
             }

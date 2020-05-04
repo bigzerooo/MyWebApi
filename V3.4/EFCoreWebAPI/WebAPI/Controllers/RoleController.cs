@@ -37,9 +37,12 @@ namespace WebAPI.Controllers
 
         [HttpPost]// создать новую роль
         [Route("CreateRole")]
-        public async Task CreateRole([FromBody]RoleDTO role)
+        public async Task<IActionResult> CreateRole([FromBody]RoleDTO role)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid model");
             await _roleService.CreateRole(role);
+            return Ok(role);
         }
 
 
