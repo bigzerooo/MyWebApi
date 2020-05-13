@@ -25,7 +25,23 @@ namespace BusinessLogicLayer.Services
         public async Task<int> AddCarHireAsync(CarHireDTO carHire)
         {
             var x = _mapper.Map<CarHireDTO, CarHire>(carHire);
-            x.BeginDate = DateTime.Now;
+
+            x.BeginDate = DateTime.Now;//начальная дата - время заказа
+            var car = await _unitOfWork.carRepository.GetAsync(x.CarId);
+
+            var timeGap = (x.EndDate - x.BeginDate).TotalSeconds;
+
+            x.Price = car.PricePerHour / 3600 * (decimal)timeGap;//обсчёт цены за время проката
+
+            if(x.Penalty!=null)
+                x.Price += (decimal) x.Penalty;//прибавление штрафа
+
+            if(x.Discount!=null)
+                x.Price -= (decimal)x.Discount;//убавление знижки
+
+            if (x.Price <= 0)
+                x.Price = 0;
+
             return await _unitOfWork.carHireRepository.AddAsync(x);
             //_sqlunitOfWork.Complete();
         }

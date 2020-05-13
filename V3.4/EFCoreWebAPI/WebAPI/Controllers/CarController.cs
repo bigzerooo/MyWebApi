@@ -32,7 +32,11 @@ namespace WebAPI.Controllers
             }
             try
             {
-                return Ok(await _carService.GetCarPagesFilteredAsync(parameters));
+                var cars = await _carService.GetCarPagesFilteredAsync(parameters);
+                if (cars != null)
+                    return Ok(cars);
+                else
+                    return NotFound();
             }
             catch
             {
@@ -45,7 +49,11 @@ namespace WebAPI.Controllers
         {
             try
             {
-                return Ok(await _carService.GetCarByIdAsync(id));
+                var cars = await _carService.GetCarByIdAsync(id);
+                if (cars != null)
+                    return Ok(await _carService.GetCarByIdAsync(id));
+                else
+                    return NotFound();
             }
             catch
             {

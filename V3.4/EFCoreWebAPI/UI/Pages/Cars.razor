@@ -1,13 +1,16 @@
 ﻿@page "/cars"
+@page "/cars/{id}"
 @inject Services.CarService carService
-@using BusinessLogicLayer.DTO
+@using ViewModels
 <h3>Cars</h3>
 @if (cars == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Not found</em></p>
+
 }
 else
 {
+
     <table class="table">
         <thead>
             <tr>
@@ -22,22 +25,55 @@ else
         <tbody>
             @foreach (var car in cars)
             {
-            <tr>
-                <td>@car.Id</td>
-                <td>@car.Brand</td>
-                <td>@car.Price</td>
-                <td>@car.PricePerHour</td>
-                <td>@car.CarTypeId</td>
-                <td>@car.Year</td>
-            </tr>
+                <tr>
+                    <td>@car.id</td>
+                    <td>@car.brand</td>
+                    <td>@car.price</td>
+                    <td>@car.pricePerHour</td>
+                    <td>@car.carTypeId</td>
+                    <td>@car.year</td>
+                </tr>
             }
         </tbody>
     </table>
 }
 @code {
-    List<CarDTO> cars;
+    private int _id;
+    [Parameter]
+    public string Id
+    {
+        get
+        {
+            return _id.ToString();
+        }
+        set
+        {
+            try
+            {
+                _id = Int32.Parse(value);
+            }
+            catch
+            {
+                _id = 0;
+            }
+        }
+    }
+
+    List<CarViewModel> cars;
     protected override async Task OnInitializedAsync()
     {
-        cars = await carService.GetCarsAsync();
+        int id = Int32.Parse(Id);
+        if (id == 0)
+            cars = await carService.GetCarsAsync();
+        else if (id > 0)
+        {
+            CarViewModel car = await carService.GetCarsByIdAsync(id);
+            if(car!=null)
+            {
+                cars = new List<CarViewModel>();
+                cars.Add(car);
+            }            
+        }
+
     }
 }

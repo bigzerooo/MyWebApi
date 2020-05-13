@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using UI.ViewModels;
 
 namespace UI.Services
 {
@@ -15,21 +16,23 @@ namespace UI.Services
         {
             _httpClient = client;
         }
-        public async Task<List<CarDTO>> GetCarsAsync()
+        public async Task<List<CarViewModel>> GetCarsAsync()
         {
             var response = await _httpClient.GetAsync("api/car");
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+                return null;
 
             using var responseContent = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<List<CarDTO>>(responseContent);
+            return await JsonSerializer.DeserializeAsync<List<CarViewModel>>(responseContent);
         }
-        public async Task<CarDTO> GetCarsByIdAsync(int id)
+        public async Task<CarViewModel> GetCarsByIdAsync(int id)
         {
             var response = await _httpClient.GetAsync($"api/car/{id}");
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+                return null;            
 
             using var responseContent = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<CarDTO>(responseContent);
+            return await JsonSerializer.DeserializeAsync<CarViewModel>(responseContent);
         }
     }
 }

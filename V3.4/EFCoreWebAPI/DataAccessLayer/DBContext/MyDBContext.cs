@@ -27,9 +27,13 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<CarType>()
                 .HasKey(p => p.Id);
 
-            modelBuilder.Entity<CarType>()
-                .Property(p => p.Type)
+            modelBuilder.Entity<CarType>()                
+                .Property(p => p.Type)                
                 .HasMaxLength(45);
+
+            modelBuilder.Entity<CarType>()
+                .HasIndex(x=>x.Type)
+                .IsUnique();
 
             #endregion
             #region CarState
@@ -41,6 +45,10 @@ namespace DataAccessLayer.DBContext
                 .Property(p => p.State)
                 .HasMaxLength(45);
 
+            modelBuilder.Entity<CarState>()
+                .HasIndex(x => x.State)
+                .IsUnique();            
+
             #endregion
             #region ClientType
 
@@ -50,6 +58,10 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<ClientType>()
                 .Property(p => p.Type)
                 .HasMaxLength(45);
+
+            modelBuilder.Entity<ClientType>()
+                .HasIndex(x => x.Type)
+                .IsUnique();
 
             #endregion
             #region Car

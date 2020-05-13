@@ -188,27 +188,7 @@ namespace BusinessLogicLayer.Services
             return new
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token)
-            };
-
-            //kinda working too
-
-            //var tokenHandler = new JwtSecurityTokenHandler();
-            //var key = Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]);
-            //var tokenDescriptor = new SecurityTokenDescriptor
-            //{
-            //    Subject = new ClaimsIdentity(new Claim[]
-            //    {
-            //        new Claim(ClaimTypes.Name, user.UserName),
-            //        new Claim(ClaimTypes.Email, user.Email)
-            //    }),
-            //    Expires = DateTime.UtcNow.AddDays(double.Parse(_configuration["JwtExpiryInDays"])),
-            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            //    Audience = _configuration["JwtAudience"],
-            //    Issuer = _configuration["JwtIssuer"]
-            //};
-            //var token = tokenHandler.CreateToken(tokenDescriptor);
-            //return tokenHandler.WriteToken(token);
-
+            };            
         }
 
     }

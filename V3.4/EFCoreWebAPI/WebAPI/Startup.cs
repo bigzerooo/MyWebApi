@@ -95,7 +95,7 @@ namespace WebAPI
             //игнорирует looping и позволяет доставать ассоциированые данные (для eager loading)
             services.AddMvc(option => option.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)                
                 .AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<CarDTOValidator>());//добавляет флюент валидацию
 
             //#region validators            
