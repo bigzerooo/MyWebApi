@@ -34,6 +34,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("CarTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 

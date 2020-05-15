@@ -21,7 +21,11 @@ namespace WebAPI.Controllers
         {
             _carService = carService;
         }
-
+        [HttpGet("count")]
+        public async Task<IActionResult> Count()
+        {
+            return Ok(await _carService.GetCarCountAsync());
+        }
         // GET: api/<controller>
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]CarParameters parameters)

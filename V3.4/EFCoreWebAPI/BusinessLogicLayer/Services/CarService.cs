@@ -23,6 +23,10 @@ namespace BusinessLogicLayer.Services
             _mapper = mapper;
         }
 
+        public async Task<int> GetCarCountAsync()
+        {
+            return await _unitOfWork.carRepository.GetCarCountAsync();
+        }
         public async Task<int> AddCarAsync(CarDTO car)
         {
             var x = _mapper.Map<CarDTO, Car>(car);

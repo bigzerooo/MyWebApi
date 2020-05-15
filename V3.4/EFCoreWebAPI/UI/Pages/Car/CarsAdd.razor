@@ -1,0 +1,143 @@
+﻿@using ViewModels
+@using Microsoft.AspNetCore.Http
+@using System.IO;
+@using Microsoft.AspNetCore.Hosting;
+@inject IWebHostEnvironment _appEnvironment
+@inject Services.CarService carService
+@inject IStringLocalizer<CarsAdd> L
+
+@page "/cars/add"
+
+<h3>@L["Cars add"]</h3>
+<a class="btn btn-sm btn-primary" href="cars/hub">@L["Back"]</a>
+<br />
+<br />
+<label>@L["Brand"]</label>
+<br />
+<input placeholder=@L["Brand"] type="text" @bind="Brand" />
+<br />
+<br />
+
+<label>@L["Price"]</label>
+<br />
+<input placeholder=@L["Price"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="Price" />
+<br />
+<br />
+
+<label>@L["Price per hour"]</label>
+<br />
+<input placeholder=@L["Price per hour"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="PricePerHour" />
+<br />
+<br />
+
+<label>@L["Car type"]</label>
+<br />
+<input placeholder=@L["Car type"] min="1" type="number" @bind="CarTypeId" /><!--тут надо переделать, хочу выпадающий список -->
+<br />
+<br />
+
+<label>@L["Year"]</label>
+<br />
+<input placeholder=@L["Year"] min="1900" max="@DateTime.Now.Year" type="number" @bind="Year" />
+<br />
+<br />
+
+<InputFile OnChange="HandleFileSelected" />
+@if (file != null)
+{
+    <p>Загружен файл : @file.Name</p>
+}
+<br />
+<br />
+
+<button @onclick="Insert" class="btn btn-sm btn-primary">@L["Insert"]</button>
+
+<p>@Error</p>
+
+
+@code {
+    public string Brand { get; set; } = "Some brand";
+    public decimal Price { get; set; } = 1000.10M;
+    public decimal PricePerHour { get; set; } = 1000.10M;
+    public int CarTypeId { get; set; } = 1;
+    public int? Year { get; set; } = DateTime.Now.Year;
+
+    public string Error { get; set; }
+
+    IFileListEntry file;
+
+    void HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Brand = L["Year"].ResourceNotFound.ToString();
+    }
+    protected async Task Insert()
+    {
+        try
+        {
+            string Path;
+            if (file == null)
+                throw new Exception("File not found");
+            if (file.Type != "image/jpeg")
+                throw new Exception("File in the wrong format! Please use .jpeg");
+
+            Path = await AddFile(file);
+
+
+            //создание модели
+            CarViewModel car = new CarViewModel()
+            {
+                brand = Brand,
+                price = Price,
+                pricePerHour = PricePerHour,
+                carTypeId = CarTypeId,
+                year = Year,
+                imagePath = Path
+            };
+            await carService.InsertCarAsync(car);//добавить валидацию
+            ClearFields();
+        }
+        catch (Exception e)
+        {
+            Error = e.Message;
+        }
+
+
+    }
+    protected void ClearFields()
+    {
+        Brand = "";
+        Price = 0;
+        PricePerHour = 0;
+        CarTypeId = 1;
+        Year = DateTime.Now.Year;
+        file = null;
+    }
+    protected async Task<string> AddFile(IFileListEntry uploadedFile)
+    {
+        if (uploadedFile != null)
+        {
+            var newFile = await uploadedFile.ToImageFileAsync("image/jpeg", 1280, 720);//resizing
+
+            var date = DateTime.Now;
+            string path = "/car_images/"
+                + $"{date.Year}_{date.Month}_{date.Day}_{date.Hour}_{date.Minute}_{date.Second}_"
+                + newFile.Name;//generating unique filename
+
+            using (var filestream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+            {
+                await newFile.Data.CopyToAsync(filestream);//сохранение файла по пути
+            }
+
+            return path;
+        }
+        else
+            return null;
+
+    }
+}

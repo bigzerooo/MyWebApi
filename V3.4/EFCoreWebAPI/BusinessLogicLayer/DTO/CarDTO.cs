@@ -12,6 +12,7 @@ namespace BusinessLogicLayer.DTO
         public decimal Price { get; set; }        
         public decimal PricePerHour { get; set; }        
         public int CarTypeId { get; set; }
-        public int? Year { get; set; }        
+        public int? Year { get; set; }
+        public string ImagePath { get; set; }
     }
 }

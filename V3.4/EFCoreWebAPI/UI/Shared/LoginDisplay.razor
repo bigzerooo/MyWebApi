@@ -1,4 +1,5 @@
-﻿<AuthorizeView>
+﻿@inject IStringLocalizer<LoginDisplay> L
+<AuthorizeView>
     <Authorized>
         <a href="Identity/Account/Manager">Hello, @context.User.Identity.Name!</a>
         <form method="post" action="Identity/Account/LogOut">
@@ -7,7 +8,7 @@
     </Authorized>
     <NotAuthorized>
         <!--<a href="Identity/Account/Manager">Register</a>-->
-        <a href="/register">Register</a>
-        <a href="Identity/Account/Manager">Login</a>
+        <a href="/register">@L["Register"]</a>
+        <a href="Identity/Account/Manager">@L["Login"]</a>
     </NotAuthorized>
 </AuthorizeView>

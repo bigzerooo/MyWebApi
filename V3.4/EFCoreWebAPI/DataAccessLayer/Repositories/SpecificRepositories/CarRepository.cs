@@ -20,6 +20,10 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
         {
             _sortHelper = sortHelper;
         }
+        public async Task<int> GetCarCountAsync()
+        {
+            return await _myDBContext.Cars.CountAsync();
+        }
         public async Task<Car> GetCarDetailsByIdAsync(int Id)
         {
             var car = await _myDBContext.Cars

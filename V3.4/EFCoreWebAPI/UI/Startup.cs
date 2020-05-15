@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UI.Data;
 using UI.Services;
-
 namespace UI
 {
     public class Startup
@@ -35,12 +35,25 @@ namespace UI
             services.AddScoped<AuthenticationStateProvider,ServerAuthenticationStateProvider>();
             services.AddSingleton<WeatherForecastService>();
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            var supportedCultures = new List<CultureInfo> { new CultureInfo("en"), new CultureInfo("ru") };
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+                options.SupportedUICultures = supportedCultures;
+            });
+
             services.AddHttpClient<CarService>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44337");
             });
-                
-                
+            services.AddHttpClient<AccountService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44337");
+            });
+            
+
+                               
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +68,7 @@ namespace UI
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
-
+            }            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -64,13 +76,14 @@ namespace UI
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseRequestLocalization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+
         }
     }
 }

@@ -1,0 +1,76 @@
+﻿@using ViewModels
+@using Microsoft.AspNetCore.Hosting;
+@inject Services.CarService carService
+@inject IWebHostEnvironment _appEnvironment
+@page "/cars"
+<h3>Cars</h3>
+<a class="btn btn-primary" href="cars/hub">Back</a>
+<br />
+@if (cars == null)
+{
+    <p><em>Not found</em></p>
+
+}
+else
+{
+        <div>
+            <MatPaginator Length="@elementCount" PageSize="@pageSize" Page="@OnPage"></MatPaginator>
+        </div>
+
+
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Price per hour</th>
+                <th>CarTypeId</th>
+                <th>Year</th>
+                <th>ImagePath</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in cars)
+            {
+                <tr>
+                    <td>@car.id</td>
+                    <td>@car.brand</td>
+                    <td>@car.price</td>
+                    <td>@car.pricePerHour</td>
+                    <td>@car.carTypeId</td>
+                    <td>@car.year</td>
+                    <td>
+                        @if (!String.IsNullOrEmpty(car.imagePath))
+                        {
+                            <img width="30" height="40" src="@car.imagePath">
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+
+    int pageSize = 25;
+    int pageIndex = 0;
+    int elementCount = 0;
+
+    List<CarViewModel> cars;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cars = await carService.GetCarsAsync(pageSize,pageIndex+1);
+        elementCount = await carService.GetCarCountAsync();
+    }
+    protected async Task OnPage(MatPaginatorPageEvent e)
+    {
+        cars = await carService.GetCarsAsync(e.PageSize, e.PageIndex+ 1);
+        pageSize = e.PageSize;
+        pageIndex = e.PageIndex;
+
+    }
+}

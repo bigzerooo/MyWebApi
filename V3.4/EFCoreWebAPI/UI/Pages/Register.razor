@@ -1,8 +1,9 @@
-﻿@page "/register"
-@using UI.ViewModels;
+﻿@using UI.ViewModels;
+@inject UI.Services.AccountService accountService
+@page "/register"
 <h3>Register</h3>
 <hr />
-<EditForm Model="@myUser" OnValidSubmit="@SaveUser">
+@*<EditForm Model="@myUser" OnValidSubmit="@SaveUser">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="col-12 row">
@@ -32,16 +33,35 @@
         <input type="submit" class="form-control col-1 btn btn-primary" value="Clear" />
     </div>
 
-</EditForm>
+</EditForm>*@
+<input type="text" @bind="UserName" placeholder="username" />
+<input type="text" @bind="Email" placeholder="email" />
+<input type="password" @bind="Password" placeholder="password" />
+<input type="password" @bind="PasswordConfirm" placeholder="confirm password" />
+<input type="button" value="Submit" @onclick="SaveUser"/>
+@text
 @code {
-    public MyUserRegisterViewModel myUser { get; set; }
-    protected override void OnInitialized()
-    {
-        myUser = new MyUserRegisterViewModel();
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string PasswordConfirm { get; set; }
+        //public MyUserRegisterViewModel myUser { get; set; }
+        //protected override void OnInitialized()
+        //{
+        //    myUser = new MyUserRegisterViewModel();
+        //}
+        private async Task SaveUser()
+        {
+            //something to save user
+            MyUserRegisterViewModel myUser = new MyUserRegisterViewModel() 
+            {
+                userName = UserName,
+                email = Email,
+                password = Password,
+                passwordConfirm = PasswordConfirm
+            };
+        text = myUser.email;
+        await accountService.CreateUserAsync(myUser);
     }
-    private void SaveUser()
-    {
-        //something to save user
-        myUser = new MyUserRegisterViewModel();
-    }
+    public string text;
 }

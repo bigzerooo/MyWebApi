@@ -13,5 +13,6 @@ namespace UI.ViewModels
         public decimal pricePerHour { get; set; }
         public int carTypeId { get; set; }
         public int? year { get; set; }
+        public string imagePath { get; set; }
     }
 }

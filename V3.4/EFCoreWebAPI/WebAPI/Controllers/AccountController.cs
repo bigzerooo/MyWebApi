@@ -25,7 +25,8 @@ namespace WebAPI.Controllers
         }
 
         // GET: /<controller>/
-        [HttpGet]
+        [HttpPost]
+        [AllowAnonymous]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] MyUserRegisterDTO myUser)
         {
@@ -45,7 +46,7 @@ namespace WebAPI.Controllers
         {
             return Ok(await _accountService.Logout());
         }
-        [HttpGet]
+        [HttpDelete]
         [Route("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {

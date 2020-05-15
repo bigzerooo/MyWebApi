@@ -12,7 +12,7 @@ namespace DataAccessLayer.Entities
         public decimal PricePerHour { get; set; }
         public int CarTypeId { get; set; }
         public int? Year { get; set; }
-
+        public string ImagePath { get; set; }
         public CarType CarType { get; set; }
         public ICollection<CarHire> CarHires { get; set; }
     }
