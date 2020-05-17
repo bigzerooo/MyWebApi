@@ -42,10 +42,9 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
-        public async Task<CarTypeDTO> GetCarTypeByIdAsync(int Id)
+        public async Task<string> GetCarTypeByIdAsync(int Id)
         {
-            var x = await _unitOfWork.carTypeRepository.GetAsync(Id);
-            return _mapper.Map<CarType, CarTypeDTO>(x);
+            return await _unitOfWork.carTypeRepository.GetCarTypeById(Id);            
         }
 
         public async Task UpdateCarTypeAsync(CarTypeDTO carType)

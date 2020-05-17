@@ -14,5 +14,6 @@ namespace BusinessLogicLayer.DTO
         public int CarTypeId { get; set; }
         public int? Year { get; set; }
         public string ImagePath { get; set; }
+        public string Description { get; set; }
     }
 }

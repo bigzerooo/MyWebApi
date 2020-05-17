@@ -25,6 +25,9 @@ namespace BusinessLogicLayer.Validators
             RuleFor(x => x.Year)
                 .LessThanOrEqualTo(DateTime.Now.Year)
                 .GreaterThanOrEqualTo(1900);
+
+            RuleFor(x => x.Description)
+                .MaximumLength(1000);
         }
     }
 }

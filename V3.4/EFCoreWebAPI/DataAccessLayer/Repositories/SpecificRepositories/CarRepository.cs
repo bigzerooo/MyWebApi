@@ -20,9 +20,12 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
         {
             _sortHelper = sortHelper;
         }
-        public async Task<int> GetCarCountAsync()
+        public async Task<int> GetCarCountAsync(CarParameters parameters)
         {
-            return await _myDBContext.Cars.CountAsync();
+            return await _myDBContext.Cars.CountAsync(x=>
+                (x.Brand.ToLower().Contains(parameters.Brand)||string.IsNullOrWhiteSpace(parameters.Brand))
+                &&x.Price<=parameters.MaxPrice
+                &&x.Price>=parameters.MinPrice);
         }
         public async Task<Car> GetCarDetailsByIdAsync(int Id)
         {

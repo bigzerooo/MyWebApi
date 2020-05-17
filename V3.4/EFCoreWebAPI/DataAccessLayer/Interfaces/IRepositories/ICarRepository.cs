@@ -13,6 +13,6 @@ namespace DataAccessLayer.Interfaces.IRepositories
         public Task<Car> GetCarDetailsByIdAsync(int Id);
         public Task<List<Car>> GetCarDetailsAsync();
         public Task<PagedList<Car>> GetAllPagesFilteredAsync(CarParameters parameters);
-        public Task<int> GetCarCountAsync();
+        public Task<int> GetCarCountAsync(CarParameters parameters);
     }
 }

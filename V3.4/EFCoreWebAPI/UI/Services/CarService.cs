@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.DTO;
+using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace UI.Services
         {
             _httpClient = client;
         }
-        public async Task<List<CarViewModel>> GetCarsAsync(int pageSize,int pageNumber)
+        public async Task<List<CarViewModel>> GetCarsAsync(CarParameters parameters)
         {
-            var response = await _httpClient.GetAsync($"api/car?pagesize={pageSize}&pagenumber={pageNumber}");
+            var response = await _httpClient.GetAsync($"api/car?PageSize={parameters.PageSize}&PageNumber={parameters.PageNumber}&MinPrice={parameters.MinPrice}&Brand={parameters.Brand}&MaxPrice={parameters.MaxPrice}&OrderBy={parameters.OrderBy}");            
             if (!response.IsSuccessStatusCode)
                 return null;
 
@@ -39,9 +40,9 @@ namespace UI.Services
         {
             return await _httpClient.PostAsync("api/car", GetStringContentFromObject(car));
         }
-        public async Task<int> GetCarCountAsync()
+        public async Task<int> GetCarCountAsync(CarParameters parameters)
         {
-            var respone = await _httpClient.GetAsync("api/car/count");
+            var respone = await _httpClient.GetAsync($"api/car/count?minprice={parameters.MinPrice}&Brand={parameters.Brand}&MaxPrice={parameters.MaxPrice}");
             if (!respone.IsSuccessStatusCode)
                 return 0;
             else

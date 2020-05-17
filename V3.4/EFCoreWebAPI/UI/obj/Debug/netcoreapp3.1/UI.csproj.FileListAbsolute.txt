@@ -193,3 +193,7 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\R
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Shared\NavMenu.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Shared\SurveyPrompt.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\_Imports.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Car\CarCard.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\Car\CarCard.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Car\Car.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\Car\Car.razor.g.cs

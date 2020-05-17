@@ -14,5 +14,6 @@ namespace UI.ViewModels
         public int carTypeId { get; set; }
         public int? year { get; set; }
         public string imagePath { get; set; }
+        public string description { get; set; }
     }
 }

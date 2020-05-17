@@ -87,6 +87,9 @@ namespace DataAccessLayer.DBContext
                 .Property(p => p.PricePerHour)
                 .IsRequired();
 
+            modelBuilder.Entity<Car>()
+                .Property(p => p.Description)
+                .HasMaxLength(1000);
             //modelBuilder.Entity<Car>()
             //    .Property(p => p.Type)
             //    .HasMaxLength(45);

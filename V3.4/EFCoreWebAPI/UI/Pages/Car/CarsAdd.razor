@@ -4,43 +4,64 @@
 @using Microsoft.AspNetCore.Hosting;
 @inject IWebHostEnvironment _appEnvironment
 @inject Services.CarService carService
+@inject Services.CarTypeService carTypeService
 @inject IStringLocalizer<CarsAdd> L
-
 @page "/cars/add"
 
 <h3>@L["Cars add"]</h3>
 <a class="btn btn-sm btn-primary" href="cars/hub">@L["Back"]</a>
 <br />
 <br />
-<label>@L["Brand"]</label>
-<br />
-<input placeholder=@L["Brand"] type="text" @bind="Brand" />
-<br />
-<br />
 
-<label>@L["Price"]</label>
-<br />
-<input placeholder=@L["Price"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="Price" />
-<br />
-<br />
+@*<label>@L["Brand"]</label>
+    <br />
+    <input placeholder=@L["Brand"] type="text" @bind="Brand" />
+    <br />
+    <br />
+    <label>@L["Price"]</label>
+    <br />
+    <input placeholder=@L["Price"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="Price" />
+    <br />
+    <br />
 
-<label>@L["Price per hour"]</label>
-<br />
-<input placeholder=@L["Price per hour"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="PricePerHour" />
-<br />
-<br />
+    <label>@L["Price per hour"]</label>
+    <br />
+    <input placeholder=@L["Price per hour"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="PricePerHour" />
+    <br />
+    <br />
 
-<label>@L["Car type"]</label>
-<br />
-<input placeholder=@L["Car type"] min="1" type="number" @bind="CarTypeId" /><!--тут надо переделать, хочу выпадающий список -->
-<br />
-<br />
+    <label>@L["Car type"]</label>
+    <br />
+    <input placeholder=@L["Car type"] min="1" type="number" @bind="CarTypeId" />
+    <br />
+    <br />
 
-<label>@L["Year"]</label>
-<br />
-<input placeholder=@L["Year"] min="1900" max="@DateTime.Now.Year" type="number" @bind="Year" />
-<br />
-<br />
+    <label>@L["Year"]</label>
+    <br />
+    <input placeholder=@L["Year"] min="1900" max="@DateTime.Now.Year" type="number" @bind="Year" />
+    <br />
+    <br />*@
+<p>
+    <MatTextField @bind-Value="@Brand" Label=@L["Brand"]></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@Price" Label=@L["Price"]></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@PricePerHour" Label=@L["Price per hour"]></MatTextField>
+</p>
+
+<p>
+    <MatSelectItem @bind-Value="@CarType" Items="@CarTypeNames" ></MatSelectItem>
+</p>
+
+<p>
+    <MatTextField @bind-Value="@Year" Label=@L["Year"]></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@Description" Label="Description" TextArea="true" Outlined="true"></MatTextField>
+</p>
+
 
 <InputFile OnChange="HandleFileSelected" />
 @if (file != null)
@@ -56,11 +77,15 @@
 
 
 @code {
-    public string Brand { get; set; } = "Some brand";
-    public decimal Price { get; set; } = 1000.10M;
-    public decimal PricePerHour { get; set; } = 1000.10M;
-    public int CarTypeId { get; set; } = 1;
-    public int? Year { get; set; } = DateTime.Now.Year;
+    public string Brand { get; set; }
+    public decimal Price { get; set; }
+    public decimal PricePerHour { get; set; }
+    public int? Year { get; set; }
+    public string Description { get; set; }
+
+    public List<CarTypeViewModel> CarTypes;
+    public List<string> CarTypeNames=new List<string>();
+    public string CarType { get; set; }
 
     public string Error { get; set; }
 
@@ -71,25 +96,27 @@
         file = files.FirstOrDefault();
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-        Brand = L["Year"].ResourceNotFound.ToString();
+        CarTypes = await carTypeService.GetCarTypesAsync();
+        foreach(var carType in CarTypes)
+        {
+            CarTypeNames.Add(carType.type);
+        }
+        //CarType = CarTypeNames.First();
     }
+
     protected async Task Insert()
     {
         try
         {
+            int CarTypeId = CarTypes.First(x => x.type == CarType).id;
+
             string Path;
             if (file == null)
                 throw new Exception("File not found");
             if (file.Type != "image/jpeg")
                 throw new Exception("File in the wrong format! Please use .jpeg");
-
-            Path = await AddFile(file);
-
-
-            //создание модели
             CarViewModel car = new CarViewModel()
             {
                 brand = Brand,
@@ -97,9 +124,14 @@
                 pricePerHour = PricePerHour,
                 carTypeId = CarTypeId,
                 year = Year,
-                imagePath = Path
+                description = Description
             };
-            await carService.InsertCarAsync(car);//добавить валидацию
+            //провалидировать модель тут
+
+            Path = await AddFile(file);
+            car.imagePath = Path;
+
+            await carService.InsertCarAsync(car);
             ClearFields();
         }
         catch (Exception e)
@@ -114,8 +146,9 @@
         Brand = "";
         Price = 0;
         PricePerHour = 0;
-        CarTypeId = 1;
-        Year = DateTime.Now.Year;
+        //CarType = CarTypeNames.First();
+        Description = "";
+        Year = null;
         file = null;
     }
     protected async Task<string> AddFile(IFileListEntry uploadedFile)

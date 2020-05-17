@@ -10,5 +10,6 @@ namespace DataAccessLayer.Interfaces.IRepositories
     {
         public Task<CarType> GetCarTypeDetailsByIdAsync(int Id);
         public Task<List<CarType>> GetCarTypeDetailsAsync();
+        public Task<string> GetCarTypeById(int Id);
     }
 }

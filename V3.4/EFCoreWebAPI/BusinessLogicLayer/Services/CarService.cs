@@ -23,9 +23,11 @@ namespace BusinessLogicLayer.Services
             _mapper = mapper;
         }
 
-        public async Task<int> GetCarCountAsync()
+        public async Task<int> GetCarCountAsync(CarParameters parameters)
         {
-            return await _unitOfWork.carRepository.GetCarCountAsync();
+            if(parameters.Brand!=null)
+                parameters.Brand = parameters.Brand.Trim().ToLower();
+            return await _unitOfWork.carRepository.GetCarCountAsync(parameters);
         }
         public async Task<int> AddCarAsync(CarDTO car)
         {
