@@ -10,10 +10,10 @@ namespace BusinessLogicLayer.Validators
     {
         public ClientDTOValidator()
         {
-            RuleFor(x => x.ClientTypeId).NotEmpty();
-            RuleFor(x => x.FirstName).NotEmpty().MaximumLength(45);
-            RuleFor(x => x.LastName).NotEmpty().MaximumLength(45);
-            RuleFor(x => x.SecondName).NotEmpty().MaximumLength(45);            
+            RuleFor(x => x.ClientTypeId);
+            RuleFor(x => x.FirstName).MaximumLength(45);
+            RuleFor(x => x.LastName).MaximumLength(45);
+            RuleFor(x => x.SecondName).MaximumLength(45);            
             RuleFor(x => x.PhoneNumber).MaximumLength(45).Matches(@"^\+?3?8?(0\d{9})$"); 
             RuleFor(x => x.Adress).MaximumLength(45);
         }

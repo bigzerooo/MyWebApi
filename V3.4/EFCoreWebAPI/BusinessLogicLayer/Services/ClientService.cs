@@ -25,6 +25,7 @@ namespace BusinessLogicLayer.Services
         public async Task<int> AddClientAsync(ClientDTO client)
         {
             var x = _mapper.Map<ClientDTO, Client>(client);
+            x.ClientTypeId = 1;
             return await _unitOfWork.clientRepository.AddAsync(x);
             //_sqlunitOfWork.Complete();
         }

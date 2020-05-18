@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.DTO.Identity;
 using BusinessLogicLayer.Interfaces.IServices;
+using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -34,7 +35,10 @@ namespace BusinessLogicLayer.Services
             if (myUser.Password != myUser.PasswordConfirm)
                 return "Passwords are not matching";
 
-            MyUser user = new MyUser { Email = myUser.Email, UserName = myUser.UserName };
+            var clientId = await _unitOfWork.clientRepository.AddAsync(new Client { ClientTypeId = 1 });
+            
+            MyUser user = new MyUser { Email = myUser.Email, UserName = myUser.UserName, ClientId=clientId };
+
             var result = await _unitOfWork.userManager.CreateAsync(user, myUser.Password);
             if (result.Succeeded)
             {

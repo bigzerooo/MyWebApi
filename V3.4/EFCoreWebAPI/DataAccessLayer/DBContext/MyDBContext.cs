@@ -102,25 +102,25 @@ namespace DataAccessLayer.DBContext
                 .WithMany(t => t.Clients)
                 .HasForeignKey(c => c.ClientTypeId);
 
-            modelBuilder.Entity<Client>()
-                .Property(p => p.LastName)
-                .IsRequired();
+            //modelBuilder.Entity<Client>()
+            //    .Property(p => p.LastName)
+            //    .IsRequired();
 
             modelBuilder.Entity<Client>()
                 .Property(p => p.LastName)
                 .HasMaxLength(45);
 
-            modelBuilder.Entity<Client>()
-                .Property(p => p.FirstName)
-                .IsRequired();
+            //modelBuilder.Entity<Client>()
+            //    .Property(p => p.FirstName)
+            //    .IsRequired();
 
             modelBuilder.Entity<Client>()
                 .Property(p => p.FirstName)
                 .HasMaxLength(45);
 
-            modelBuilder.Entity<Client>()
-                .Property(p => p.SecondName)
-                .IsRequired();
+            //modelBuilder.Entity<Client>()
+            //    .Property(p => p.SecondName)
+            //    .IsRequired();
 
             modelBuilder.Entity<Client>()
                 .Property(p => p.SecondName)
@@ -138,6 +138,11 @@ namespace DataAccessLayer.DBContext
                 .Property(p => p.ClientTypeId)
                 .IsRequired();
 
+            modelBuilder.Entity<Client>()
+                .HasOne<MyUser>(u => u.User)
+                .WithOne(c => c.Client)
+                .HasForeignKey<MyUser>(c => c.ClientId);
+                
             //modelBuilder.Entity<Client>()
             //    .Property(p => p.TypeOfClient)
             //    .HasMaxLength(45);
@@ -191,7 +196,34 @@ namespace DataAccessLayer.DBContext
 
 
             #endregion
+            #region Seeding
 
+            modelBuilder.Entity<CarType>().HasData(new CarType[] {
+                new CarType{Id=1,Type="Легковой" },
+                new CarType{Id=2,Type="Грузовой" },
+                new CarType{Id=3,Type="Автобус" },
+                new CarType{Id=4,Type="Спортивный" },
+                new CarType{Id=5,Type="Внедорожник" },
+                new CarType{Id=6,Type="Тягач" },
+                new CarType{Id=7,Type="Мотоцикл" }                
+            });
+            modelBuilder.Entity<ClientType>().HasData(new ClientType[]
+            {
+                new ClientType{Id=1, Type="Обычный" },
+                new ClientType{Id=2, Type="Постоянный"}
+            });
+            modelBuilder.Entity<CarState>().HasData(new CarState[]
+            {
+                new CarState{Id=1, State="Хорошое" },
+                new CarState{Id=2, State="Плохое" }
+            });
+            modelBuilder.Entity<Client>().HasData(new Client[]
+            {
+                new Client{Id=1, FirstName="Admin", LastName="Admin", SecondName="Admin", ClientTypeId=1}
+            });
+
+
+            #endregion
         }
         public DbSet<CarType> CarTypes { get; set; }
         public DbSet<CarState> CarStates { get; set; }

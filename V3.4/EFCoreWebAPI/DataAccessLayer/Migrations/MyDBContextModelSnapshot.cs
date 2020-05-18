@@ -117,6 +117,18 @@ namespace DataAccessLayer.Migrations
                         .HasFilter("[State] IS NOT NULL");
 
                     b.ToTable("CarStates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            State = "Хорошое"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            State = "Плохое"
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.CarType", b =>
@@ -137,6 +149,43 @@ namespace DataAccessLayer.Migrations
                         .HasFilter("[Type] IS NOT NULL");
 
                     b.ToTable("CarTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "Легковой"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "Грузовой"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Type = "Автобус"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Type = "Спортивный"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Type = "Внедорожник"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Type = "Тягач"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Type = "Мотоцикл"
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Client", b =>
@@ -154,12 +203,10 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
@@ -168,7 +215,6 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(45);
 
                     b.Property<string>("SecondName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
@@ -177,6 +223,16 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("ClientTypeId");
 
                     b.ToTable("Clients");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClientTypeId = 1,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            SecondName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.ClientType", b =>
@@ -197,6 +253,18 @@ namespace DataAccessLayer.Migrations
                         .HasFilter("[Type] IS NOT NULL");
 
                     b.ToTable("ClientTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "Обычный"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "Постоянный"
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Identity.MyRole", b =>
@@ -236,6 +304,9 @@ namespace DataAccessLayer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -283,6 +354,9 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId")
+                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -431,6 +505,15 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("DataAccessLayer.Entities.ClientType", "ClientType")
                         .WithMany("Clients")
                         .HasForeignKey("ClientTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Identity.MyUser", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.Client", "Client")
+                        .WithOne("User")
+                        .HasForeignKey("DataAccessLayer.Entities.Identity.MyUser", "ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

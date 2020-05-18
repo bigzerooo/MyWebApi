@@ -26,7 +26,14 @@ namespace DataAccessLayer.Repositories
         {
             _dbSet.Add(entity);
             await _myDBContext.SaveChangesAsync();
-            return 1;
+            try
+            {
+                return Int32.Parse(entity.Id.ToString());
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public async Task UpdateAsync(TEntity entity)

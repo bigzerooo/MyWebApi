@@ -13,75 +13,46 @@
 <br />
 <br />
 
-@*<label>@L["Brand"]</label>
-    <br />
-    <input placeholder=@L["Brand"] type="text" @bind="Brand" />
-    <br />
-    <br />
-    <label>@L["Price"]</label>
-    <br />
-    <input placeholder=@L["Price"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="Price" />
+<EditForm Model="@Car" OnValidSubmit="@Insert">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="Car.brand" Label=@L["Brand"]></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="Car.price" Label=@L["Price"]></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="Car.pricePerHour" Label=@L["Price per hour"]></MatTextField>
+    </p>
+
+    <p>
+        <MatSelectItem @bind-Value="@CarType" Items="@CarTypeNames"></MatSelectItem>
+    </p>
+
+    <p>
+        <MatTextField @bind-Value="Car.year" Label=@L["Year"]></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="Car.description" Label="Description" TextArea="true" Outlined="true"></MatTextField>
+    </p>
+    <InputFile OnChange="HandleFileSelected" />
+    @if (file != null)
+    {
+        <p>Загружен файл : @file.Name</p>
+    }
     <br />
     <br />
 
-    <label>@L["Price per hour"]</label>
-    <br />
-    <input placeholder=@L["Price per hour"] min="0" max="@Decimal.MaxValue" step="0.01" type="number" @bind="PricePerHour" />
-    <br />
-    <br />
+    <button type="submit" class="btn btn-sm btn-primary">@L["Insert"]</button>
 
-    <label>@L["Car type"]</label>
-    <br />
-    <input placeholder=@L["Car type"] min="1" type="number" @bind="CarTypeId" />
-    <br />
-    <br />
+</EditForm>
 
-    <label>@L["Year"]</label>
-    <br />
-    <input placeholder=@L["Year"] min="1900" max="@DateTime.Now.Year" type="number" @bind="Year" />
-    <br />
-    <br />*@
-<p>
-    <MatTextField @bind-Value="@Brand" Label=@L["Brand"]></MatTextField>
-</p>
-<p>
-    <MatTextField @bind-Value="@Price" Label=@L["Price"]></MatTextField>
-</p>
-<p>
-    <MatTextField @bind-Value="@PricePerHour" Label=@L["Price per hour"]></MatTextField>
-</p>
-
-<p>
-    <MatSelectItem @bind-Value="@CarType" Items="@CarTypeNames" ></MatSelectItem>
-</p>
-
-<p>
-    <MatTextField @bind-Value="@Year" Label=@L["Year"]></MatTextField>
-</p>
-<p>
-    <MatTextField @bind-Value="@Description" Label="Description" TextArea="true" Outlined="true"></MatTextField>
-</p>
-
-
-<InputFile OnChange="HandleFileSelected" />
-@if (file != null)
-{
-    <p>Загружен файл : @file.Name</p>
-}
-<br />
-<br />
-
-<button @onclick="Insert" class="btn btn-sm btn-primary">@L["Insert"]</button>
-
-<p>@Error</p>
 
 
 @code {
-    public string Brand { get; set; }
-    public decimal Price { get; set; }
-    public decimal PricePerHour { get; set; }
-    public int? Year { get; set; }
-    public string Description { get; set; }
+    private CarViewModel Car { get; set; } = new CarViewModel();    
 
     public List<CarTypeViewModel> CarTypes;
     public List<string> CarTypeNames=new List<string>();
@@ -102,8 +73,7 @@
         foreach(var carType in CarTypes)
         {
             CarTypeNames.Add(carType.type);
-        }
-        //CarType = CarTypeNames.First();
+        }        
     }
 
     protected async Task Insert()
@@ -117,21 +87,12 @@
                 throw new Exception("File not found");
             if (file.Type != "image/jpeg")
                 throw new Exception("File in the wrong format! Please use .jpeg");
-            CarViewModel car = new CarViewModel()
-            {
-                brand = Brand,
-                price = Price,
-                pricePerHour = PricePerHour,
-                carTypeId = CarTypeId,
-                year = Year,
-                description = Description
-            };
-            //провалидировать модель тут
+            Car.carTypeId = CarTypeId;            
 
             Path = await AddFile(file);
-            car.imagePath = Path;
+            Car.imagePath = Path;
 
-            await carService.InsertCarAsync(car);
+            await carService.InsertCarAsync(Car);
             ClearFields();
         }
         catch (Exception e)
@@ -143,12 +104,11 @@
     }
     protected void ClearFields()
     {
-        Brand = "";
-        Price = 0;
-        PricePerHour = 0;
-        //CarType = CarTypeNames.First();
-        Description = "";
-        Year = null;
+        Car.brand = "";
+        Car.price = 0;
+        Car.pricePerHour = 0;        
+        Car.description = "";
+        Car.year = null;
         file = null;
     }
     protected async Task<string> AddFile(IFileListEntry uploadedFile)

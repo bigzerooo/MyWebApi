@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BusinessLogicLayer.Validators;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -15,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UI.Data;
 using UI.Services;
+using UI.Validators;
+
 namespace UI
 {
     public class Startup
@@ -55,9 +59,12 @@ namespace UI
             {
                 client.BaseAddress = new Uri("https://localhost:44337");
             });
-            
 
-                               
+            services.AddValidatorsFromAssemblyContaining<CarViewModelValidator>();
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

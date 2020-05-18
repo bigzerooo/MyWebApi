@@ -24,7 +24,7 @@ namespace DataAccessLayer.Seeding
             }
             if (await userManager.FindByNameAsync(adminUsername) == null)
             {
-                MyUser admin = new MyUser { Email = adminEmail, UserName = adminUsername };
+                MyUser admin = new MyUser { Email = adminEmail, UserName = adminUsername, ClientId = 1 };
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {

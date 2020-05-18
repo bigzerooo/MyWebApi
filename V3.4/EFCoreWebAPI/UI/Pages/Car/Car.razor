@@ -35,6 +35,6 @@ else
             imagePath = "/car_images/unknown.jpg";
         else
             imagePath = car.imagePath;
-        carType = await carTypeService.GetCarTypeByIdAsync(car.id);
+        carType = await carTypeService.GetCarTypeByIdAsync(car.carTypeId);
     }
 }

@@ -101,8 +101,8 @@ namespace WebAPI.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model");
-                await _clientService.AddClientAsync(value);
-                return StatusCode(201);
+                var id = await _clientService.AddClientAsync(value);
+                return Ok(id);
             }
             catch
             {

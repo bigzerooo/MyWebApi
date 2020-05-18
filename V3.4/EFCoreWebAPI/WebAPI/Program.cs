@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Seeding;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,7 @@ namespace WebAPI
                 {
                     var userManager = services.GetRequiredService<UserManager<MyUser>>();
                     var rolesManager = services.GetRequiredService<RoleManager<MyRole>>();
+                    var clientManage = services.GetRequiredService<IClientService>();
                     await RoleInitializer.InitializeAsync(userManager, rolesManager);
                 }
                 catch (Exception ex)
