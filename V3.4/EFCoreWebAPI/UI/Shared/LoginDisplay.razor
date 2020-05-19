@@ -1,14 +1,12 @@
 ﻿@inject IStringLocalizer<LoginDisplay> L
 <AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manager">Hello, @context.User.Identity.Name!</a>
-        <form method="post" action="Identity/Account/LogOut">
-            <button type="submit" class="nav-link btn btn-link">Log out</button>
-        </form>
+        Hello, @context.User.Identity.Name!
+        <a href="/logout">Log out</a>
+        
     </Authorized>
-    <NotAuthorized>
-        <!--<a href="Identity/Account/Manager">Register</a>-->
+    <NotAuthorized>        
         <a href="/register">@L["Register"]</a>
-        <a href="Identity/Account/Manager">@L["Login"]</a>
+        <a href="/login">@L["Login"]</a>
     </NotAuthorized>
 </AuthorizeView>

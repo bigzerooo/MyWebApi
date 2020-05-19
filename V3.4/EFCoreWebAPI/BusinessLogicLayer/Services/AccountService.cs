@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.DTO.Identity;
+using BusinessLogicLayer.DTO.Identity.Results;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
@@ -30,69 +31,27 @@ namespace BusinessLogicLayer.Services
             _mapper = mapper;
             _configuration = configuration;
         }
-        public async Task<string> Register(MyUserRegisterDTO myUser)
-        {
-            if (myUser.Password != myUser.PasswordConfirm)
-                return "Passwords are not matching";
-
+        public async Task<IdentityResult> Register(MyUserRegisterDTO myUser)
+        {            
             var clientId = await _unitOfWork.clientRepository.AddAsync(new Client { ClientTypeId = 1 });
             
             MyUser user = new MyUser { Email = myUser.Email, UserName = myUser.UserName, ClientId=clientId };
 
-            var result = await _unitOfWork.userManager.CreateAsync(user, myUser.Password);
-            if (result.Succeeded)
-            {
-                await _unitOfWork.userManager.AddToRoleAsync(user, "user");
-                //await _unitOfWork.signInManager.SignInAsync(user, false);
-                return "User registered";
-            }
-            else
-            {
-                string ErrorMessage="";
-                foreach(var error in result.Errors)
-                {
-                    ErrorMessage+=error.Description+"\n";
-                }
-                return ErrorMessage;                
-            }
-        }
-        public async Task<string> Create(MyUserCreateDTO myUser)
-        {
-            MyUser user = new MyUser { Email = myUser.Email, UserName = myUser.UserName };
-            var result = await _unitOfWork.userManager.CreateAsync(user, myUser.Password);
-            if (result.Succeeded)
-            {
-                await _unitOfWork.userManager.AddToRoleAsync(user, "user");
-                //await _unitOfWork.signInManager.SignInAsync(user, false);
-                return "User registered";
-            }
-            else
-            {
-                string ErrorMessage = "";
-                foreach (var error in result.Errors)
-                {
-                    ErrorMessage += error.Description + "\n";
-                }
-                return ErrorMessage;
-            }
-        }
-        public async Task<object> Login(MyUserLoginDTO myUser)
+            var result = await _unitOfWork.userManager.CreateAsync(user, myUser.Password);            
+            return result;
+        }        
+        public async Task<LoginResult> Login(MyUserLoginDTO myUser)
         {
             MyUser user = await _unitOfWork.userManager.FindByNameAsync(myUser.UserName);
             if(user != null)
             {
-                var result = await _unitOfWork.signInManager.PasswordSignInAsync(myUser.UserName, myUser.Password, myUser.RememberMe, false);                
+                var result = await _unitOfWork.signInManager.PasswordSignInAsync(myUser.UserName, myUser.Password, myUser.RememberMe, false);
                 if (result.Succeeded)
-                {
-                    //return "Login successful";
-                    return BuildToken(user);                    
-                }
+                    return new LoginResult { token = BuildToken(user), successful = true };
                 else
-                {
-                    return "Not succeeded (invalid password)";
-                }
+                    return new LoginResult { successful = false, error = "Invalid password" };
             }
-            return "User not found";
+            return new LoginResult { successful = false, error = "User not found" };
         }
         public async Task<string> Logout()
         {
@@ -169,30 +128,27 @@ namespace BusinessLogicLayer.Services
         {
             return await _unitOfWork.userManager.Users.ToListAsync();
         }
-        //далі буде jwt
-        private object BuildToken(MyUser user)
-        {
-            //seems working, but something isn't right
+        
+        private string BuildToken(MyUser user)
+        {            
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name,user.UserName),
-                new Claim(ClaimTypes.Email,user.Email)
+                new Claim(ClaimTypes.Name,user.UserName),                
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expiration = DateTime.UtcNow.AddDays(double.Parse(_configuration["JwtExpiryInDays"]));
+
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: _configuration["JwtIssuer"],
                 audience: _configuration["JwtAudience"],
                 claims: claims,
                 notBefore: DateTime.UtcNow,
                 expires: expiration,
-                signingCredentials: creds); 
-            return new
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token)
-            };            
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);                      
         }
 
     }

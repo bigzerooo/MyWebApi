@@ -1,0 +1,42 @@
+﻿@using UI.ViewModels;
+@inject UI.Services.AccountService accountService
+@inject NavigationManager NavigationManager
+@page "/login"
+
+<h3>Login</h3>
+<hr />
+<EditForm Model="@MyUser" OnValidSubmit="@LogIn">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="MyUser.userName" Label="Username"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="MyUser.password" Label="Password" Type="password"></MatTextField>
+    </p>
+    <p>
+        <MatCheckbox @bind-Value="MyUser.rememberMe" Label="Remember me"></MatCheckbox>
+    </p>
+    <button type="submit" class="btn btn-sm btn-primary">Login</button>
+</EditForm>
+@code {
+    MyUserLoginViewModel MyUser { get; set; } = new MyUserLoginViewModel();
+
+    public string Error;
+
+    private async Task LogIn()
+    {
+        Error = "";
+        var result = await accountService.Login(MyUser);
+        if (result.successful)
+        {
+            NavigationManager.NavigateTo("/");            
+        }
+        else
+        {
+            Error = result.error;
+        }
+
+    }
+}

@@ -30,15 +30,29 @@ namespace WebAPI.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] MyUserRegisterDTO myUser)
         {
-            return Ok(await _accountService.Register(myUser));
+            var result = await _accountService.Register(myUser);
+            if (result.Succeeded)
+                return Ok("User registered");
+            else
+            {
+                string Errors = "";
+                foreach (var error in result.Errors)
+                    Errors += $"{error.Description}\n";
+                return BadRequest(Errors);
+            }
+                
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] MyUserLoginDTO myUser)
         {
-            return Ok(await _accountService.Login(myUser));
+            var result = await _accountService.Login(myUser);
+            if (result.successful)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
         [HttpGet]
         [Route("logout")]
@@ -57,12 +71,6 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Edit([FromBody]MyUserEditDTO myUser)
         {
             return Ok(await _accountService.Edit(myUser));
-        }
-        [HttpGet]
-        [Route("create")]
-        public async Task<IActionResult> Create([FromBody]MyUserCreateDTO myUser)
-        {
-            return Ok(await _accountService.Create(myUser));
         }
         [HttpGet]
         [Route("changepassword")]

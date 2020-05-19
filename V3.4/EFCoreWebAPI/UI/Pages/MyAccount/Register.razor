@@ -1,67 +1,43 @@
 ﻿@using UI.ViewModels;
 @inject UI.Services.AccountService accountService
+@inject NavigationManager NavigationManager
 @page "/register"
 <h3>Register</h3>
 <hr />
-@*<EditForm Model="@myUser" OnValidSubmit="@SaveUser">
-    <DataAnnotationsValidator />
+<EditForm Model="@MyUser" OnValidSubmit="@SaveUser">
+    <FluentValidator></FluentValidator>
     <ValidationSummary />
-    <div class="col-12 row">
-        <label class="col-2 font-weight-bold">username :</label>
-        <input class="form-control col-3" @bind-value="myUser.UserName" placeholder="username" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <label class="col-2 font-weight-bold">email adress :</label>
-        <input class="form-control col-3" @bind-value="myUser.Email" placeholder="email adress" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <label class="col-2 font-weight-bold">password :</label>
-        <input type="password" class="form-control col-3" @bind-value="myUser.Password" placeholder="password" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <label class="col-2 font-weight-bold">password confirm :</label>
-        <input type="password" class="form-control col-3" @bind-value="myUser.PasswordConfirm" placeholder="password confirm" />
-    </div>
-    <br />
-    <div class="col-12 row">
-        <span class="col-2"></span>
-        <input type="submit" class="form-control col-1 btn btn-primary" value="Save" />
-        <span>&nbsp;</span>
-        <input type="submit" class="form-control col-1 btn btn-primary" value="Clear" />
-    </div>
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="MyUser.userName" Label="Username"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="MyUser.email" Label="Email"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="MyUser.password" Label="Password" Type="password"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="MyUser.passwordConfirm" Label="Confirm password" Type="password"></MatTextField>
+    </p>
+    <button type="submit" class="btn btn-sm btn-primary">Register</button>
+</EditForm>
 
-</EditForm>*@
-<input type="text" @bind="UserName" placeholder="username" />
-<input type="text" @bind="Email" placeholder="email" />
-<input type="password" @bind="Password" placeholder="password" />
-<input type="password" @bind="PasswordConfirm" placeholder="confirm password" />
-<input type="button" value="Submit" @onclick="SaveUser"/>
-@text
 @code {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string PasswordConfirm { get; set; }
-        //public MyUserRegisterViewModel myUser { get; set; }
-        //protected override void OnInitialized()
-        //{
-        //    myUser = new MyUserRegisterViewModel();
-        //}
-        private async Task SaveUser()
+    MyUserRegisterViewModel MyUser { get; set; } = new MyUserRegisterViewModel();
+
+    public string Error;
+
+    private async Task SaveUser()
+    {
+        Error = "";
+        var result = await accountService.CreateUserAsync(MyUser);
+        if (result.IsSuccessStatusCode)
+            NavigationManager.NavigateTo("/");
+        else
         {
-            //something to save user
-            MyUserRegisterViewModel myUser = new MyUserRegisterViewModel() 
-            {
-                userName = UserName,
-                email = Email,
-                password = Password,
-                passwordConfirm = PasswordConfirm
-            };
-        text = myUser.email;
-        await accountService.CreateUserAsync(myUser);
+            Error = await result.Content.ReadAsStringAsync();
+        }
+
     }
-    public string text;
 }

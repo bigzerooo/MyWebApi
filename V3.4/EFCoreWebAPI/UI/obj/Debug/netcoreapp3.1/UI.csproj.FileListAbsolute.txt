@@ -178,9 +178,12 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\R
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Car\Car.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\Client\AddClient.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\MyAccount\Register.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\Accelist.FluentValidation.Blazor.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\MyAccount\Login.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\Blazored.LocalStorage.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\UI.MvcApplicationPartsAssemblyInfo.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\UI.MvcApplicationPartsAssemblyInfo.cache
-D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\Accelist.FluentValidation.Blazor.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\Pages\MyAccount\Logout.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\RazorDeclaration\UI.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\App.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\Car\Car.razor.g.cs
@@ -193,6 +196,8 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\R
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\Error.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\FetchData.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\Index.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\MyAccount\Login.razor.g.cs
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\MyAccount\Logout.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\MyAccount\Register.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Pages\Todo.razor.g.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\Razor\Shared\LoginDisplay.razor.g.cs

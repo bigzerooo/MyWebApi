@@ -35,6 +35,7 @@ using System.Text;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using BusinessLogicLayer.Validators;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebAPI
 {
@@ -60,6 +61,15 @@ namespace WebAPI
             services.AddIdentity<MyUser, MyRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
+                options.Password = new PasswordOptions
+                {
+                    RequireDigit = false,
+                    RequiredLength = 6,
+                    RequireLowercase = false,
+                    RequireUppercase = false,
+                    RequireNonAlphanumeric = false
+                };                
+                
             }).AddEntityFrameworkStores<MyDBContext>();
 
             #region repositories

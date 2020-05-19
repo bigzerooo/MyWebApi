@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using BusinessLogicLayer.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UI.Data;
+using UI.JWT;
 using UI.Services;
 using UI.Validators;
 
@@ -36,8 +38,12 @@ namespace UI
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider,ServerAuthenticationStateProvider>();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+            services.AddBlazoredLocalStorage();
+            //services.AddAuthorizationCore();            
+            //services.AddScoped<IAuthService, AuthService>();
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             var supportedCultures = new List<CultureInfo> { new CultureInfo("en"), new CultureInfo("ru") };
@@ -59,8 +65,19 @@ namespace UI
             {
                 client.BaseAddress = new Uri("https://localhost:44337");
             });
+            services.AddSingleton<HttpClient>();
+            //services.AddHttpClient<ApiAuthenticationStateProvider>(client =>
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:44337");
+            //});
+            //services.AddHttpClient<AuthenticationStateProvider>(client =>
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:44337");
+            //});
 
             services.AddValidatorsFromAssemblyContaining<CarViewModelValidator>();
+
+            
 
 
 

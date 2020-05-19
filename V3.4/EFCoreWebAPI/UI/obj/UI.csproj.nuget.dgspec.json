@@ -225,6 +225,10 @@
               "target": "Package",
               "version": "[0.2.0, )"
             },
+            "Blazored.LocalStorage": {
+              "target": "Package",
+              "version": "[2.1.5, )"
+            },
             "FluentValidation.DependencyInjectionExtensions": {
               "target": "Package",
               "version": "[8.6.2, )"

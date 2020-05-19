@@ -9,6 +9,7 @@
 @page "/cars/add"
 
 <h3>@L["Cars add"]</h3>
+<hr />
 <a class="btn btn-sm btn-primary" href="cars/hub">@L["Back"]</a>
 <br />
 <br />
@@ -26,11 +27,9 @@
     <p>
         <MatTextField @bind-Value="Car.pricePerHour" Label=@L["Price per hour"]></MatTextField>
     </p>
-
     <p>
         <MatSelectItem @bind-Value="@CarType" Items="@CarTypeNames"></MatSelectItem>
     </p>
-
     <p>
         <MatTextField @bind-Value="Car.year" Label=@L["Year"]></MatTextField>
     </p>
@@ -52,7 +51,7 @@
 
 
 @code {
-    private CarViewModel Car { get; set; } = new CarViewModel();    
+    private CarViewModel Car { get; set; } = new CarViewModel();
 
     public List<CarTypeViewModel> CarTypes;
     public List<string> CarTypeNames=new List<string>();
@@ -73,11 +72,12 @@
         foreach(var carType in CarTypes)
         {
             CarTypeNames.Add(carType.type);
-        }        
+        }
     }
 
     protected async Task Insert()
     {
+        Error = "";
         try
         {
             int CarTypeId = CarTypes.First(x => x.type == CarType).id;
@@ -86,8 +86,8 @@
             if (file == null)
                 throw new Exception("File not found");
             if (file.Type != "image/jpeg")
-                throw new Exception("File in the wrong format! Please use .jpeg");
-            Car.carTypeId = CarTypeId;            
+                throw new Exception("File in the wrong format! Please use .jpg");
+            Car.carTypeId = CarTypeId;
 
             Path = await AddFile(file);
             Car.imagePath = Path;
@@ -106,7 +106,7 @@
     {
         Car.brand = "";
         Car.price = 0;
-        Car.pricePerHour = 0;        
+        Car.pricePerHour = 0;
         Car.description = "";
         Car.year = null;
         file = null;
