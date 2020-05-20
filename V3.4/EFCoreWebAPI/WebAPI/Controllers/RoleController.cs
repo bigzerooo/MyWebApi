@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
     [Route("api/[controller]")]
     public class RoleController : Controller
     {

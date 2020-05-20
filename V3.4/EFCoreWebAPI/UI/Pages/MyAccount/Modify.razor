@@ -1,0 +1,51 @@
+﻿@inject UI.Services.ClientService clientService
+@inject AuthenticationStateProvider authentificationStateProvider
+@inject NavigationManager nagivationManager
+@inject IStringLocalizer<Modify> L
+@page "/myaccount/modify"
+@attribute [Authorize]
+<h3>@L["Modify"]</h3>
+<hr />
+
+<EditForm Model="@client" OnValidSubmit="@Update">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="client.lastName" Label="@L["Last name"]"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="client.firstName" Label="@L["First name"]"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="client.secondName" Label="@L["Second name"]"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="client.adress" Label="@L["Address"]"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="client.phoneNumber" Label="@L["Phone number"]"></MatTextField>
+    </p>
+    <button type="submit" class="btn btn-sm btn-primary">@L["Update"]</button>
+</EditForm>
+@code {
+    ClientViewModel client { get; set; } = new ClientViewModel();
+
+    public string Error { get; set; } = "";
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authentificationStateProvider.GetAuthenticationStateAsync();
+        var clientId = authState.User.Claims.First(x => x.Type == "clientId").Value;
+        client = await clientService.GetClientsByIdAsync(Int32.Parse(clientId));
+    }
+    public async Task Update()
+    {
+        Error = "";
+        var result = await clientService.UpdateClientAsync(client);
+        if (!result.IsSuccessStatusCode)
+            Error = result.StatusCode.ToString();
+        else
+            nagivationManager.NavigateTo("/myaccount");
+    }
+
+}

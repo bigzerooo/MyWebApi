@@ -15,7 +15,7 @@ namespace BusinessLogicLayer.Interfaces.IServices
         public Task<LoginResult> Login(MyUserLoginDTO myUser);        
         public Task<string> Logout();
         public Task<string> Edit(MyUserEditDTO myUser);
-        public Task<string> ChangePassword(MyUserChangePasswordDTO myUser);
+        public Task<IdentityResult> ChangePassword(MyUserChangePasswordDTO myUser);
         public Task<string> Delete(int Id);
         public Task<List<MyUser>> UserList();
     }

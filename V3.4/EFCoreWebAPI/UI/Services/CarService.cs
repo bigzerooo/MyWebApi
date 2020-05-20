@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.DTO;
+﻿using Blazored.LocalStorage;
+using BusinessLogicLayer.DTO;
 using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace UI.Services
 {
     public class CarService
     {
-        public HttpClient _httpClient;
-        public CarService(HttpClient client)
+        private readonly HttpClient _httpClient;
+        private readonly ILocalStorageService _localStorage;
+        public CarService(HttpClient client, ILocalStorageService localStorage)
         {
             _httpClient = client;
+            _localStorage = localStorage;
         }
         public async Task<List<CarViewModel>> GetCarsAsync(CarParameters parameters)
         {
@@ -38,6 +41,11 @@ namespace UI.Services
         }
         public async Task<HttpResponseMessage> InsertCarAsync(CarViewModel car)
         {
+            //добавление токена в запрос
+            string token = await _localStorage.GetItemAsync<string>("authToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            //
+
             return await _httpClient.PostAsync("api/car", GetStringContentFromObject(car));
         }
         public async Task<int> GetCarCountAsync(CarParameters parameters)
@@ -52,6 +60,7 @@ namespace UI.Services
         {
             var serialized = JsonSerializer.Serialize(obj);
             var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
+
             return stringContent;
         }
     }

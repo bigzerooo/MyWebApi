@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         {
             _clientService = clientService;
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]ClientParameters parameters)
         {
@@ -37,21 +37,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        // GET: api/<controller>
-        //[HttpGet]
-        //public async Task<IActionResult> Get()
-        //{
-        //    try
-        //    {
-        //        return Ok(await _clientService.GetAllClientsAsync());
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(404);
-        //    }
-        //}
-
         // GET: api/<controller>/details/5
+        [Authorize(Roles = "admin")]
         [HttpGet("details/{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
@@ -66,6 +53,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/<controller>/details/
+        [Authorize(Roles = "admin")]
         [HttpGet("details")]
         public async Task<IActionResult> GetDetails()
         {
@@ -80,6 +68,7 @@ namespace WebAPI.Controllers
         }
 
         // GET api/<controller>/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -94,6 +83,7 @@ namespace WebAPI.Controllers
         }
 
         // POST api/<controller>
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ClientDTO value)
         {
@@ -111,6 +101,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<controller>/5
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]ClientDTO value)
         {
@@ -127,6 +118,7 @@ namespace WebAPI.Controllers
         }
 
         // DELETE api/<controller>/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

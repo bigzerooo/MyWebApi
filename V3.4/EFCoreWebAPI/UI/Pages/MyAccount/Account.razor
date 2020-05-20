@@ -1,0 +1,89 @@
+﻿@inject UI.Services.ClientService clientService
+@inject AuthenticationStateProvider authentificationStateProvider
+@inject IStringLocalizer<Account> L
+@page "/myaccount"
+@attribute [Authorize]
+@if (client != null)
+{
+    <h3>@L["Account"]</h3>
+    <hr />
+    <style>
+        img {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+        }
+
+        .headBlock {
+            display: flex;
+            align-items: center;
+            width: auto;
+        }
+
+            .headBlock > h3 {
+                margin: 20px;
+                width: auto;
+            }
+
+        .dataBlock {
+            background-color: rgb(248,248,248);
+            padding: 10px;
+            border-radius: 20px;
+            width: auto;
+        }
+    </style>
+    <div class="dataBlock">
+        <div class="headBlock">
+            @if (base64string == null || string.IsNullOrEmpty(base64string) || client.photo == null)
+            {
+                <img src="/default_images/defaultUser.jpg">
+            }
+            else
+            {
+                <img src="data:image/jpeg;base64,@base64string" />
+            }
+
+            <h3>@Username</h3>
+        </div>
+        <br />
+        <a href="/myaccount/photo" class="btn btn-sm btn-primary">@L["Change photo"]</a>
+        <br />
+        <br />
+        <hr />
+
+        <h4>@L["Personal information"] :</h4>
+        <p><b>@L["Last name"]: </b>@client.lastName</p>
+        <p><b>@L["First name"]: </b>@client.firstName</p>
+        <p><b>@L["Second name"]: </b>@client.secondName</p>
+        <p><b>@L["Address"]: </b>@client.adress</p>
+        <p><b>@L["Phone number"]: </b>@client.phoneNumber</p>
+        <a class="btn btn-primary" href="/myaccount/modify">@L["Modify"]</a>
+        <br />
+        <br />
+        <hr />
+
+        <h4>@L["Account information"]:</h4>
+        <p><b>@L["Username"]: </b>@Username</p>
+        <p><b>@L["Email"]: </b>@Email</p>
+        <a class="btn btn-primary" href="/myaccount/changePassword">@L["Change password"]</a>
+        <br />
+        <br />
+
+    </div>
+}
+@code {
+    ClientViewModel client { get; set; } = new ClientViewModel();
+    string Username { get; set; }
+    string Email { get; set; }
+    string base64string = null;
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authentificationStateProvider.GetAuthenticationStateAsync();
+        var clientId = authState.User.Claims.First(x => x.Type == "clientId").Value;
+        Username = authState.User.Identity.Name;
+        Email = authState.User.Claims.First(x => x.Type == "email").Value;
+        client = await clientService.GetClientsByIdAsync(Int32.Parse(clientId));
+        base64string = Convert.ToBase64String(client.photo);
+    }
+
+}

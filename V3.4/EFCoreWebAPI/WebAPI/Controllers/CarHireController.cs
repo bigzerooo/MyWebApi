@@ -24,6 +24,7 @@ namespace WebAPI.Controllers
             _carHireService = carHireService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]CarHireParameters parameters)
         {
@@ -66,6 +67,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/<controller>/details/5
+        [Authorize(Roles = "admin")]
         [HttpGet("details/{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
@@ -80,6 +82,7 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/<controller>/details/
+        [Authorize(Roles = "admin")]
         [HttpGet("details")]
         public async Task<IActionResult> GetDetails()
         {
@@ -111,6 +114,7 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<controller>/5
+        [Authorize(Roles = "admin")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]CarHireDTO value)
         {
@@ -127,6 +131,7 @@ namespace WebAPI.Controllers
         }
 
         // DELETE api/<controller>/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

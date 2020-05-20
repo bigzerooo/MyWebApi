@@ -1,26 +1,26 @@
-﻿@using UI.ViewModels;
-@inject UI.Services.AccountService accountService
+﻿@inject UI.Services.AccountService accountService
 @inject NavigationManager NavigationManager
+@inject IStringLocalizer<Register> L
 @page "/register"
-<h3>Register</h3>
+<h3>@L["Register"]</h3>
 <hr />
 <EditForm Model="@MyUser" OnValidSubmit="@SaveUser">
     <FluentValidator></FluentValidator>
     <ValidationSummary />
     <p>@Error</p>
     <p>
-        <MatTextField @bind-Value="MyUser.userName" Label="Username"></MatTextField>
+        <MatTextField @bind-Value="MyUser.userName" Label="@L["Username"]"></MatTextField>
     </p>
     <p>
-        <MatTextField @bind-Value="MyUser.email" Label="Email"></MatTextField>
+        <MatTextField @bind-Value="MyUser.email" Label="@L["Email"]"></MatTextField>
     </p>
     <p>
-        <MatTextField @bind-Value="MyUser.password" Label="Password" Type="password"></MatTextField>
+        <MatTextField @bind-Value="MyUser.password" Label="@L["Password"]" Type="password"></MatTextField>
     </p>
     <p>
-        <MatTextField @bind-Value="MyUser.passwordConfirm" Label="Confirm password" Type="password"></MatTextField>
+        <MatTextField @bind-Value="MyUser.passwordConfirm" Label="@L["Confirm password"]" Type="password"></MatTextField>
     </p>
-    <button type="submit" class="btn btn-sm btn-primary">Register</button>
+    <button type="submit" class="btn btn-sm btn-primary">@L["Register button"]</button>
 </EditForm>
 
 @code {

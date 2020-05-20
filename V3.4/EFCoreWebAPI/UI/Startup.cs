@@ -37,8 +37,7 @@ namespace UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddServerSideBlazor();            
 
             services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
             services.AddBlazoredLocalStorage();
@@ -65,15 +64,11 @@ namespace UI
             {
                 client.BaseAddress = new Uri("https://localhost:44337");
             });
+            services.AddHttpClient<ClientService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44337");
+            });
             services.AddSingleton<HttpClient>();
-            //services.AddHttpClient<ApiAuthenticationStateProvider>(client =>
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:44337");
-            //});
-            //services.AddHttpClient<AuthenticationStateProvider>(client =>
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:44337");
-            //});
 
             services.AddValidatorsFromAssemblyContaining<CarViewModelValidator>();
 

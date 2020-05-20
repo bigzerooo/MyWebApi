@@ -60,6 +60,7 @@ namespace WebAPI.Controllers
         {
             return Ok(await _accountService.Logout());
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -72,12 +73,22 @@ namespace WebAPI.Controllers
         {
             return Ok(await _accountService.Edit(myUser));
         }
-        [HttpGet]
+        [HttpPost]
         [Route("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody]MyUserChangePasswordDTO myUser)
         {
-            return Ok(await _accountService.ChangePassword(myUser));
-        }        
+            var result = await _accountService.ChangePassword(myUser);
+            if (result.Succeeded)
+                return Ok("Password changed");
+            else
+            {
+                string Errors = "";
+                foreach (var error in result.Errors)
+                    Errors += $"{error.Description}\n";
+                return BadRequest(Errors);
+            }
+        }
+        [Authorize(Roles = "admin")]
         [HttpGet]        
         public async Task<IActionResult> UserList()
         {

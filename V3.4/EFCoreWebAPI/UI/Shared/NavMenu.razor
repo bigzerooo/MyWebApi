@@ -1,5 +1,6 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">UI</a>
+﻿@inject IStringLocalizer<NavMenu> L
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">@L["Car hire"]</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -7,40 +8,32 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
+
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <!--
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                <span class="oi oi-home" aria-hidden="true"></span>@L["Home"]
             </NavLink>
         </li>
 
-    <li class="nav-item px-3">
-    <NavLink class="nav-link" href="register">
-        <span class="oi oi-account-login" aria-hidden="true"></span> Register
-    </NavLink>
-    </li>
-    -->
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="cars/hub">
-                <span class="oi oi-layers" aria-hidden="true"></span> Cars
+                <span class="oi oi-layers" aria-hidden="true"></span>@L["Cars"]
             </NavLink>
         </li>
-        <!-- li ниже удалить, это только тест -->
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="todo">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Todo
-            </NavLink>
-        </li>
+        <AuthorizeView Roles="admin">
+            <Authorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="cartypes">
+                        <span class="oi oi-layers" aria-hidden="true"></span>Car types
+                    </NavLink>
+                </li>
+            </Authorized>
+            <NotAuthorized>
+            </NotAuthorized>
+        </AuthorizeView>
+
+
+
     </ul>
 </div>
 

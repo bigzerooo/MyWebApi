@@ -1,5 +1,4 @@
-﻿@using ViewModels
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @using System.IO;
 @using Microsoft.AspNetCore.Hosting;
 @inject IWebHostEnvironment _appEnvironment
@@ -92,7 +91,9 @@
             Path = await AddFile(file);
             Car.imagePath = Path;
 
-            await carService.InsertCarAsync(Car);
+            var result = await carService.InsertCarAsync(Car);
+            if (!result.IsSuccessStatusCode)
+                throw new Exception(result.StatusCode.ToString());
             ClearFields();
         }
         catch (Exception e)

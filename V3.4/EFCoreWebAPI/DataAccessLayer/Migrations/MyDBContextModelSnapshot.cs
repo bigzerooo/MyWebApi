@@ -214,6 +214,9 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);
 
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("SecondName")
                         .HasColumnType("nvarchar(45)")
                         .HasMaxLength(45);

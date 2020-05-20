@@ -44,10 +44,11 @@ namespace UI.JWT
          * called AuthenticationStateChanged. 
          * This cascades the new authentication state, 
          * via the CascadingAuthenticationState component.*/
-        public void MarkUserAsAuthenticated(string username)
+        public void MarkUserAsAuthenticated(string token)
         {
-            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username)}, "apiauth"));
+            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt"));
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
+
             NotifyAuthenticationStateChanged(authState);
         }
 

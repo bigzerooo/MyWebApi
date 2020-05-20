@@ -37,7 +37,7 @@ namespace UI.Services
             var serialized = JsonSerializer.Serialize(obj);
             var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
             return stringContent;
-        }
+        }        
         public async Task<LoginResult> Login(MyUserLoginViewModel loginModel)
         {
             
@@ -52,9 +52,8 @@ namespace UI.Services
 
             await _localStorage.SetItemAsync("authToken", $"{loginResult.token}");
             
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginModel.userName);
+            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginResult.token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.token);
-
             return loginResult;
         }
 
@@ -63,6 +62,13 @@ namespace UI.Services
             await _localStorage.RemoveItemAsync("authToken");
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
             _httpClient.DefaultRequestHeaders.Authorization = null;
+        }
+        public async Task<HttpResponseMessage> ChangePasswordAsync(MyUserChangePasswordViewModel user)
+        {
+            string token = await _localStorage.GetItemAsync<string>("authToken");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            return await _httpClient.PostAsync("api/account/changepassword", GetStringContentFromObject(user));
         }
     }
 }

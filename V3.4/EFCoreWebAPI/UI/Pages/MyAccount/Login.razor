@@ -1,24 +1,24 @@
-﻿@using UI.ViewModels;
-@inject UI.Services.AccountService accountService
+﻿@inject UI.Services.AccountService accountService
 @inject NavigationManager NavigationManager
+@inject IStringLocalizer<Login> L
 @page "/login"
 
-<h3>Login</h3>
+    <h3>@L["Login"]</h3>
 <hr />
 <EditForm Model="@MyUser" OnValidSubmit="@LogIn">
     <FluentValidator></FluentValidator>
     <ValidationSummary />
     <p>@Error</p>
     <p>
-        <MatTextField @bind-Value="MyUser.userName" Label="Username"></MatTextField>
+        <MatTextField @bind-Value="MyUser.userName" Label="@L["Username"]"></MatTextField>
     </p>
     <p>
-        <MatTextField @bind-Value="MyUser.password" Label="Password" Type="password"></MatTextField>
+        <MatTextField @bind-Value="MyUser.password" Label="@L["Password"]" Type="password"></MatTextField>
     </p>
     <p>
-        <MatCheckbox @bind-Value="MyUser.rememberMe" Label="Remember me"></MatCheckbox>
+        <MatCheckbox @bind-Value="MyUser.rememberMe" Label="@L["Remember me"]"></MatCheckbox>
     </p>
-    <button type="submit" class="btn btn-sm btn-primary">Login</button>
+    <button type="submit" class="btn btn-sm btn-primary">@L["Login button"]</button>
 </EditForm>
 @code {
     MyUserLoginViewModel MyUser { get; set; } = new MyUserLoginViewModel();
@@ -31,7 +31,7 @@
         var result = await accountService.Login(MyUser);
         if (result.successful)
         {
-            NavigationManager.NavigateTo("/");            
+            NavigationManager.NavigateTo("/");
         }
         else
         {

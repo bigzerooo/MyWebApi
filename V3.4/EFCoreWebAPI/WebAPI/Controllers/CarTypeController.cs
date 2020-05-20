@@ -7,10 +7,12 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.DBContext;
 using BusinessLogicLayer.Interfaces.IServices;
 using BusinessLogicLayer.DTO;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
     [Route("api/[controller]")]
     public class CarTypeController : Controller
     {
@@ -23,6 +25,7 @@ namespace WebAPI.Controllers
 
 
         // GET: api/<controller>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -37,6 +40,7 @@ namespace WebAPI.Controllers
         }
 
         // GET api/<controller>/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

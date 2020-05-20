@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
     [Route("api/[controller]")]
     public class ClientTypeController : Controller
     {
@@ -23,6 +25,7 @@ namespace WebAPI.Controllers
 
 
         // GET: api/<controller>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -37,6 +40,7 @@ namespace WebAPI.Controllers
         }
 
         // GET api/<controller>/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

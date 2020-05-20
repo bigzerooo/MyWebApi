@@ -47,7 +47,7 @@ namespace BusinessLogicLayer.Services
             {
                 var result = await _unitOfWork.signInManager.PasswordSignInAsync(myUser.UserName, myUser.Password, myUser.RememberMe, false);
                 if (result.Succeeded)
-                    return new LoginResult { token = BuildToken(user), successful = true };
+                    return new LoginResult { token = await BuildToken(user), successful = true };
                 else
                     return new LoginResult { successful = false, error = "Invalid password" };
             }
@@ -85,31 +85,11 @@ namespace BusinessLogicLayer.Services
                 return "User not found";
             }
         }
-        public async Task<string> ChangePassword(MyUserChangePasswordDTO myUser)
+        public async Task<IdentityResult> ChangePassword(MyUserChangePasswordDTO myUser)
         {
             MyUser user = await _unitOfWork.userManager.FindByIdAsync(myUser.Id.ToString());
-            if (user != null)
-            {
-                IdentityResult result =
-                    await _unitOfWork.userManager.ChangePasswordAsync(user, myUser.OldPassword, myUser.NewPassword);
-                if (result.Succeeded)
-                {
-                    return "Password Change successful";
-                }
-                else
-                {
-                    string ErrorMessage = "";
-                    foreach (var error in result.Errors)
-                    {
-                        ErrorMessage += error.Description + "\n";
-                    }
-                    return ErrorMessage;
-                }
-            }
-            else
-            {
-                return "User not found";
-            }
+            var result = await _unitOfWork.userManager.ChangePasswordAsync(user, myUser.OldPassword, myUser.NewPassword);
+            return result;                
         }
         public async Task<string> Delete (int Id)
         {
@@ -129,13 +109,21 @@ namespace BusinessLogicLayer.Services
             return await _unitOfWork.userManager.Users.ToListAsync();
         }
         
-        private string BuildToken(MyUser user)
-        {            
+        private async Task<string>  BuildToken(MyUser user)//async?
+        {
+            var roles = await _unitOfWork.signInManager.UserManager.GetRolesAsync(user);
+            var claims = new List<Claim>();
 
-            var claims = new[]
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            claims.Add(new Claim("accountId", user.Id.ToString()));
+            claims.Add(new Claim("clientId", user.ClientId.ToString()));
+            claims.Add(new Claim("email", user.Email));
+            foreach (var role in roles)
             {
-                new Claim(ClaimTypes.Name,user.UserName),                
-            };
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            
+            
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expiration = DateTime.UtcNow.AddDays(double.Parse(_configuration["JwtExpiryInDays"]));
