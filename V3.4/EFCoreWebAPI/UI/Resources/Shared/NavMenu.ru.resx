@@ -120,10 +120,22 @@
   <data name="Car hire" xml:space="preserve">
     <value>Прокат автомобилей</value>
   </data>
+  <data name="Car states" xml:space="preserve">
+    <value>Состояния машин</value>
+  </data>
+  <data name="Car types" xml:space="preserve">
+    <value>Типы машин</value>
+  </data>
   <data name="Cars" xml:space="preserve">
     <value>Автомобили</value>
   </data>
+  <data name="Client types" xml:space="preserve">
+    <value>Тип клиентов</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Главная</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>Новости</value>
   </data>
 </root>

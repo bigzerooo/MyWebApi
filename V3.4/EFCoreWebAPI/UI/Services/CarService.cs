@@ -56,6 +56,19 @@ namespace UI.Services
             else
                 return Int32.Parse(await respone.Content.ReadAsStringAsync()); 
         }
+        public async Task<decimal> CalculatePrice(string id, DateTime expectedEndDate)
+        {
+            var response = await _httpClient.GetAsync($"api/car/{id}");
+            if (!response.IsSuccessStatusCode)
+                return 0;
+
+            using var responseContent = await response.Content.ReadAsStreamAsync();
+            var x =  await JsonSerializer.DeserializeAsync<CarViewModel>(responseContent);
+
+            var timeGap = (expectedEndDate - DateTime.Now).TotalSeconds;
+            var ExpectedPrice = x.pricePerHour / 3600 * (decimal)timeGap;
+            return ExpectedPrice;
+        }
         private StringContent GetStringContentFromObject(object obj)
         {
             var serialized = JsonSerializer.Serialize(obj);

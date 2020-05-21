@@ -102,7 +102,15 @@ namespace BusinessLogicLayer.Services
                 carHire.Penalty = penalty;
                 price += penalty;
             }
-            
+            if (carHire.Penalty == null)
+            {
+                carHire.Penalty = 0;
+            }
+            if (carHire.Discount == null)
+            {
+                carHire.Discount = 0;
+            }
+
             carHire.Price = price;
             carHire.Returned = true;
             await _unitOfWork.carHireRepository.UpdateAsync(carHire);

@@ -1,4 +1,5 @@
-﻿<div class="product-item">
+﻿@inject IStringLocalizer<CarCard> L
+<div class="product-item">
     <div class="product-img">
         <a href="cars/@Id">
             @if (String.IsNullOrWhiteSpace(ImageSource))
@@ -15,11 +16,17 @@
     </div>
     <div class="product-list">
         <h3>@CarName</h3>        
-        <span class="price">Цена: $@Price</span>
-        <span class="price">Цена проката: $@PricePerHour</span>        
+        <span class="price">@L["Price"]: $@Price</span>
+        <span class="price">@L["Price per hour"]: $@PricePerHour</span>        
         <div class="actions">
             <div class="add-to-cart">
-                <a href="cars/@Id" class="cart-button">Просмотреть</a>
+                <a href="cars/@Id" class="cart-button">@L["View"]</a>
+                <AuthorizeView>
+                    <Authorized>
+                        <a href="/HireTheCar/@Id" class="cart-button">@L["Hire the car"]</a>
+                    </Authorized>                    
+                </AuthorizeView>
+                
             </div>
         </div>
     </div>
@@ -35,7 +42,7 @@
   font-family: "Open Sans";
   overflow: hidden;
   transition: .4s linear;
-  float:left;
+  
   margin: 5px;
 }
 .product-item:hover {transform: scale(1.1);}

@@ -2,16 +2,17 @@
 @inject UI.Services.CarStateService carStateService
 @inject NavigationManager  navigationManager
 @attribute [Authorize(Roles = "admin")]
-<h3>Edit car state</h3>
+@inject IStringLocalizer<EditCarState> L
+<h3>@L["Edit car state"]</h3>
 <hr />
 <EditForm Model="@carState" OnValidSubmit="@Edit">
     <FluentValidator></FluentValidator>
     <ValidationSummary />
     <p>@Error</p>
     <p>
-        <MatTextField @bind-Value="@carState.state" Label="Car state"></MatTextField>
+        <MatTextField @bind-Value="@carState.state" Label="@L["Car state"]"></MatTextField>
     </p>
-    <button state="submit" class="btn btn-sm btn-primary">Edit</button>
+    <button state="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
 </EditForm>
 
 @attribute [Authorize(Roles = "admin")]

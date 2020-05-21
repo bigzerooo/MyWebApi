@@ -1,9 +1,10 @@
 ﻿@page "/cars/hub"
-<h3>Cars Hub</h3>
-<a class="btn btn-primary" href="cars">View all cars</a>
+@inject IStringLocalizer<CarsHub> L
+<h3>@L["Car hub"]</h3>
+<a class="btn btn-primary" href="cars">@L["View all cars"]</a>
 <AuthorizeView Roles="admin">
     <Authorized>
-        <a class="btn btn-primary" href="cars/add">Add new car</a>
+        <a class="btn btn-primary" href="cars/add">@L["Add new car"]</a>
     </Authorized>
     <NotAuthorized>
     </NotAuthorized>

@@ -12727,11 +12727,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0\\WebApi\\WebApi.csproj",
+      "projectUniqueName": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0(ado .NET)\\WebApi\\WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0\\WebApi\\WebApi.csproj",
+      "projectPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0(ado .NET)\\WebApi\\WebApi.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0\\WebApi\\obj\\",
+      "outputPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0(ado .NET)\\WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Microsoft\\Xamarin\\NuGet\\",
@@ -12752,8 +12752,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0\\DataAccessLayer\\DataAccessLayer.csproj": {
-              "projectPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0\\DataAccessLayer\\DataAccessLayer.csproj"
+            "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0(ado .NET)\\DataAccessLayer\\DataAccessLayer.csproj": {
+              "projectPath": "D:\\Programms\\C#\\MyWebApi\\MyWebApi\\V2.0(ado .NET)\\DataAccessLayer\\DataAccessLayer.csproj"
             }
           }
         }

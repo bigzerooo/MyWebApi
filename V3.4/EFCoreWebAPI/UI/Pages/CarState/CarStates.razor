@@ -1,23 +1,24 @@
 ﻿@page "/carstates"
 @inject UI.Services.CarStateService carStateService
+@inject IStringLocalizer<CarStates> L
 @attribute [Authorize(Roles = "admin")]
-<h3>Car states</h3>
+<h3>@L["Car states"]</h3>
 <table class="table table-condensed table-striped table-bordered">
-    <tr><th>Id</th><th>State</th><th></th></tr>
+    <tr><th>Id</th><th>@L["State"]</th><th></th></tr>
     @foreach (var carState in carStates)
     {
         <tr>
             <td>@carState.id</td>
             <td>@carState.state</td>
             <td>
-                <a href="/carstates/update/@carState.id" class="btn btn-sm btn-primary">Edit</a>
-                <a href="/carstates/delete/@carState.id" class="btn btn-sm btn-primary">Delete</a>
+                <a href="/carstates/update/@carState.id" class="btn btn-sm btn-primary">@L["Edit"]</a>
+                <a href="/carstates/delete/@carState.id" class="btn btn-sm btn-primary">@L["Delete"]</a>
             </td>
         </tr>
     }
 </table>
 <p>
-    <a href="/carstates/add" class="btn btn-primary">Add car state</a>
+    <a href="/carstates/add" class="btn btn-primary">@L["Add"]</a>
 </p>
 @code {
     List<CarStateViewModel> carStates { get; set; } = new List<CarStateViewModel>();

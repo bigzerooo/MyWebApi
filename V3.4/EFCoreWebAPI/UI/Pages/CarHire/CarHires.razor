@@ -1,0 +1,45 @@
+﻿@page "/carhires"
+@inject UI.Services.CarHiresService carHireService
+@inject IStringLocalizer<CarHires> L
+@attribute [Authorize(Roles = "admin")]
+<h3>Car hires</h3>
+<table class="table table-condensed table-striped table-bordered">
+    <tr>
+        <th>@L["Id"]</th>
+        <th>@L["Car id"]</th>
+        <th>@L["Client id"]</th>
+        <th>@L["Begin date"]</th>
+        <th>@L["Expected end date"]</th>
+        <th>@L["Expected price"]</th>
+        <th>@L["Car state id"]</th>
+        <th>@L["Discount"]</th>
+        <th>@L["Penalty"]</th>
+        <th>@L["End date"]</th>
+        <th>@L["Price"]</th>
+        <th>@L["Returned"]</th>
+    </tr>
+    @foreach (var carHire in carHires)
+    {
+<tr>
+    <td>@carHire.id</td>
+    <td>@carHire.carId</td>
+    <td>@carHire.clientId</td>
+    <td>@carHire.beginDate</td>
+    <td>@carHire.expectedEndDate</td>
+    <td>@carHire.expectedPrice</td>
+    <td>@carHire.carStateId</td>
+    <td>@carHire.discount</td>
+    <td>@carHire.penalty</td>
+    <td>@carHire.endDate</td>
+    <td>@carHire.price</td>
+    <td>@carHire.returned</td>
+</tr>
+    }
+</table>
+@code {
+    List<CarHireViewModel> carHires{ get; set; } = new List<CarHireViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        carHires = await carHireService.GetCarHiresAsync();
+    }
+}

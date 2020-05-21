@@ -17,6 +17,11 @@ namespace WebApi.Controllers
     [ApiController]
     public class ValuesController : Controller
     {
+        private readonly IConfiguration _configurationManager;
+        public ValuesController(IConfiguration configurationManager)
+        {
+            _configurationManager = configurationManager;
+        }
         
         //public IConfigurationRoot GetConfiguration()
         //{
@@ -30,7 +35,9 @@ namespace WebApi.Controllers
             //var configuration = GetConfiguration();
             //string con = configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
 
-            return Ok(new string[] { MyConnection._connectionString });          
+            //return Ok(new string[] { MyConnection._connectionString });          
+            return Ok(_configurationManager.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
+
             //return new string[] { ConfigurationManager.ConnectionStrings };
             //return new string[] { ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString };
         }

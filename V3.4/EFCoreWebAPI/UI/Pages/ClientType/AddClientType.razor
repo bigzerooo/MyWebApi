@@ -2,16 +2,17 @@
 @inject UI.Services.ClientTypeService clientTypeService
 @inject NavigationManager navigationManager
 @attribute [Authorize(Roles = "admin")]
-<h3>Add client type</h3>
+@inject IStringLocalizer<AddClientType> L
+<h3>@L["Add client type"]</h3>
 <hr />
 <EditForm Model="@clientType" OnValidSubmit="@Add">
     <FluentValidator></FluentValidator>
     <ValidationSummary />
     <p>@Error</p>
     <p>
-        <MatTextField @bind-Value="@clientType.type" Label="Client type"></MatTextField>
+        <MatTextField @bind-Value="@clientType.type" Label="@L["Client type"]"></MatTextField>
     </p>
-    <button type="submit" class="btn btn-sm btn-primary">Add</button>
+    <button type="submit" class="btn btn-sm btn-primary">@L["Add"]</button>
 </EditForm>
 @code {
     ClientTypeViewModel clientType { get; set; } = new ClientTypeViewModel();

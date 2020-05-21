@@ -1,1 +1,29 @@
-﻿@page "/"
+﻿@inject  UI.Services.NewsService newsService;
+@using UI.Pages.News
+@page "/"
+@if (main != null)
+{
+    <NewsCard New="main" Delete="false"></NewsCard>
+}
+@for(int i = news.Count - 1; i >= 0; i--)
+{
+    <NewsCard New="news[i]"></NewsCard>
+}
+
+
+
+
+@code{
+    public NewViewModel main { get; set; } = new NewViewModel
+    {
+        date = DateTime.Now,
+        name = "Welcome",
+        description =
+        "Welcome to our car hire website! You can hire the car here from our car list. Be sure to register and login before doing anything! And don't try to do something bad. WE ARE WATCHING YOU! Just kidding, but don't mess anything up."
+    };
+    public List<NewViewModel> news { get; set; } = new List<NewViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        news = await newsService.GetNewsAsync();
+    }
+}

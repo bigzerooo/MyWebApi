@@ -30,7 +30,7 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
         }
         public async Task<List<CarHire>> GetCarHiresByClientIdAsync(int clientId)
         {
-            var carhires = await _myDBContext.CarHires.Where(x=>x.ClientId == clientId).ToListAsync();
+            var carhires = await _myDBContext.CarHires.Where(x=>x.ClientId == clientId&&x.Returned==true).ToListAsync();
             return carhires;
         }
 

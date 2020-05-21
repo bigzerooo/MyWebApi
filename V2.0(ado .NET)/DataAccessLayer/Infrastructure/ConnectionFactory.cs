@@ -9,6 +9,7 @@ namespace DataAccessLayer.Infrastructure
 {
     public class ConnectionFactory: IConnectionFactory
     {
+
         private static string _connectionString;
         public void SetConnection(string connectionString)
         {

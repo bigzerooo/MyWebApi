@@ -120,10 +120,22 @@
   <data name="Car hire" xml:space="preserve">
     <value>Car hire</value>
   </data>
+  <data name="Car states" xml:space="preserve">
+    <value>Car states</value>
+  </data>
+  <data name="Car types" xml:space="preserve">
+    <value>Car types</value>
+  </data>
   <data name="Cars" xml:space="preserve">
     <value>Cars</value>
   </data>
+  <data name="Client types" xml:space="preserve">
+    <value>Client types</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>News</value>
   </data>
 </root>
