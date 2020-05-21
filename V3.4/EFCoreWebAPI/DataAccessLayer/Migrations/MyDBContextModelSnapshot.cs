@@ -70,7 +70,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CarStateId")
+                    b.Property<int?>("CarStateId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClientId")
@@ -79,14 +79,23 @@ namespace DataAccessLayer.Migrations
                     b.Property<decimal?>("Discount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpectedEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("ExpectedPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Penalty")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Returned")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -372,6 +381,31 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Entities.New", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(5000);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(45)")
+                        .HasMaxLength(45);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -493,8 +527,7 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("DataAccessLayer.Entities.CarState", "State")
                         .WithMany("CarHires")
                         .HasForeignKey("CarStateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("DataAccessLayer.Entities.Client", "Client")
                         .WithMany("CarHires")

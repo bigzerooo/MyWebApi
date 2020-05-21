@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.Interfaces.IServices
         Task<int> AddClientTypeAsync(ClientTypeDTO clientType);
         Task UpdateClientTypeAsync(ClientTypeDTO clientType);
         Task DeleteClientTypeAsync(int Id);
-        Task<ClientTypeDTO> GetClientTypeByIdAsync(int Id);
+        Task<string> GetClientTypeByIdAsync(int Id);
         Task<IEnumerable<ClientTypeDTO>> GetAllClientTypesAsync();
 
         Task<ClientType> GetClientTypeDetailsByIdAsync(int Id);

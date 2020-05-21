@@ -32,5 +32,9 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
                 .ToListAsync();
             return clientTypes;
         }
+        public async Task<string> GetClientTypeByIdAsync(int Id)
+        {
+            return (await _dbSet.FindAsync(Id)).Type;
+        }
     }
 }

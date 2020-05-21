@@ -79,6 +79,7 @@ namespace WebAPI
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<ICarHireRepository, CarHireRepository>();
             services.AddTransient<IClientRepository, ClientRepository>();
+            services.AddTransient<INewRepository, NewRepository>();
             #endregion
 
             //AutoMapper
@@ -95,8 +96,9 @@ namespace WebAPI
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<ICarHireService, CarHireService>();
             services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<INewService, NewService>();
             services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IRoleService, RoleService>();            
             #endregion
             
             //UnitOfWork

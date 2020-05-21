@@ -1,5 +1,14 @@
-﻿<h3>DeleteClientType</h3>
-
+﻿@page "/clienttypes/delete/{id}"
+@inject UI.Services.ClientTypeService clientTypeService
+@inject NavigationManager navigationManager;
+@attribute [Authorize(Roles = "admin")]
 @code {
+    [Parameter]
+    public string Id { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await clientTypeService.DeleteClientTypeAsync(Id);
+        navigationManager.NavigateTo("/clienttypes");
+    }
 
 }

@@ -18,6 +18,22 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
         {
             
         }
+        public async Task<int> GetReturnedCarCountByIdAsync(int clientId)
+        {
+            var count = await _myDBContext.CarHires.CountAsync(x => x.Returned == true && x.ClientId == clientId);
+            return count;
+        }
+        public async Task<List<CarHire>> GetUnreturnedCarHiresByClientIdAsync(int clientId)
+        {
+            var carhires = await _myDBContext.CarHires.Where(x => x.Returned == false && x.ClientId == clientId).ToListAsync();
+            return carhires;                
+        }
+        public async Task<List<CarHire>> GetCarHiresByClientIdAsync(int clientId)
+        {
+            var carhires = await _myDBContext.CarHires.Where(x=>x.ClientId == clientId).ToListAsync();
+            return carhires;
+        }
+
         public async Task<CarHire> GetCarHireDetailsByIdAsync(int Id)
         {
             var carHire = await _myDBContext.CarHires

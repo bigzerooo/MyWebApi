@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.Interfaces.IServices
         Task<int> AddCarStateAsync(CarStateDTO carState);
         Task UpdateCarStateAsync(CarStateDTO carState);
         Task DeleteCarStateAsync(int Id);
-        Task<CarStateDTO> GetCarStateByIdAsync(int Id);
+        Task<string> GetCarStateByIdAsync(int Id);
         Task<IEnumerable<CarStateDTO>> GetAllCarStatesAsync();
 
         Task<CarState> GetCarStateDetailsByIdAsync(int Id);

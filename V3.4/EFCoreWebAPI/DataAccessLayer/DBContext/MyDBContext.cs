@@ -163,7 +163,8 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<CarHire>()
                 .HasOne<CarState>(h => h.State)
                 .WithMany(s => s.CarHires)
-                .HasForeignKey(h => h.CarStateId);
+                .HasForeignKey(h => h.CarStateId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             #endregion
             modelBuilder.Entity<CarHire>()
@@ -179,21 +180,31 @@ namespace DataAccessLayer.DBContext
                 .IsRequired();
 
             modelBuilder.Entity<CarHire>()
-                .Property(p => p.EndDate)
+                .Property(p => p.ExpectedEndDate)
                 .IsRequired();
 
             modelBuilder.Entity<CarHire>()
-                .Property(p => p.CarStateId)
+                .Property(p => p.ExpectedPrice)
+                .IsRequired();                       
+
+            #endregion
+            #region New
+            modelBuilder.Entity<New>()
+                .HasKey(x => x.Id);
+
+            modelBuilder.Entity<New>()
+                .Property(x => x.Name)
+                .IsRequired()
+                .HasMaxLength(45);
+
+            modelBuilder.Entity<New>()
+                .Property(x => x.Date)
                 .IsRequired();
-
-            //modelBuilder.Entity<CarHire>()
-            //    .Property(p => p.CarState)
-            //    .HasMaxLength(45);
-
-            modelBuilder.Entity<CarHire>()
-                .Property(p => p.Price)
-                .IsRequired();
-
+            
+            modelBuilder.Entity<New>()
+                .Property(x => x.Description)
+                .IsRequired()
+                .HasMaxLength(5000);
 
             #endregion
             #region Seeding
@@ -231,5 +242,6 @@ namespace DataAccessLayer.DBContext
         public DbSet<Car> Cars { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<CarHire> CarHires { get; set; }
+        public DbSet<New> News { get; set; }
     }
 }

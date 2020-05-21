@@ -16,6 +16,7 @@ namespace DataAccessLayer.Interfaces
         ICarHireRepository carHireRepository { get; }
         ICarRepository carRepository { get; }
         IClientRepository clientRepository { get; }     
+        INewRepository newRepository { get; }
         UserManager<MyUser> userManager { get; }
         RoleManager<MyRole> roleManager { get; }
         SignInManager<MyUser> signInManager { get; }

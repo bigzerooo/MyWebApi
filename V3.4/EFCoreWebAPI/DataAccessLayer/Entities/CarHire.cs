@@ -13,11 +13,16 @@ namespace DataAccessLayer.Entities
         public int ClientId { get; set; }
 
         public DateTime BeginDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public int CarStateId { get; set; }
+        public DateTime ExpectedEndDate { get; set; }
+        public decimal ExpectedPrice { get; set; }
+        
+        public int? CarStateId { get; set; }
         public decimal? Discount { get; set; }
         public decimal? Penalty { get; set; }
-        public decimal Price { get; set; }
+
+        public DateTime? EndDate { get; set; }
+        public decimal? Price { get; set; }
+        public bool Returned { get; set; }
 
         public Car Car { get; set; }
         public Client Client { get; set; }

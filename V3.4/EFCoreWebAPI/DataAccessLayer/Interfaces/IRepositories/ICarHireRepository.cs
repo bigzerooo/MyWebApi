@@ -13,5 +13,8 @@ namespace DataAccessLayer.Interfaces.IRepositories
         public Task<CarHire> GetCarHireDetailsByIdAsync(int Id);
         public Task<List<CarHire>> GetCarHireDetailsAsync();
         public Task<PagedList<CarHire>> GetAllPagesAsync(CarHireParameters parameters);
+        public Task<int> GetReturnedCarCountByIdAsync(int Id);
+        public Task<List<CarHire>> GetUnreturnedCarHiresByClientIdAsync(int clientId);
+        public Task<List<CarHire>> GetCarHiresByClientIdAsync(int clientId);
     }
 }

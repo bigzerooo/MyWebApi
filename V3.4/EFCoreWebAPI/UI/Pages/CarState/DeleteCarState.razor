@@ -1,5 +1,14 @@
-﻿<h3>DeleteCarState</h3>
-
+﻿@page "/carstates/delete/{id}"
+@inject UI.Services.CarStateService carStateService
+@inject NavigationManager navigationManager;
+@attribute [Authorize(Roles = "admin")]
 @code {
+    [Parameter]
+    public string Id { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        await carStateService.DeleteCarStateAsync(Id);
+        navigationManager.NavigateTo("/carstates");
+    }
 
 }

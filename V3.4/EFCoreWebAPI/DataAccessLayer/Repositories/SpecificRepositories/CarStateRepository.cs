@@ -31,5 +31,9 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
                 .ToListAsync();
             return carStates;
         }
+        public async Task<string> GetCarStateById(int Id)
+        {
+            return (await _dbSet.FindAsync(Id)).State;
+        }
     }
 }

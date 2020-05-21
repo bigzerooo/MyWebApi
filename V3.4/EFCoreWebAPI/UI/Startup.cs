@@ -64,6 +64,14 @@ namespace UI
             {
                 client.BaseAddress = new Uri("https://localhost:44337");
             });
+            services.AddHttpClient<CarStateService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44337");
+            });
+            services.AddHttpClient<ClientTypeService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44337");
+            });
             services.AddHttpClient<ClientService>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44337");

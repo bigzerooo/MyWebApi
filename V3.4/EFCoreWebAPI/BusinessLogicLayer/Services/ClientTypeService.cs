@@ -41,10 +41,9 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
-        public async Task<ClientTypeDTO> GetClientTypeByIdAsync(int Id)
+        public async Task<string> GetClientTypeByIdAsync(int Id)
         {
-            var x = await _unitOfWork.clientTypeRepository.GetAsync(Id);
-            return _mapper.Map<ClientType, ClientTypeDTO>(x);
+            return await _unitOfWork.clientTypeRepository.GetClientTypeByIdAsync(Id);            
         }
 
         public async Task UpdateClientTypeAsync(ClientTypeDTO clientType)

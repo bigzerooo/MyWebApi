@@ -10,5 +10,6 @@ namespace DataAccessLayer.Interfaces.IRepositories
     {
         public Task<ClientType> GetClientTypeDetailsByIdAsync(int Id);
         public Task<List<ClientType>> GetClientTypeDetailsAsync();
+        public Task<string> GetClientTypeByIdAsync(int Id);
     }
 }

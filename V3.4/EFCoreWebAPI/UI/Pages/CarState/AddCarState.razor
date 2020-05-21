@@ -1,5 +1,29 @@
-﻿<h3>AddCarState</h3>
-
+﻿@page "/carstates/add"
+@inject UI.Services.CarStateService carStateService
+@inject NavigationManager navigationManager
+@attribute [Authorize(Roles = "admin")]
+<h3>Add car state</h3>
+<hr />
+<EditForm Model="@carState" OnValidSubmit="@Add">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="@carState.state" Label="Car state"></MatTextField>
+    </p>
+    <button state="submit" class="btn btn-sm btn-primary">Add</button>
+</EditForm>
 @code {
+    CarStateViewModel carState { get; set; } = new CarStateViewModel();
+    string Error { get; set; } = "";
+    protected async Task Add()
+    {
+        Error = "";
+        var result = await carStateService.AddCarStateAsync(carState);
+        if (result.IsSuccessStatusCode)
+            navigationManager.NavigateTo("/carstates");
+        else
+            Error = result.StatusCode.ToString();
+    }
 
 }

@@ -54,33 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        // GET: api/<controller>/details/5
-        [HttpGet("details/{id}")]
-        public async Task<IActionResult> GetDetails(int id)
-        {
-            try
-            {
-                return Ok(await _carStateService.GetCarStateDetailsByIdAsync(id));
-            }
-            catch
-            {
-                return StatusCode(404);
-            }
-        }
 
-        // GET: api/<controller>/details/
-        [HttpGet("details")]
-        public async Task<IActionResult> GetDetails()
-        {
-            try
-            {
-                return Ok(await _carStateService.GetCarStateDetailsAsync());
-            }
-            catch
-            {
-                return StatusCode(404);
-            }
-        }
 
         // POST api/<controller>
         [HttpPost]
@@ -128,6 +102,34 @@ namespace WebAPI.Controllers
                 return StatusCode(404);
             }
 
+        }
+
+        // GET: api/<controller>/details/5
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> GetDetails(int id)
+        {
+            try
+            {
+                return Ok(await _carStateService.GetCarStateDetailsByIdAsync(id));
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+        }
+
+        // GET: api/<controller>/details/
+        [HttpGet("details")]
+        public async Task<IActionResult> GetDetails()
+        {
+            try
+            {
+                return Ok(await _carStateService.GetCarStateDetailsAsync());
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
     }
 }

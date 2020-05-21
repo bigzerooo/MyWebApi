@@ -1,5 +1,28 @@
-﻿<h3>ClientTypes</h3>
-
+﻿@page "/clienttypes"
+@inject UI.Services.ClientTypeService clientTypeService
+@attribute [Authorize(Roles = "admin")]
+<h3>Client types</h3>
+<table class="table table-condensed table-striped table-bordered">
+    <tr><th>Id</th><th>Type</th><th></th></tr>
+    @foreach (var clientType in clientTypes)
+    {
+        <tr>
+            <td>@clientType.id</td>
+            <td>@clientType.type</td>
+            <td>
+                <a href="/clienttypes/update/@clientType.id" class="btn btn-sm btn-primary">Edit</a>
+                <a href="/clienttypes/delete/@clientType.id" class="btn btn-sm btn-primary">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    <a href="/clienttypes/add" class="btn btn-primary">Add client type</a>
+</p>
 @code {
-
+    List<ClientTypeViewModel> clientTypes { get; set; } = new List<ClientTypeViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        clientTypes = await clientTypeService.GetClientTypesAsync();
+    }
 }

@@ -21,6 +21,7 @@ namespace DataAccessLayer.UnitOfWork
         private readonly ICarHireRepository _carHireRepository;
         private readonly ICarRepository _carRepository;
         private readonly IClientRepository _clientRepository;
+        private readonly INewRepository _newRepository;
         private readonly UserManager<MyUser> _userManager;
         private readonly SignInManager<MyUser> _signInManager;
         private readonly RoleManager<MyRole> _roleManager;
@@ -34,6 +35,7 @@ namespace DataAccessLayer.UnitOfWork
             ICarHireRepository carHireRepository,
             ICarRepository carRepository,
             IClientRepository clientRepository,
+            INewRepository newRepository,
             UserManager<MyUser> userManager,
             SignInManager<MyUser> signInManager,
             RoleManager<MyRole> roleManager,
@@ -47,6 +49,7 @@ namespace DataAccessLayer.UnitOfWork
             _carHireRepository = carHireRepository;
             _carRepository = carRepository;
             _clientRepository = clientRepository;
+            _newRepository = newRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
@@ -93,6 +96,12 @@ namespace DataAccessLayer.UnitOfWork
             get
             {
                 return _clientRepository;
+            }
+        }
+        public INewRepository newRepository { 
+            get
+            {
+                return _newRepository;
             }
         }
         public UserManager<MyUser> userManager
