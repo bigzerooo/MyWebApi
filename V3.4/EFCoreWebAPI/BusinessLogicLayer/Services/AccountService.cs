@@ -20,8 +20,7 @@ using System.Threading.Tasks;
 namespace BusinessLogicLayer.Services
 {
     public class AccountService: IAccountService
-    {        
-        //it's just here, but not used yet
+    {                
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;

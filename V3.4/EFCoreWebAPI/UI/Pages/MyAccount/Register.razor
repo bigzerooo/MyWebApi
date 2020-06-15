@@ -22,12 +22,11 @@
     </p>
     <button type="submit" class="btn btn-sm btn-primary">@L["Register button"]</button>
 </EditForm>
-
 @code {
     MyUserRegisterViewModel MyUser { get; set; } = new MyUserRegisterViewModel();
 
     public string Error;
-
+        
     private async Task SaveUser()
     {
         Error = "";
@@ -38,6 +37,5 @@
         {
             Error = await result.Content.ReadAsStringAsync();
         }
-
     }
 }

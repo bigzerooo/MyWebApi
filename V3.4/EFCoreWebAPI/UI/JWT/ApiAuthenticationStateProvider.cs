@@ -25,7 +25,7 @@ namespace UI.JWT
         //is Current User Authentificated or not
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var savedToken = await _localStorage.GetItemAsync<string>("authToken");//если тут вставить свой токен ручками, то будет работать
+            var savedToken = await _localStorage.GetItemAsync<string>("authToken");
             
 
             if (string.IsNullOrWhiteSpace(savedToken))

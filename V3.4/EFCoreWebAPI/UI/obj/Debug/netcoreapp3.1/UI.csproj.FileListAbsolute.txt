@@ -301,3 +301,7 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\U
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\UI.Resources.Pages.ClientType.AddClientType.ru.resources
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\UI.Resources.Pages.ClientType.ClientTypes.ru.resources
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\obj\Debug\netcoreapp3.1\UI.Resources.Pages.ClientType.EditClientType.ru.resources
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\UI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll

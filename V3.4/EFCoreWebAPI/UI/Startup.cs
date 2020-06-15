@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using UI.Data;
 using UI.JWT;
 using UI.Services;
 using UI.Validators;

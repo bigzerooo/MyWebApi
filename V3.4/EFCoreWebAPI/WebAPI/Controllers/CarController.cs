@@ -118,8 +118,7 @@ namespace WebAPI.Controllers
         // PUT api/<controller>/5
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]CarDTO value)
-        {
-            //не пашет 
+        {            
             try
             {
                 await _carService.UpdateCarAsync(value);

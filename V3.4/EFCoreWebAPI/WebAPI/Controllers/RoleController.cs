@@ -26,15 +26,12 @@ namespace WebAPI.Controllers
         {
             await _roleService.AppointRole(id, role);
         }
-
         [HttpGet]        
         [Route("GetUserRoles")]//забирает роли пользователя
         public async Task<IList<string>> GetRoles([FromQuery]string id)
         {
             return await _roleService.GetAllRolesByUserId(id);
         }
-
-
         [HttpPost]// создать новую роль
         [Route("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody]RoleDTO role)
@@ -44,7 +41,5 @@ namespace WebAPI.Controllers
             await _roleService.CreateRole(role);
             return Ok(role);
         }
-
-
     }
 }

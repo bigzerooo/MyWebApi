@@ -328,5 +328,9 @@ D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\FluentValidation.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\FluentValidation.AspNetCore.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\FluentValidation.DependencyInjectionExtensions.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.MvcApplicationPartsAssemblyInfo.cs
 D:\Programms\C#\MyWebApi\MyWebApi\V3.4\EFCoreWebAPI\WebAPI\obj\Debug\netcoreapp3.1\WebAPI.MvcApplicationPartsAssemblyInfo.cache

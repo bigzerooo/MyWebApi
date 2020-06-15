@@ -9,14 +9,10 @@ using Microsoft.EntityFrameworkCore;
 namespace DataAccessLayer.DBContext
 {
     public class MyDBContext : IdentityDbContext<MyUser, MyRole, int>
-    {
-        //public MyDBContext(DbContextOptions options) : base(options)
-        //{
-
-        //}
+    {        
         public MyDBContext(DbContextOptions<MyDBContext> options) : base(options)
         {
-            Database.EnsureCreated();   //?
+            Database.EnsureCreated();   
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

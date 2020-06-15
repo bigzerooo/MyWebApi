@@ -7,24 +7,18 @@
 @attribute [Authorize]
 <h3>@L["Modify photo"]</h3>
 <hr />
-
 <p>@Error</p>
 <InputFile OnChange="HandleFileSelected" />
 @if (file != null)
 {
     <p>@L["File downloaded"] : @file.Name</p>
-    <p></p>
-    @*<img src="data:image/jpeg;base64,@base64string" />*@
-<button @onclick="Insert">@L["Insert"]</button>
+    <p></p>    
+    <button @onclick="Insert">@L["Insert"]</button>
 }
 @code {
     public ClientViewModel client { get; set; } = new ClientViewModel();
-
     IFileListEntry file;
-    public string Error { get; set; }
-
-    //string base64string = null;
-
+    public string Error { get; set; }   
     protected override async Task OnInitializedAsync()
     {
         var authState = await authentificationStateProvider.GetAuthenticationStateAsync();
@@ -43,15 +37,11 @@
                 throw new Exception("File not found");
             if (file.Type != "image/jpeg")
                 throw new Exception("File in the wrong format! Please use .jpg");
-
             var newFile = await file.ToImageFileAsync("image/jpeg", 150, 150);
-
             var ms = new MemoryStream();
             await newFile.Data.CopyToAsync(ms);
-            byte[] bytefile = ms.GetBuffer();
-            //base64string = Convert.ToBase64String(bytefile);
+            byte[] bytefile = ms.GetBuffer();            
             client.photo = bytefile;
-
             var result = await clientService.UpdateClientAsync(client);
             if (!result.IsSuccessStatusCode)
                 throw new Exception(result.StatusCode.ToString());
@@ -62,5 +52,4 @@
             Error = e.Message;
         }
     }
-
 }

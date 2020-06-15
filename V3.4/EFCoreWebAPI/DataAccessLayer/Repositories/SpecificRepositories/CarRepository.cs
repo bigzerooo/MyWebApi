@@ -54,7 +54,7 @@ namespace DataAccessLayer.Repositories.SpecificRepositories
             cars=_sortHelper.ApplySort(cars, parameters);//сортировка
 
             return await PagedList<Car>.ToPagedListAsync(cars, parameters.PageNumber, parameters.PageSize);//пагинация          
-    }
+        }
 
         private void SearchByBrand(ref IQueryable<Car> cars, string brand)
         {
