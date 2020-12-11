@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.DTO
+﻿namespace BusinessLogicLayer.DTO
 {
     public class ClientDTO
     {
@@ -14,6 +10,5 @@ namespace BusinessLogicLayer.DTO
         public string PhoneNumber { get; set; }
         public int ClientTypeId { get; set; }
         public byte[] Photo { get; set; }
-
     }
 }

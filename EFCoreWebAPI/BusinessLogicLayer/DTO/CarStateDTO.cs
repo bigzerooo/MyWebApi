@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BusinessLogicLayer.DTO
+﻿namespace BusinessLogicLayer.DTO
 {
     public class CarStateDTO
     {

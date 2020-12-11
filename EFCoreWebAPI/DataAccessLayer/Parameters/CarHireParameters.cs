@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataAccessLayer.Parameters
+﻿namespace DataAccessLayer.Parameters
 {
-    public class CarHireParameters: QueryStringParameters
-    {
-
-    }
+    public class CarHireParameters : QueryStringParameters { }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataAccessLayer.Parameters
+﻿namespace DataAccessLayer.Parameters
 {
-    public class ClientParameters:QueryStringParameters
+    public class ClientParameters : QueryStringParameters
     {
         public string LastName { get; set; }
     }

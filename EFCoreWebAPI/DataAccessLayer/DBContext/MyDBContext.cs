@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,26 +6,24 @@ using Microsoft.EntityFrameworkCore;
 namespace DataAccessLayer.DBContext
 {
     public class MyDBContext : IdentityDbContext<MyUser, MyRole, int>
-    {        
-        public MyDBContext(DbContextOptions<MyDBContext> options) : base(options)
-        {
-            Database.EnsureCreated();   
-        }
+    {
+        public MyDBContext(DbContextOptions<MyDBContext> options) : base(options) =>
+            Database.EnsureCreated();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             #region CarType
 
             modelBuilder.Entity<CarType>()
                 .HasKey(p => p.Id);
 
-            modelBuilder.Entity<CarType>()                
-                .Property(p => p.Type)                
+            modelBuilder.Entity<CarType>()
+                .Property(p => p.Type)
                 .HasMaxLength(45);
 
             modelBuilder.Entity<CarType>()
-                .HasIndex(x=>x.Type)
+                .HasIndex(x => x.Type)
                 .IsUnique();
 
             #endregion
@@ -43,7 +38,7 @@ namespace DataAccessLayer.DBContext
 
             modelBuilder.Entity<CarState>()
                 .HasIndex(x => x.State)
-                .IsUnique();            
+                .IsUnique();
 
             #endregion
             #region ClientType
@@ -63,16 +58,13 @@ namespace DataAccessLayer.DBContext
             #region Car
 
             modelBuilder.Entity<Car>()
-                .HasOne<CarType>(c => c.CarType)
+                .HasOne(c => c.CarType)
                 .WithMany(t => t.Cars)
                 .HasForeignKey(c => c.CarTypeId);
 
             modelBuilder.Entity<Car>()
                 .Property(p => p.Brand)
-                .IsRequired();
-
-            modelBuilder.Entity<Car>()
-                .Property(p => p.Brand)
+                .IsRequired()
                 .HasMaxLength(45);
 
             modelBuilder.Entity<Car>()
@@ -86,37 +78,22 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<Car>()
                 .Property(p => p.Description)
                 .HasMaxLength(1000);
-            //modelBuilder.Entity<Car>()
-            //    .Property(p => p.Type)
-            //    .HasMaxLength(45);
 
             #endregion
             #region Client
 
             modelBuilder.Entity<Client>()
-                .HasOne<ClientType>(c => c.ClientType)
+                .HasOne(c => c.ClientType)
                 .WithMany(t => t.Clients)
                 .HasForeignKey(c => c.ClientTypeId);
-
-            //modelBuilder.Entity<Client>()
-            //    .Property(p => p.LastName)
-            //    .IsRequired();
 
             modelBuilder.Entity<Client>()
                 .Property(p => p.LastName)
                 .HasMaxLength(45);
 
-            //modelBuilder.Entity<Client>()
-            //    .Property(p => p.FirstName)
-            //    .IsRequired();
-
             modelBuilder.Entity<Client>()
                 .Property(p => p.FirstName)
                 .HasMaxLength(45);
-
-            //modelBuilder.Entity<Client>()
-            //    .Property(p => p.SecondName)
-            //    .IsRequired();
 
             modelBuilder.Entity<Client>()
                 .Property(p => p.SecondName)
@@ -135,34 +112,32 @@ namespace DataAccessLayer.DBContext
                 .IsRequired();
 
             modelBuilder.Entity<Client>()
-                .HasOne<MyUser>(u => u.User)
+                .HasOne(u => u.User)
                 .WithOne(c => c.Client)
                 .HasForeignKey<MyUser>(c => c.ClientId);
-                
-            //modelBuilder.Entity<Client>()
-            //    .Property(p => p.TypeOfClient)
-            //    .HasMaxLength(45);
+
             #endregion
             #region CarHire
             #region ForeignKeys
 
             modelBuilder.Entity<CarHire>()
-                .HasOne<Client>(h => h.Client)
+                .HasOne(h => h.Client)
                 .WithMany(c => c.CarHires)
                 .HasForeignKey(h => h.ClientId);
 
             modelBuilder.Entity<CarHire>()
-                .HasOne<Car>(h => h.Car)
+                .HasOne(h => h.Car)
                 .WithMany(c => c.CarHires)
                 .HasForeignKey(h => h.CarId);
 
             modelBuilder.Entity<CarHire>()
-                .HasOne<CarState>(h => h.State)
+                .HasOne(h => h.State)
                 .WithMany(s => s.CarHires)
                 .HasForeignKey(h => h.CarStateId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             #endregion
+
             modelBuilder.Entity<CarHire>()
                 .Property(p => p.CarId)
                 .IsRequired();
@@ -181,10 +156,11 @@ namespace DataAccessLayer.DBContext
 
             modelBuilder.Entity<CarHire>()
                 .Property(p => p.ExpectedPrice)
-                .IsRequired();                       
+                .IsRequired();
 
             #endregion
             #region New
+
             modelBuilder.Entity<New>()
                 .HasKey(x => x.Id);
 
@@ -196,7 +172,7 @@ namespace DataAccessLayer.DBContext
             modelBuilder.Entity<New>()
                 .Property(x => x.Date)
                 .IsRequired();
-            
+
             modelBuilder.Entity<New>()
                 .Property(x => x.Description)
                 .IsRequired()
@@ -212,23 +188,25 @@ namespace DataAccessLayer.DBContext
                 new CarType{Id=4,Type="Спортивный" },
                 new CarType{Id=5,Type="Внедорожник" },
                 new CarType{Id=6,Type="Тягач" },
-                new CarType{Id=7,Type="Мотоцикл" }                
+                new CarType{Id=7,Type="Мотоцикл" }
             });
+
             modelBuilder.Entity<ClientType>().HasData(new ClientType[]
             {
                 new ClientType{Id=1, Type="Обычный" },
                 new ClientType{Id=2, Type="Постоянный"}
             });
+
             modelBuilder.Entity<CarState>().HasData(new CarState[]
             {
                 new CarState{Id=1, State="Хорошое" },
                 new CarState{Id=2, State="Плохое" }
             });
+
             modelBuilder.Entity<Client>().HasData(new Client[]
             {
                 new Client{Id=1, FirstName="Admin", LastName="Admin", SecondName="Admin", ClientTypeId=1}
             });
-
 
             #endregion
         }

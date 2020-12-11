@@ -1,46 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BusinessLogicLayer.DTO.Identity;
+﻿using BusinessLogicLayer.DTO.Identity;
+using BusinessLogicLayer.DTO.Identity.Results;
 using BusinessLogicLayer.Interfaces.IServices;
-using BusinessLogicLayer.Services;
-using DataAccessLayer.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        public AccountController(IAccountService accountService)
-        {
-            _accountService = accountService;            
-        }
+        public AccountController(IAccountService accountService) =>
+            _accountService = accountService;
 
-        // GET: /<controller>/
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] MyUserRegisterDTO myUser)
         {
-            var result = await _accountService.Register(myUser);
+            IdentityResult result = await _accountService.Register(myUser);
             if (result.Succeeded)
                 return Ok("User registered");
             else
             {
-                string Errors = "";
+                string errors = "";
                 foreach (var error in result.Errors)
-                    Errors += $"{error.Description}\n";
-                return BadRequest(Errors);
+                    errors += $"{error.Description}\n";
+                return BadRequest(errors);
             }
-                
         }
 
         [HttpPost]
@@ -48,53 +38,40 @@ namespace WebAPI.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] MyUserLoginDTO myUser)
         {
-            var result = await _accountService.Login(myUser);
+            LoginResult result = await _accountService.Login(myUser);
             if (result.successful)
                 return Ok(result);
-            else
-                return BadRequest(result);
+            return BadRequest(result);
         }
+
         [HttpGet]
         [Route("logout")]
-        public async Task<IActionResult> Logout()
-        {
-            return Ok(await _accountService.Logout());
-        }
+        public async Task<IActionResult> Logout() => Ok(await _accountService.Logout());
+
         [Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            return Ok(await _accountService.Delete(id));
-        }
+        public async Task<IActionResult> Delete(int id) => Ok(await _accountService.Delete(id));
+
         [HttpGet]
         [Route("edit")]
-        public async Task<IActionResult> Edit([FromBody]MyUserEditDTO myUser)
-        {
-            return Ok(await _accountService.Edit(myUser));
-        }
+        public async Task<IActionResult> Edit([FromBody]MyUserEditDTO myUser) => Ok(await _accountService.Edit(myUser));
+
         [HttpPost]
         [Route("changepassword")]
         public async Task<IActionResult> ChangePassword([FromBody]MyUserChangePasswordDTO myUser)
         {
-            var result = await _accountService.ChangePassword(myUser);
+            IdentityResult result = await _accountService.ChangePassword(myUser);
             if (result.Succeeded)
                 return Ok("Password changed");
-            else
-            {
-                string Errors = "";
-                foreach (var error in result.Errors)
-                    Errors += $"{error.Description}\n";
-                return BadRequest(Errors);
-            }
+            string errors = "";
+            foreach (IdentityError error in result.Errors)
+                errors += $"{error.Description}\n";
+            return BadRequest(errors);
         }
+
         [Authorize(Roles = "admin")]
-        [HttpGet]        
-        public async Task<IActionResult> UserList()
-        {
-            return Ok(await _accountService.UserList());
-        }
-
+        [HttpGet]
+        public async Task<IActionResult> UserList() => Ok(await _accountService.UserList());
     }
-
 }

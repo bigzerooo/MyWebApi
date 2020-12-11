@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataAccessLayer.Interfaces.EntityInterfaces
+﻿namespace DataAccessLayer.Interfaces.EntityInterfaces
 {
     public interface IEntity<T>
     {

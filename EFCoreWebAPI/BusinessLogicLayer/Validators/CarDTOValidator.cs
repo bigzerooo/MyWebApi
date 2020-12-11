@@ -1,12 +1,10 @@
 ﻿using BusinessLogicLayer.DTO;
 using FluentValidation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLogicLayer.Validators
 {
-    public class CarDTOValidator: AbstractValidator<CarDTO>
+    public class CarDTOValidator : AbstractValidator<CarDTO>
     {
         public CarDTOValidator()
         {

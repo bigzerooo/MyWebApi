@@ -6,27 +6,25 @@ using DataAccessLayer.Interfaces;
 using DataAccessLayer.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork 
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly MyDBContext _context;
-        private readonly ICarStateRepository _carStateRepository;
-        private readonly ICarTypeRepository _carTypeRepository;
-        private readonly IClientTypeRepository _clientTypeRepository;
-        private readonly ICarHireRepository _carHireRepository;
-        private readonly ICarRepository _carRepository;
-        private readonly IClientRepository _clientRepository;
-        private readonly INewRepository _newRepository;
-        private readonly UserManager<MyUser> _userManager;
-        private readonly SignInManager<MyUser> _signInManager;
-        private readonly RoleManager<MyRole> _roleManager;
         private readonly ISortHelper<Car> _carSortHelper;
         private readonly ISortHelper<Client> _clientSortHelper;
+        public ICarStateRepository CarStateRepository { get; }
+        public ICarTypeRepository CarTypeRepository { get; }
+        public IClientTypeRepository ClientTypeRepository { get; }
+        public ICarHireRepository CarHireRepository { get; }
+        public ICarRepository CarRepository { get; }
+        public IClientRepository ClientRepository { get; }
+        public INewRepository NewRepository { get; }
+        public UserManager<MyUser> UserManager { get; }
+        public RoleManager<MyRole> RoleManager { get; }
+        public SignInManager<MyUser> SignInManager { get; }
         public UnitOfWork(
             MyDBContext context,
             ICarStateRepository carStateRepository,
@@ -43,99 +41,28 @@ namespace DataAccessLayer.UnitOfWork
             ISortHelper<Client> clientSortHelper)
         {
             _context = context;
-            _carStateRepository = carStateRepository;
-            _carTypeRepository = carTypeRepository;
-            _clientTypeRepository = clientTypeRepository;
-            _carHireRepository = carHireRepository;
-            _carRepository = carRepository;
-            _clientRepository = clientRepository;
-            _newRepository = newRepository;
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
+            CarStateRepository = carStateRepository;
+            CarTypeRepository = carTypeRepository;
+            ClientTypeRepository = clientTypeRepository;
+            CarHireRepository = carHireRepository;
+            CarRepository = carRepository;
+            ClientRepository = clientRepository;
+            NewRepository = newRepository;
+            UserManager = userManager;
+            SignInManager = signInManager;
+            RoleManager = roleManager;
             _carSortHelper = carSortHelper;
             _clientSortHelper = clientSortHelper;
-        }
-        public ICarStateRepository carStateRepository
-        {
-            get
-            {
-                return _carStateRepository;
-            }
-        }
-        public ICarTypeRepository carTypeRepository
-        {
-            get
-            {
-                return _carTypeRepository;
-            }
-        }
-        public IClientTypeRepository clientTypeRepository
-        {
-            get
-            {
-                return _clientTypeRepository;
-            }
-        }
-        public ICarHireRepository carHireRepository
-        {
-            get
-            {
-                return _carHireRepository;
-            }
-        }
-        public ICarRepository carRepository
-        {
-            get
-            {
-                return _carRepository;
-            }
-        }
-        public IClientRepository clientRepository
-        {
-            get
-            {
-                return _clientRepository;
-            }
-        }
-        public INewRepository newRepository { 
-            get
-            {
-                return _newRepository;
-            }
-        }
-        public UserManager<MyUser> userManager
-        {
-            get
-            {
-                return _userManager;
-            }
-        }
-        public RoleManager<MyRole> roleManager
-        {
-            get
-            {
-                return _roleManager;
-            }
-        }
-        public SignInManager<MyUser> signInManager
-        {
-            get
-            {
-                return _signInManager;
-            }
-        }
+        }       
         public Task<int> Complete() => _context.SaveChangesAsync();
         private bool disposed = false;
         public virtual void Dispose(bool disposing)
         {
-            if(!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
-                {
                     _context.Dispose();
-                }
-                this.disposed = true;
+                disposed = true;
             }
         }
         public void Dispose()

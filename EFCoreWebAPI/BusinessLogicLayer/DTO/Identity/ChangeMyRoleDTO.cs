@@ -1,7 +1,5 @@
 ﻿using DataAccessLayer.Entities.Identity;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLogicLayer.DTO.Identity
 {

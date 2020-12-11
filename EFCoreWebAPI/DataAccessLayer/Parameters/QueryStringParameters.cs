@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataAccessLayer.Parameters
+﻿namespace DataAccessLayer.Parameters
 {
-    public abstract class QueryStringParameters
-    {		
+	public abstract class QueryStringParameters
+	{
 		const int maxPageSize = 100;
 		public int PageNumber { get; set; } = 1;
-
 		private int _pageSize = 20;
 		public int PageSize
 		{

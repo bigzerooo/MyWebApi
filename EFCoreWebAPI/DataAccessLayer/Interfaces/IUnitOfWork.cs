@@ -2,24 +2,22 @@
 using DataAccessLayer.Interfaces.IRepositories;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces
 {
-    public interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork : IDisposable
     {
-        ICarStateRepository carStateRepository { get; }        
-        ICarTypeRepository carTypeRepository { get; }
-        IClientTypeRepository clientTypeRepository { get; }
-        ICarHireRepository carHireRepository { get; }
-        ICarRepository carRepository { get; }
-        IClientRepository clientRepository { get; }     
-        INewRepository newRepository { get; }
-        UserManager<MyUser> userManager { get; }
-        RoleManager<MyRole> roleManager { get; }
-        SignInManager<MyUser> signInManager { get; }
+        ICarStateRepository CarStateRepository { get; }
+        ICarTypeRepository CarTypeRepository { get; }
+        IClientTypeRepository ClientTypeRepository { get; }
+        ICarHireRepository CarHireRepository { get; }
+        ICarRepository CarRepository { get; }
+        IClientRepository ClientRepository { get; }
+        INewRepository NewRepository { get; }
+        UserManager<MyUser> UserManager { get; }
+        RoleManager<MyRole> RoleManager { get; }
+        SignInManager<MyUser> SignInManager { get; }
         Task<int> Complete();
     }
 }

@@ -1,63 +1,49 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
+using BusinessLogicLayer;
+using BusinessLogicLayer.Interfaces.IServices;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Validators;
+using DataAccessLayer.DBContext;
+using DataAccessLayer.Entities;
+using DataAccessLayer.Entities.Identity;
+using DataAccessLayer.Helpers;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.Interfaces.IRepositories;
+using DataAccessLayer.Repositories.SpecificRepositories;
+using DataAccessLayer.UnitOfWork;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using DataAccessLayer.DBContext;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using DataAccessLayer.Interfaces.IRepositories;
-using DataAccessLayer.Repositories.SpecificRepositories;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.UnitOfWork;
-using Newtonsoft.Json;
-using DataAccessLayer.Entities.Identity;
-using BusinessLogicLayer.Interfaces.IServices;
-using BusinessLogicLayer.Services;
-using AutoMapper;
-using DataAccessLayer.Entities;
-using BusinessLogicLayer.DTO;
-using BusinessLogicLayer.DTO.Identity;
-using BusinessLogicLayer;
-using System.Reflection;
-using DataAccessLayer.Helpers;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System;
+using System.Reflection;
 using System.Text;
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using BusinessLogicLayer.Validators;
-using Microsoft.AspNetCore.Identity;
 
 namespace WebAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
+        public Startup(IConfiguration configuration) =>
             Configuration = configuration;
-        }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //DbContext
             services.AddDbContext<MyDBContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("DataAccessLayer"));
             });
 
-            //Identity
             services.AddIdentity<MyUser, MyRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -68,8 +54,7 @@ namespace WebAPI
                     RequireLowercase = false,
                     RequireUppercase = false,
                     RequireNonAlphanumeric = false
-                };                
-                
+                };
             }).AddEntityFrameworkStores<MyDBContext>();
 
             #region repositories
@@ -82,12 +67,9 @@ namespace WebAPI
             services.AddTransient<INewRepository, NewRepository>();
             #endregion
 
-            //AutoMapper
-            services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);//сборка профайла
-
-            //SortHelpers
+            services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);
             services.AddTransient<ISortHelper<Car>, SortHelper<Car>>();
-            services.AddTransient<ISortHelper<Client>,SortHelper<Client>>();
+            services.AddTransient<ISortHelper<Client>, SortHelper<Client>>();
 
             #region services
             services.AddTransient<ICarStateService, CarStateService>();
@@ -98,44 +80,28 @@ namespace WebAPI
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<INewService, NewService>();
             services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IRoleService, RoleService>();            
+            services.AddTransient<IRoleService, RoleService>();
             #endregion
-            
-            //UnitOfWork
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            //игнорирует looping и позвол€ет доставать ассоциированые данные (дл€ eager loading)
             services.AddMvc(option => option.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)                
-                .AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<CarDTOValidator>());//добавл€ет флюент валидацию
-            
-            //#region validators            
-            //services.AddTransient<IValidator<CarDTO>, CarDTOValidator>();
-            //#endregion
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
+                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CarDTOValidator>());//добавл€ет флюент валидацию
 
-            //JWT конфигураци€
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
                         options.RequireHttpsMetadata = false;
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            // укзывает, будет ли валидироватьс€ издатель при валидации токена
                             ValidateIssuer = true,
-                            // строка, представл€юща€ издател€
                             ValidIssuer = Configuration["JwtIssuer"],
-
-                            // будет ли валидироватьс€ потребитель токена
                             ValidateAudience = true,
-                            // установка потребител€ токена
                             ValidAudience = Configuration["JwtAudience"],
-                            // будет ли валидироватьс€ врем€ существовани€
                             ValidateLifetime = true,
-
-                            // установка ключа безопасности
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"])),
-                            // валидаци€ ключа безопасности
                             ValidateIssuerSigningKey = true,
                             ClockSkew = TimeSpan.Zero
                         };
@@ -154,7 +120,6 @@ namespace WebAPI
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

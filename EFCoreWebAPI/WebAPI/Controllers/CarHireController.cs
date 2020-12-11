@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BusinessLogicLayer.DTO;
+﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
-using DataAccessLayer.Entities;
 using DataAccessLayer.Parameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -17,12 +11,9 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class CarHireController : Controller
     {
-
         ICarHireService _carHireService;
-        public CarHireController(ICarHireService carHireService)
-        {
+        public CarHireController(ICarHireService carHireService) =>
             _carHireService = carHireService;
-        }
 
         [Authorize(Roles = "admin")]
         [HttpGet]
@@ -38,21 +29,6 @@ namespace WebAPI.Controllers
             }
         }
 
-        // GET: api/<controller>
-        //[HttpGet]
-        //public async Task<IActionResult> Get()
-        //{
-        //    try
-        //    {
-        //        return Ok(await _carHireService.GetAllCarHiresAsync());
-        //    }
-        //    catch
-        //    {
-        //        return StatusCode(404);
-        //    }
-        //}
-
-        // GET api/<controller>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -62,7 +38,7 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
@@ -75,7 +51,7 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
@@ -88,12 +64,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-
-        // GET: api/<controller>/details/5
         [Authorize(Roles = "admin")]
         [HttpGet("details/{id}")]
         public async Task<IActionResult> GetDetails(int id)
@@ -104,11 +78,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET: api/<controller>/details/
         [Authorize(Roles = "admin")]
         [HttpGet("details")]
         public async Task<IActionResult> GetDetails()
@@ -119,19 +92,18 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // POST api/<controller>
         [HttpPost("Hire")]
-        public async Task<IActionResult> Post([FromBody]CarHireDTO value)
+        public async Task<IActionResult> Post([FromBody]CarHireDTO carHire)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model");
-                var result = await _carHireService.HireCarAsync(value);
+                int result = await _carHireService.HireCarAsync(carHire);
                 switch (result)
                 {
                     case 0: return BadRequest();
@@ -139,48 +111,45 @@ namespace WebAPI.Controllers
                     case -2: return BadRequest("Client not found");
                     case -3: return BadRequest("Wrong time");
                     default: return Ok(result);
-                }                
+                }
             }
             catch
             {
-                return StatusCode(400);
+                return BadRequest();
             }
         }
+
         [HttpPost("Return")]
         public async Task<IActionResult> Return([FromBody]CarHireDTO value)
         {
             try
             {
-                var result = await _carHireService.ReturnCarAsync(value);
+                int result = await _carHireService.ReturnCarAsync(value);
                 if (result == 1)
                     return Ok();
-                else
-                    return BadRequest();
+                return BadRequest();
             }
             catch
             {
-                return StatusCode(400);
+                return BadRequest();
             }
         }
 
-        // PUT api/<controller>/5
         [Authorize(Roles = "admin")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]CarHireDTO value)
         {
-            //не пашет 
             try
             {
                 await _carHireService.UpdateCarHireAsync(value);
-                return StatusCode(204);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // DELETE api/<controller>/5
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -188,13 +157,12 @@ namespace WebAPI.Controllers
             try
             {
                 await _carHireService.DeleteCarHireAsync(id);
-                return StatusCode(204);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
-
         }
     }
 }

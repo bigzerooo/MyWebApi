@@ -8,8 +8,6 @@ using BusinessLogicLayer.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebAPI.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
@@ -17,13 +15,9 @@ namespace WebAPI.Controllers
     public class NewController : Controller
     {
         INewService _newService;
-        public NewController(INewService newService)
-        {
-            _newService = newService;
-        }
+        public NewController(INewService newService) =>
+            _newService = newService;        
 
-
-        // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -34,11 +28,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
-
-        // GET api/<controller>/5
+        
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -49,13 +42,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-
-
-        // POST api/<controller>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]NewDTO value)
         {
@@ -68,39 +58,36 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(400);
+                return BadRequest();
             }
         }
-
-        // PUT api/<controller>/5
+        
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]NewDTO value)
         {
             try
             {
                 await _newService.UpdateNewAsync(value);
-                return StatusCode(204);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
-
-        // DELETE api/<controller>/5
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 await _newService.DeleteNewAsync(id);
-                return StatusCode(204);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
-
         }
     }
 }

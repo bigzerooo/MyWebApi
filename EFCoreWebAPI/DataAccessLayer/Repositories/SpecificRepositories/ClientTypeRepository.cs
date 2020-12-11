@@ -2,39 +2,24 @@
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.SpecificRepositories
 {
     public class ClientTypeRepository : GenericRepository<ClientType, int>, IClientTypeRepository
     {
-        public ClientTypeRepository(MyDBContext myDBContext) : base(myDBContext)
-        {
-
-
-        }
-        public async Task<ClientType> GetClientTypeDetailsByIdAsync(int Id)
-        {
-            var clientType = await _myDBContext.ClientTypes
+        public ClientTypeRepository(MyDBContext myDBContext) : base(myDBContext) { }
+        public async Task<ClientType> GetClientTypeDetailsByIdAsync(int id) =>
+            await _myDBContext.ClientTypes
                 .Include(c => c.Clients)
-                .Where(c => c.Id == Id)
+                .Where(c => c.Id == id)
                 .FirstOrDefaultAsync();
-            return clientType;
-        }
-        public async Task<List<ClientType>> GetClientTypeDetailsAsync()
-        {
-            var clientTypes = await _myDBContext.ClientTypes
+        public async Task<List<ClientType>> GetClientTypeDetailsAsync() =>
+            await _myDBContext.ClientTypes
                 .Include(c => c.Clients)
                 .ToListAsync();
-            return clientTypes;
-        }
-        public async Task<string> GetClientTypeByIdAsync(int Id)
-        {
-            return (await _dbSet.FindAsync(Id)).Type;
-        }
+        public async Task<string> GetClientTypeByIdAsync(int id) => (await _dbSet.FindAsync(id)).Type;
     }
 }

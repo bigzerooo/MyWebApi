@@ -5,9 +5,7 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Parameters;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
@@ -15,60 +13,37 @@ namespace BusinessLogicLayer.Services
     public class ClientService : IClientService
     {
         IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;        
+        private readonly IMapper _mapper;
         public ClientService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        public async Task<int> AddClientAsync(ClientDTO client)
+        public async Task<int> AddClientAsync(ClientDTO clientDTO)
         {
-            var x = _mapper.Map<ClientDTO, Client>(client);
-            x.ClientTypeId = 1;
-            return await _unitOfWork.clientRepository.AddAsync(x);
-            //_sqlunitOfWork.Complete();
+            Client client = _mapper.Map<ClientDTO, Client>(clientDTO);
+            client.ClientTypeId = 1;
+            return await _unitOfWork.ClientRepository.AddAsync(client);
         }
-
-        public async Task DeleteClientAsync(int Id)
-        {
-            await _unitOfWork.clientRepository.DeleteAsync(Id);
-        }
-
+        public async Task DeleteClientAsync(int Id) =>
+            await _unitOfWork.ClientRepository.DeleteAsync(Id);
         public async Task<IEnumerable<ClientDTO>> GetAllClientsAsync()
         {
-            var x = await _unitOfWork.clientRepository.GetAllAsync();
+            IEnumerable<Client> x = await _unitOfWork.ClientRepository.GetAllAsync();
             List<ClientDTO> result = new List<ClientDTO>();
-            foreach (var element in x)
+            foreach (Client element in x)
                 result.Add(_mapper.Map<Client, ClientDTO>(element));
             return result;
         }
-
-        public async Task<ClientDTO> GetClientByIdAsync(int Id)
-        {
-            var x = await _unitOfWork.clientRepository.GetAsync(Id);
-            return _mapper.Map<Client,ClientDTO>(x);
-        }
-
-        public async Task UpdateClientAsync(ClientDTO client)
-        {
-            var x = _mapper.Map<ClientDTO, Client>(client);
-            await _unitOfWork.clientRepository.UpdateAsync(x);
-        }
-
-        public async Task<Client> GetClientDetailsByIdAsync(int Id)
-        {
-            return await _unitOfWork.clientRepository.GetClientDetailsByIdAsync(Id);
-        }
-        public async Task<List<Client>> GetClientDetailsAsync()
-        {
-            return await _unitOfWork.clientRepository.GetClientDetailsAsync();
-        }
-        public async Task<PagedList<ClientDTO>> GetClientPages(ClientParameters parameters)
-        {
-            var x = await _unitOfWork.clientRepository.GetAllPagesAsync(parameters);
-            var result = _mapper.Map<PagedList<ClientDTO>>(x);
-            return result;
-        }
+        public async Task<ClientDTO> GetClientByIdAsync(int Id) =>
+            _mapper.Map<Client, ClientDTO>(await _unitOfWork.ClientRepository.GetAsync(Id));
+        public async Task UpdateClientAsync(ClientDTO client) =>
+            await _unitOfWork.ClientRepository.UpdateAsync(_mapper.Map<ClientDTO, Client>(client));
+        public async Task<Client> GetClientDetailsByIdAsync(int Id) =>
+            await _unitOfWork.ClientRepository.GetClientDetailsByIdAsync(Id);
+        public async Task<List<Client>> GetClientDetailsAsync() =>
+            await _unitOfWork.ClientRepository.GetClientDetailsAsync();
+        public async Task<PagedList<ClientDTO>> GetClientPages(ClientParameters parameters) =>
+            _mapper.Map<PagedList<ClientDTO>>(await _unitOfWork.ClientRepository.GetAllPagesAsync(parameters));
     }
 }

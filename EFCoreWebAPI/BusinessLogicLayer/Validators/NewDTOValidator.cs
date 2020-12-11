@@ -1,12 +1,9 @@
 ﻿using BusinessLogicLayer.DTO;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BusinessLogicLayer.Validators
 {
-    public class NewDTOValidator: AbstractValidator<NewDTO>
+    public class NewDTOValidator : AbstractValidator<NewDTO>
     {
         public NewDTOValidator()
         {

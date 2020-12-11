@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BusinessLogicLayer.DTO;
+﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
-using DataAccessLayer.Entities;
 using DataAccessLayer.Parameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -17,12 +11,10 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class ClientController : Controller
     {
-
         IClientService _clientService;
-        public ClientController(IClientService clientService)
-        {
+        public ClientController(IClientService clientService) =>
             _clientService = clientService;
-        }
+
         [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]ClientParameters parameters)
@@ -37,7 +29,6 @@ namespace WebAPI.Controllers
             }
         }
 
-        // GET: api/<controller>/details/5
         [Authorize(Roles = "admin")]
         [HttpGet("details/{id}")]
         public async Task<IActionResult> GetDetails(int id)
@@ -48,11 +39,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET: api/<controller>/details/
         [Authorize(Roles = "admin")]
         [HttpGet("details")]
         public async Task<IActionResult> GetDetails()
@@ -63,11 +53,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET api/<controller>/5
         [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -78,46 +67,42 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // POST api/<controller>
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ClientDTO value)
+        public async Task<IActionResult> Post([FromBody]ClientDTO client)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model");
-                var id = await _clientService.AddClientAsync(value);
+                var id = await _clientService.AddClientAsync(client);
                 return Ok(id);
             }
             catch
             {
-                return StatusCode(400);
+                return BadRequest();
             }
         }
 
-        // PUT api/<controller>/5
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ClientDTO value)
+        public async Task<IActionResult> Put([FromBody]ClientDTO client)
         {
-            //не пашет 
             try
             {
-                await _clientService.UpdateClientAsync(value);
-                return StatusCode(204);
+                await _clientService.UpdateClientAsync(client);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // DELETE api/<controller>/5
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -125,13 +110,12 @@ namespace WebAPI.Controllers
             try
             {
                 await _clientService.DeleteClientAsync(id);
-                return StatusCode(204);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
-
         }
     }
 }

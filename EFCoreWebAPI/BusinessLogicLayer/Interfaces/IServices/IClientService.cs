@@ -2,9 +2,7 @@
 using DataAccessLayer.Entities;
 using DataAccessLayer.Helpers;
 using DataAccessLayer.Parameters;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Interfaces.IServices
@@ -16,7 +14,6 @@ namespace BusinessLogicLayer.Interfaces.IServices
         Task DeleteClientAsync(int Id);
         Task<ClientDTO> GetClientByIdAsync(int Id);
         Task<IEnumerable<ClientDTO>> GetAllClientsAsync();
-
         Task<Client> GetClientDetailsByIdAsync(int Id);
         Task<List<Client>> GetClientDetailsAsync();
         Task<PagedList<ClientDTO>> GetClientPages(ClientParameters parameters);

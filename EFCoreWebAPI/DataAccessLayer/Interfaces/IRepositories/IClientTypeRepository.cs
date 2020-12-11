@@ -1,15 +1,13 @@
 ﻿using DataAccessLayer.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.IRepositories
 {
     public interface IClientTypeRepository : IGenericRepository<ClientType, int>
     {
-        public Task<ClientType> GetClientTypeDetailsByIdAsync(int Id);
+        public Task<ClientType> GetClientTypeDetailsByIdAsync(int id);
         public Task<List<ClientType>> GetClientTypeDetailsAsync();
-        public Task<string> GetClientTypeByIdAsync(int Id);
+        public Task<string> GetClientTypeByIdAsync(int id);
     }
 }

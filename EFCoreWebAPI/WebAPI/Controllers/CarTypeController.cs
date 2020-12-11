@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using DataAccessLayer.Entities;
-using DataAccessLayer.DBContext;
+﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
-using BusinessLogicLayer.DTO;
 using Microsoft.AspNetCore.Authorization;
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -18,13 +12,9 @@ namespace WebAPI.Controllers
     {
 
         ICarTypeService _carTypeService;
-        public CarTypeController(ICarTypeService carTypeService)
-        {
+        public CarTypeController(ICarTypeService carTypeService) =>
             _carTypeService = carTypeService;
-        }
 
-
-        // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -35,11 +25,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET api/<controller>/5
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -50,11 +39,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET: api/<controller>/details/5
         [HttpGet("details/{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
@@ -64,11 +52,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET: api/<controller>/details/
         [HttpGet("details")]
         public async Task<IActionResult> GetDetails()
         {
@@ -78,57 +65,52 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // POST api/<controller>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CarTypeDTO value)
+        public async Task<IActionResult> Post([FromBody]CarTypeDTO carType)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model");
-                await _carTypeService.AddCarTypeAsync(value);
+                await _carTypeService.AddCarTypeAsync(carType);
                 return StatusCode(201);
             }
             catch
             {
-                return StatusCode(400);
+                return BadRequest();
             }
         }
 
-        // PUT api/<controller>/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]CarTypeDTO value)
+        public async Task<IActionResult> Put([FromBody]CarTypeDTO carType)
         {
-            //не пашет 
             try
             {
-                await _carTypeService.UpdateCarTypeAsync(value);
-                return StatusCode(204);
+                await _carTypeService.UpdateCarTypeAsync(carType);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 await _carTypeService.DeleteCarTypeAsync(id);
-                return StatusCode(204);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
-
         }
     }
 }

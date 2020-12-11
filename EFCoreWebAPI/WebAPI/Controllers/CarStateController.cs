@@ -1,30 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BusinessLogicLayer.DTO;
+﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
-using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     public class CarStateController : Controller
     {
-
         ICarStateService _carStateService;
-        public CarStateController(ICarStateService carStateService)
-        {
+        public CarStateController(ICarStateService carStateService) =>
             _carStateService = carStateService;
-        }
 
-
-        // GET: api/<controller>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -35,11 +24,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET api/<controller>/5
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -50,37 +38,33 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-
-
-        // POST api/<controller>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CarStateDTO value)
+        public async Task<IActionResult> Post([FromBody]CarStateDTO carState)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model");
-                await _carStateService.AddCarStateAsync(value);
+                await _carStateService.AddCarStateAsync(carState);
                 return StatusCode(201);
             }
             catch
             {
-                return StatusCode(400);
+                return BadRequest();
             }
         }
 
-        // PUT api/<controller>/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]CarStateDTO value)
-        {            
+        public async Task<IActionResult> Put([FromBody]CarStateDTO carState)
+        {
             try
             {
-                await _carStateService.UpdateCarStateAsync(value);
-                return StatusCode(204);
+                await _carStateService.UpdateCarStateAsync(carState);
+                return NoContent();
             }
             catch
             {
@@ -88,23 +72,21 @@ namespace WebAPI.Controllers
             }
         }
 
-        // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
                 await _carStateService.DeleteCarStateAsync(id);
-                return StatusCode(204);
+                return NoContent();
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
 
         }
 
-        // GET: api/<controller>/details/5
         [HttpGet("details/{id}")]
         public async Task<IActionResult> GetDetails(int id)
         {
@@ -114,11 +96,10 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
 
-        // GET: api/<controller>/details/
         [HttpGet("details")]
         public async Task<IActionResult> GetDetails()
         {
@@ -128,7 +109,7 @@ namespace WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                return NotFound();
             }
         }
     }
