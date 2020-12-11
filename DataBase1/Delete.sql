@@ -1,4 +1,0 @@
-DROP DATABASE SQL4
-GO
-USE master
-
