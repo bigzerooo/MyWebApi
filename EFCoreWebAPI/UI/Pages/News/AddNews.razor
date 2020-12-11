@@ -1,0 +1,40 @@
+﻿@inject Services.NewsService newsService
+@inject NavigationManager navigationManager
+@inject  IStringLocalizer<AddNews> L
+@page "/news/add"
+@attribute [Authorize(Roles = "admin")]
+<h3>@L["News add"]</h3>
+
+<EditForm Model="@New" OnValidSubmit="@Insert">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="New.name" Label="@L["Name"]"></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="New.description" Label="@L["Description"]" TextArea="true" Outlined="true"></MatTextField>
+    </p>
+    <button type="submit" class="btn btn-sm btn-primary">@L["Add news"]</button>
+</EditForm>
+
+
+
+@code {
+    private NewViewModel New { get; set; } = new NewViewModel();
+
+    public string Error { get; set; }
+
+
+
+    protected async Task Insert()
+    {
+        Error = "";
+        New.date = DateTime.Now;
+        var result = await newsService.AddNewsAsync(New);
+        if (result.IsSuccessStatusCode)
+            navigationManager.NavigateTo("/");
+        else
+            Error = result.StatusCode.ToString();
+    }
+}

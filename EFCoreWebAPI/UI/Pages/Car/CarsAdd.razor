@@ -1,0 +1,140 @@
+﻿@using Microsoft.AspNetCore.Http
+@using System.IO;
+@using Microsoft.AspNetCore.Hosting;
+@inject IWebHostEnvironment _appEnvironment
+@inject Services.CarService carService
+@inject Services.CarTypeService carTypeService
+@inject IStringLocalizer<CarsAdd> L
+@page "/cars/add"
+@attribute [Authorize(Roles = "admin")]
+
+<h3>@L["Cars add"]</h3>
+<hr />
+<a class="btn btn-sm btn-primary" href="cars/hub">@L["Back"]</a>
+<br />
+<br />
+
+<EditForm Model="@Car" OnValidSubmit="@Insert">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="Car.brand" Label=@L["Brand"]></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="Car.price" Label=@L["Price"]></MatTextField>
+    </p>
+    <p>
+        <MatTextField @bind-Value="Car.pricePerHour" Label=@L["Price per hour"]></MatTextField>
+    </p>
+    <p>
+        <MatSelectItem @bind-Value="@CarType" Items="@CarTypeNames"></MatSelectItem>
+    </p>
+    <p>
+        <MatTextField @bind-Value="Car.year" Label=@L["Year"]></MatTextField>
+    </p>
+    <p style="width: auto">
+        <MatTextField @bind-Value="Car.description" Label="Description" TextArea="true" Outlined="true"></MatTextField>
+    </p>
+
+
+    <InputFile OnChange="HandleFileSelected" />
+    @if (file != null)
+    {
+        <p>Загружен файл : @file.Name</p>
+    }
+    <br />
+    <br />
+
+    <button type="submit" class="btn btn-sm btn-primary">@L["Insert"]</button>
+
+</EditForm>
+
+
+
+@code {
+    private CarViewModel Car { get; set; } = new CarViewModel();
+
+    public List<CarTypeViewModel> CarTypes;
+    public List<string> CarTypeNames = new List<string>();
+    public string CarType { get; set; }
+
+    public string Error { get; set; }
+
+    IFileListEntry file;
+
+    void HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CarTypes = await carTypeService.GetCarTypesAsync();
+        foreach (var carType in CarTypes)
+        {
+            CarTypeNames.Add(carType.type);
+        }
+    }
+
+    protected async Task Insert()
+    {
+        Error = "";
+        try
+        {
+            int CarTypeId = CarTypes.First(x => x.type == CarType).id;
+
+            string Path;
+            if (file == null)
+                throw new Exception("File not found");
+            if (file.Type != "image/jpeg")
+                throw new Exception("File in the wrong format! Please use .jpg");
+            Car.carTypeId = CarTypeId;
+
+            Path = await AddFile(file);
+            Car.imagePath = Path;
+
+            var result = await carService.InsertCarAsync(Car);
+            if (!result.IsSuccessStatusCode)
+                throw new Exception(result.StatusCode.ToString());
+            ClearFields();
+        }
+        catch (Exception e)
+        {
+            Error = e.Message;
+        }
+
+
+    }
+    protected void ClearFields()
+    {
+        Car.brand = "";
+        Car.price = 0;
+        Car.pricePerHour = 0;
+        Car.description = "";
+        Car.year = null;
+        file = null;
+    }
+    protected async Task<string> AddFile(IFileListEntry uploadedFile)
+    {
+        if (uploadedFile != null)
+        {
+            var newFile = await uploadedFile.ToImageFileAsync("image/jpeg", 1280, 720);//resizing
+
+            var date = DateTime.Now;
+            string path = "/car_images/"
+                + $"{date.Year}_{date.Month}_{date.Day}_{date.Hour}_{date.Minute}_{date.Second}_"
+                + newFile.Name;//generating unique filename
+
+            using (var filestream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+            {
+                await newFile.Data.CopyToAsync(filestream);//сохранение файла по пути
+            }
+
+            return path;
+        }
+        else
+            return null;
+
+    }
+}

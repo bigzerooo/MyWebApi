@@ -1,0 +1,26 @@
+﻿@page "/carhirehub"
+@attribute [Authorize]
+@inject IStringLocalizer<CarHireHub> L
+<h3>@L["Carhire hub"]</h3>
+<hr />
+<a class="btn btn-primary" href="clientcarhires">@L["My carhires"]</a>
+<br />
+<br />
+<a class="btn btn-primary" href="unreturnedcarhires">@L["Unreturned cars"]</a>
+<br />
+<br />
+<a class="btn btn-primary" href="cars">@L["Hire the car"]</a>
+<br />
+<br />
+<AuthorizeView Roles="admin">
+    <Authorized>
+        <a class="btn btn-primary" href="carhires">@L["All carhires"]</a>
+    </Authorized>            
+    <NotAuthorized>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+
+}

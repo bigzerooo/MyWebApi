@@ -1,0 +1,29 @@
+﻿@inject IStringLocalizer<NewsCard> L
+<div style="background-color: white;width: auto;height: auto;padding: 10px;border-radius: 9px;box-shadow: 0 0 10px rgba(0,0,0,0.5);border: 1px solid rgba(0,0,0,0.5) ;margin: 10px;">
+    <h2 style="text-align: center; margin: 2px;">
+        @New.name
+    </h2>
+    <hr style="margin-bottom: 0; padding-bottom:0; width: 100%; border: 1px solid ">
+    <p style="font-size: 10px; text-align: start; margin: 2px; color: gray; padding-left: 40px; text-decoration: underline">@L["Created"] : @New.date</p>
+    <p style="margin-left: 20px; margin-right: 20px;">
+        @New.description
+    </p>
+    <AuthorizeView Roles="admin">
+        <Authorized>
+            @if (Delete)
+            {
+                <a href="news/delete/@New.id" class="btn btn-sm btn-primary">@L["Delete"]</a>
+            }
+        </Authorized>
+        <NotAuthorized>
+
+        </NotAuthorized>
+
+    </AuthorizeView>
+</div>
+@code {
+    [Parameter]
+    public NewViewModel New { get; set; } = new NewViewModel();
+    [Parameter]
+    public bool Delete { get; set; } = true;
+}

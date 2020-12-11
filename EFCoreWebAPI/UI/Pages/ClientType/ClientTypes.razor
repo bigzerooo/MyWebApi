@@ -1,0 +1,29 @@
+﻿@page "/clienttypes"
+@inject UI.Services.ClientTypeService clientTypeService
+@attribute [Authorize(Roles = "admin")]
+@inject IStringLocalizer<ClientTypes> L
+<h3>@L["Client types"]</h3>
+<table class="table table-condensed table-striped table-bordered">
+    <tr><th>Id</th><th>@L["Type"]</th><th></th></tr>
+    @foreach (var clientType in clientTypes)
+    {
+        <tr>
+            <td>@clientType.id</td>
+            <td>@clientType.type</td>
+            <td>
+                <a href="/clienttypes/update/@clientType.id" class="btn btn-sm btn-primary">@L["Edit"]</a>
+                <a href="/clienttypes/delete/@clientType.id" class="btn btn-sm btn-primary">@L["Delete"]</a>
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    <a href="/clienttypes/add" class="btn btn-primary">@L["Add"]</a>
+</p>
+@code {
+    List<ClientTypeViewModel> clientTypes { get; set; } = new List<ClientTypeViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        clientTypes = await clientTypeService.GetClientTypesAsync();
+    }
+}

@@ -1,0 +1,55 @@
+﻿@using  System.IO
+@inject UI.Services.ClientService clientService
+@inject AuthenticationStateProvider authentificationStateProvider
+@inject NavigationManager navigationManager
+@inject IStringLocalizer<ModifyPhoto> L
+@page "/myaccount/photo"
+@attribute [Authorize]
+<h3>@L["Modify photo"]</h3>
+<hr />
+<p>@Error</p>
+<InputFile OnChange="HandleFileSelected" />
+@if (file != null)
+{
+    <p>@L["File downloaded"] : @file.Name</p>
+    <p></p>    
+    <button @onclick="Insert">@L["Insert"]</button>
+}
+@code {
+    public ClientViewModel client { get; set; } = new ClientViewModel();
+    IFileListEntry file;
+    public string Error { get; set; }   
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authentificationStateProvider.GetAuthenticationStateAsync();
+        var clientId = authState.User.Claims.First(x => x.Type == "clientId").Value;
+        client = await clientService.GetClientsByIdAsync(Int32.Parse(clientId));
+    }
+    void HandleFileSelected(IFileListEntry[] files)
+    {
+        file = files.FirstOrDefault();
+    }
+    public async Task Insert()
+    {
+        try
+        {
+            if (file == null)
+                throw new Exception("File not found");
+            if (file.Type != "image/jpeg")
+                throw new Exception("File in the wrong format! Please use .jpg");
+            var newFile = await file.ToImageFileAsync("image/jpeg", 150, 150);
+            var ms = new MemoryStream();
+            await newFile.Data.CopyToAsync(ms);
+            byte[] bytefile = ms.GetBuffer();            
+            client.photo = bytefile;
+            var result = await clientService.UpdateClientAsync(client);
+            if (!result.IsSuccessStatusCode)
+                throw new Exception(result.StatusCode.ToString());
+            navigationManager.NavigateTo("/myaccount");
+        }
+        catch (Exception e)
+        {
+            Error = e.Message;
+        }
+    }
+}

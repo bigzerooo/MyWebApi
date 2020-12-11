@@ -1,0 +1,121 @@
+﻿@using Microsoft.AspNetCore.Hosting;
+@using DataAccessLayer.Parameters;
+@inject Services.CarService carService
+@inject  IStringLocalizer<Cars> L
+@inject IWebHostEnvironment _appEnvironment
+@page "/cars"
+<h3>Cars</h3>
+<a class="btn btn-primary" href="cars/hub">Back</a>
+<br />
+
+<div>
+    <MatPaginator Length="@elementCount" PageSize="@pageSize" Page="@OnPage"></MatPaginator>
+</div>
+<br />
+
+<div style="display:flex; justify-content: flex-end;">
+    <MatSelectItem @bind-Value="@orderBy" Items="@orderByArray"></MatSelectItem>
+</div>
+<br />
+
+<div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%; padding: 0;">
+
+    <div style="width: auto;  padding: 0">
+        <p style="margin: 0">@L["Price"]:</p>
+        <input type="number" min="0" max="@Decimal.MaxValue" step="0.01" @bind="minPrice" placeholder="@L["Min price"]" />
+        -
+        <input type="number" min="0" max="@Decimal.MaxValue" step="0.01" @bind="maxPrice" placeholder="@L["Max price"]" />
+    </div>
+    <br />
+
+    <div style="width: auto; padding: 0">
+        <p style="margin: 0">@L["Search"]:</p>
+        <input type="text" @bind="inputBrand" placeholder="@L["Search"]..." />
+        <button @onclick="Search" class="btn btn-sm btn-primary">@L["Search"]</button>
+    </div>
+
+</div>
+
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-around;">
+@if (cars == null)
+{
+    <p><em>@L["Not found"]</em></p>
+
+}
+else
+{
+    @foreach (var car in cars)
+    {
+        <CarCard CarName="@car.brand" Id="@car.id.ToString()" ImageSource="@car.imagePath" Price="@car.price.ToString()" PricePerHour="@car.pricePerHour.ToString()"></CarCard>
+    }
+}
+</div>
+@code {    
+    int pageSize = 25;
+    int pageIndex = 0;
+
+    int elementCount = 0;
+
+    string inputBrand;
+
+    string orderBy;
+
+    string[] orderByArray = new[]
+            {
+                "Price",
+                "Price desc",
+                "Brand",
+                "Brand desc"
+            };
+
+    decimal minPrice = 0;
+    decimal maxPrice = decimal.MaxValue;//макс цену сделать
+
+
+
+    List<CarViewModel> cars;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CarParameters parameters = new CarParameters
+        {
+            PageNumber = pageIndex + 1,
+            PageSize = pageSize,
+            MaxPrice = decimal.MaxValue,
+            MinPrice = 0
+        };
+        cars = await carService.GetCarsAsync(parameters);
+        elementCount = await carService.GetCarCountAsync(parameters);
+    }
+
+    protected async Task OnPage(MatPaginatorPageEvent e)
+    {
+        cars = await carService.GetCarsAsync(new CarParameters
+        {
+            PageNumber = e.PageIndex + 1,
+            PageSize = e.PageSize,
+            Brand = inputBrand,
+            MinPrice = minPrice,
+            MaxPrice = maxPrice,
+            OrderBy = orderBy
+        });
+        pageSize = e.PageSize;
+        pageIndex = e.PageIndex;
+    }
+
+    protected async Task Search()
+    {
+        CarParameters parameters = new CarParameters
+        {
+            PageNumber = pageIndex + 1,
+            PageSize = pageSize,
+            Brand = inputBrand,
+            MinPrice = minPrice,
+            MaxPrice = maxPrice,
+            OrderBy = orderBy
+        };
+        cars = await carService.GetCarsAsync(parameters);
+        elementCount = await carService.GetCarCountAsync(parameters);
+    }
+}

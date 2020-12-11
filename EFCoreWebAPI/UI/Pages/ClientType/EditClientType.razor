@@ -1,0 +1,44 @@
+﻿@page "/clienttypes/update/{id}"
+@inject UI.Services.ClientTypeService clientTypeService
+@inject NavigationManager  navigationManager
+@attribute [Authorize(Roles = "admin")]
+@inject IStringLocalizer<EditClientType> L
+<h3>@L["Edit client type"]</h3>
+<hr />
+<EditForm Model="@clientType" OnValidSubmit="@Edit">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="@clientType.type" Label="@L["Client type"]"></MatTextField>
+    </p>
+    <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
+</EditForm>
+
+@attribute [Authorize(Roles = "admin")]
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    ClientTypeViewModel clientType { get; set; } = new ClientTypeViewModel();
+
+    public string Error { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        int intId = Int32.Parse(Id);
+        clientType.type = await clientTypeService.GetClientTypeByIdAsync(intId);
+        clientType.id = intId;
+    }
+    public async Task Edit()
+    {
+        Error = "";
+        var result = await clientTypeService.UpdateClientTypeAsync(clientType);
+        if (result.IsSuccessStatusCode)
+            navigationManager.NavigateTo("/clienttypes");
+        else
+            Error = result.StatusCode.ToString();
+
+    }
+
+}

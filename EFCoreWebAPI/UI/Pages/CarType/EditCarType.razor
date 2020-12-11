@@ -1,0 +1,44 @@
+﻿@page "/cartypes/update/{id}"
+@inject UI.Services.CarTypeService carTypeService
+@inject NavigationManager  navigationManager
+@attribute [Authorize(Roles = "admin")]
+@inject IStringLocalizer<EditCarType> L
+<h3>@L["Edit car type"]</h3>
+<hr />
+<EditForm Model="@carType" OnValidSubmit="@Edit">
+    <FluentValidator></FluentValidator>
+    <ValidationSummary />
+    <p>@Error</p>
+    <p>
+        <MatTextField @bind-Value="@carType.type" Label=@L["Car type"]></MatTextField>
+    </p>
+    <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
+</EditForm>
+
+@attribute [Authorize(Roles = "admin")]
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    CarTypeViewModel carType { get; set; } = new CarTypeViewModel();
+
+    public string Error { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        int intId = Int32.Parse(Id);
+        carType.type = await carTypeService.GetCarTypeByIdAsync(intId);
+        carType.id = intId;
+    }
+    public async Task Edit()
+    {
+        Error = "";
+        var result = await carTypeService.UpdateCarTypeAsync(carType);
+        if (result.IsSuccessStatusCode)
+            navigationManager.NavigateTo("/cartypes");
+        else
+            Error = result.StatusCode.ToString();
+
+    }
+
+}

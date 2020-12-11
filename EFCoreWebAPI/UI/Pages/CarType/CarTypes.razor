@@ -1,0 +1,29 @@
+﻿@page "/cartypes"
+@inject UI.Services.CarTypeService carTypeService
+@attribute [Authorize(Roles = "admin")]
+@inject IStringLocalizer<CarTypes> L
+<h3>@L["Car types"]</h3>
+<table class="table table-condensed table-striped table-bordered">
+    <tr><th>@L["Id"]</th><th>@L["Type"]</th><th></th></tr>
+    @foreach (var carType in carTypes)
+    {
+        <tr>
+            <td>@carType.id</td>
+            <td>@carType.type</td>
+            <td>
+                <a href="/cartypes/update/@carType.id" class="btn btn-sm btn-primary">@L["Edit"]</a>
+                <a href="/cartypes/delete/@carType.id" class="btn btn-sm btn-primary">@L["Delete"]</a>
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    <a href="/cartypes/add" class="btn btn-primary">@L["Add"]</a>
+</p>
+@code {
+    List<CarTypeViewModel> carTypes { get; set; } = new List<CarTypeViewModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        carTypes = await carTypeService.GetCarTypesAsync();
+    }
+}

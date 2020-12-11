@@ -1,0 +1,46 @@
+﻿@page "/carreturn/{id}"
+@inject UI.Services.CarStateService carStateService
+@inject  UI.Services.CarHiresService carHiresService
+@inject NavigationManager navigationManager
+@inject IStringLocalizer<CarReturn> L
+@attribute [Authorize]
+@Error
+<MatSelectItem @bind-Value="@CarState" Items="@CarStates"></MatSelectItem>
+<button class="btn btn-primary" @onclick="Return">@L["Return"]</button>
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    public string Error { get; set; } = "";
+    public List<string> CarStates { get; set; } = new List<string>();
+    public List<CarStateViewModel> carStates { get; set; }
+    string CarState{get;set;}
+    protected override async Task OnInitializedAsync()
+    {
+        carStates = await carStateService.GetCarStatesAsync();
+        foreach (var carState in carStates)
+        {
+            CarStates.Add(carState.state);
+        }
+    }
+    protected async Task Return()
+    {
+        Error="";
+        string carStateId=carStates.First(x=>x.state==CarState).id.ToString();
+        if(carStateId==null)
+        {
+            Error = "carstateId is null";
+            return;
+        }
+        if(Id==null)
+        {
+            Error = "Id is null";
+            return;
+        }
+        var x = await carHiresService.ReturnCarAsync(Id, carStateId);
+        if (x.IsSuccessStatusCode)
+            navigationManager.NavigateTo("/unreturnedcarhires");
+        else
+            Error = x.StatusCode.ToString();
+
+    }
+}
