@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.DBContext;
+﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Helpers;
@@ -12,7 +12,7 @@ namespace DataAccessLayer.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly MyDBContext _context;
+        private readonly SQLDbContext _context;
         private readonly ISortHelper<Car> _carSortHelper;
         private readonly ISortHelper<Client> _clientSortHelper;
         public ICarStateRepository CarStateRepository { get; }
@@ -26,7 +26,7 @@ namespace DataAccessLayer.UnitOfWork
         public RoleManager<MyRole> RoleManager { get; }
         public SignInManager<MyUser> SignInManager { get; }
         public UnitOfWork(
-            MyDBContext context,
+            SQLDbContext context,
             ICarStateRepository carStateRepository,
             ICarTypeRepository carTypeRepository,
             IClientTypeRepository clientTypeRepository,
@@ -53,7 +53,7 @@ namespace DataAccessLayer.UnitOfWork
             RoleManager = roleManager;
             _carSortHelper = carSortHelper;
             _clientSortHelper = clientSortHelper;
-        }       
+        }
         public Task<int> Complete() => _context.SaveChangesAsync();
         private bool disposed = false;
         public virtual void Dispose(bool disposing)

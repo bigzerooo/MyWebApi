@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.DBContext;
+﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces.IRepositories;
@@ -8,12 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Repositories.SpecificRepositories
+namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class ClientRepository : GenericRepository<Client, int>, IClientRepository
+    public class ClientRepository : SQLGenericRepository<Client>, IClientRepository
     {
         private readonly ISortHelper<Client> _sortHelper;
-        public ClientRepository(MyDBContext myDBContext, ISortHelper<Client> sortHelper) : base(myDBContext) =>
+        public ClientRepository(SQLDbContext myDBContext, ISortHelper<Client> sortHelper) : base(myDBContext) =>
             _sortHelper = sortHelper;
         public async Task<Client> GetClientDetailsByIdAsync(int id) =>
             await _myDBContext.Clients

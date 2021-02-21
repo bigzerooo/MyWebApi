@@ -3,11 +3,11 @@ using DataAccessLayer.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccessLayer.DBContext
+namespace DataAccessLayer.DbContext
 {
-    public class MyDBContext : IdentityDbContext<MyUser, MyRole, int>
+    public class SQLDbContext : IdentityDbContext<MyUser, MyRole, int>
     {
-        public MyDBContext(DbContextOptions<MyDBContext> options) : base(options) =>
+        public SQLDbContext(DbContextOptions<SQLDbContext> options) : base(options) =>
             Database.EnsureCreated();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

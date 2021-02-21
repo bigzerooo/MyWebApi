@@ -2,5 +2,5 @@
 
 namespace DataAccessLayer.Interfaces.IRepositories
 {
-    public interface INewRepository : IGenericRepository<New, int> { }
+    public interface INewRepository : IGenericRepository<New> { }
 }

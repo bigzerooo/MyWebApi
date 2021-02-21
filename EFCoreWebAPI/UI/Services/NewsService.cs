@@ -1,7 +1,5 @@
 ﻿using Blazored.LocalStorage;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -27,14 +25,14 @@ namespace UI.Services
 
             using var responseContent = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<List<NewViewModel>>(responseContent);
-        }        
+        }
         public async Task<HttpResponseMessage> AddNewsAsync(NewViewModel news)
         {
             string token = await _localStorage.GetItemAsync<string>("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             return await _httpClient.PostAsync($"api/new", GetStringContentFromObject(news));
-        }        
+        }
         private StringContent GetStringContentFromObject(object obj)
         {
             var serialized = JsonSerializer.Serialize(obj);

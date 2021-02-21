@@ -1,9 +1,7 @@
 ﻿using Blazored.LocalStorage;
-using BusinessLogicLayer.DTO;
 using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -23,7 +21,7 @@ namespace UI.Services
         }
         public async Task<List<CarViewModel>> GetCarsAsync(CarParameters parameters)
         {
-            var response = await _httpClient.GetAsync($"api/car?PageSize={parameters.PageSize}&PageNumber={parameters.PageNumber}&MinPrice={parameters.MinPrice}&Brand={parameters.Brand}&MaxPrice={parameters.MaxPrice}&OrderBy={parameters.OrderBy}");            
+            var response = await _httpClient.GetAsync($"api/car?PageSize={parameters.PageSize}&PageNumber={parameters.PageNumber}&MinPrice={parameters.MinPrice}&Brand={parameters.Brand}&MaxPrice={parameters.MaxPrice}&OrderBy={parameters.OrderBy}");
             if (!response.IsSuccessStatusCode)
                 return null;
 
@@ -34,7 +32,7 @@ namespace UI.Services
         {
             var response = await _httpClient.GetAsync($"api/car/{id}");
             if (!response.IsSuccessStatusCode)
-                return null;            
+                return null;
 
             using var responseContent = await response.Content.ReadAsStreamAsync();
             return await JsonSerializer.DeserializeAsync<CarViewModel>(responseContent);
@@ -54,7 +52,7 @@ namespace UI.Services
             if (!respone.IsSuccessStatusCode)
                 return 0;
             else
-                return Int32.Parse(await respone.Content.ReadAsStringAsync()); 
+                return Int32.Parse(await respone.Content.ReadAsStringAsync());
         }
         public async Task<decimal> CalculatePrice(string id, DateTime expectedEndDate)
         {
@@ -63,7 +61,7 @@ namespace UI.Services
                 return 0;
 
             using var responseContent = await response.Content.ReadAsStreamAsync();
-            var x =  await JsonSerializer.DeserializeAsync<CarViewModel>(responseContent);
+            var x = await JsonSerializer.DeserializeAsync<CarViewModel>(responseContent);
 
             var timeGap = (expectedEndDate - DateTime.Now).TotalSeconds;
             var ExpectedPrice = x.pricePerHour / 3600 * (decimal)timeGap;

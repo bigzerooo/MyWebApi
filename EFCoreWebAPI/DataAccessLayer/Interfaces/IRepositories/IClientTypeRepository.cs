@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.IRepositories
 {
-    public interface IClientTypeRepository : IGenericRepository<ClientType, int>
+    public interface IClientTypeRepository : IGenericRepository<ClientType>
     {
         public Task<ClientType> GetClientTypeDetailsByIdAsync(int id);
         public Task<List<ClientType>> GetClientTypeDetailsAsync();

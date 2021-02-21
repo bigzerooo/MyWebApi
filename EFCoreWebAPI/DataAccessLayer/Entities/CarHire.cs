@@ -3,7 +3,7 @@ using System;
 
 namespace DataAccessLayer.Entities
 {
-    public class CarHire : IEntity<int>
+    public class CarHire : IEntity
     {
         public int Id { get; set; }
         public int CarId { get; set; }

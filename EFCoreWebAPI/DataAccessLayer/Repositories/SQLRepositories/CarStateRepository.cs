@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.DBContext;
+﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Repositories.SpecificRepositories
+namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class CarStateRepository : GenericRepository<CarState, int>, ICarStateRepository
+    public class CarStateRepository : SQLGenericRepository<CarState>, ICarStateRepository
     {
-        public CarStateRepository(MyDBContext myDBContext) : base(myDBContext) { }
+        public CarStateRepository(SQLDbContext myDBContext) : base(myDBContext) { }
         public async Task<CarState> GetCarStateDetailsByIdAsync(int id) =>
             await _myDBContext.CarStates
                 .Include(c => c.CarHires)

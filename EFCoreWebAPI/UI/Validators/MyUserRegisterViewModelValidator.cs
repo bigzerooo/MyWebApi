@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using UI.ViewModels;
 namespace UI.Validators
 {
-    public class MyUserRegisterViewModelValidator: AbstractValidator<MyUserRegisterViewModel>
+    public class MyUserRegisterViewModelValidator : AbstractValidator<MyUserRegisterViewModel>
     {
         public MyUserRegisterViewModelValidator()
         {
@@ -19,7 +15,7 @@ namespace UI.Validators
 
             RuleFor(x => x.password)
                 .NotEmpty()
-                .MinimumLength(6);                               
+                .MinimumLength(6);
 
             RuleFor(x => x.passwordConfirm)
                 .NotEmpty()

@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]CarHireParameters parameters)
+        public async Task<IActionResult> Get([FromQuery] CarHireParameters parameters)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("Hire")]
-        public async Task<IActionResult> Post([FromBody]CarHireDTO carHire)
+        public async Task<IActionResult> Post([FromBody] CarHireDTO carHire)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("Return")]
-        public async Task<IActionResult> Return([FromBody]CarHireDTO value)
+        public async Task<IActionResult> Return([FromBody] CarHireDTO value)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace WebAPI.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]CarHireDTO value)
+        public async Task<IActionResult> Put([FromBody] CarHireDTO value)
         {
             try
             {

@@ -3,13 +3,14 @@ using BusinessLogicLayer;
 using BusinessLogicLayer.Interfaces.IServices;
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Validators;
-using DataAccessLayer.DBContext;
+using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Interfaces.IRepositories;
-using DataAccessLayer.Repositories.SpecificRepositories;
+using DataAccessLayer.Repositories.MongoDBRepositories;
+using DataAccessLayer.Repositories.SQLRepositories;
 using DataAccessLayer.UnitOfWork;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,6 +22,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -39,7 +41,7 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyDBContext>(cfg =>
+            services.AddDbContext<SQLDbContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("DataAccessLayer"));
             });
@@ -55,7 +57,14 @@ namespace WebAPI
                     RequireUppercase = false,
                     RequireNonAlphanumeric = false
                 };
-            }).AddEntityFrameworkStores<MyDBContext>();
+            }).AddEntityFrameworkStores<SQLDbContext>();
+
+            #region MongoDb
+            services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDbSettings"));
+
+            services.AddSingleton<IMongoDbSettings>(serviceProvider =>
+                serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            #endregion
 
             #region repositories
             services.AddTransient<ICarStateRepository, CarStateRepository>();
@@ -64,7 +73,8 @@ namespace WebAPI
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<ICarHireRepository, CarHireRepository>();
             services.AddTransient<IClientRepository, ClientRepository>();
-            services.AddTransient<INewRepository, NewRepository>();
+            //services.AddTransient<INewRepository, NewRepository>();
+            services.AddTransient<INewRepository, MongoNewRepository>();
             #endregion
 
             services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);

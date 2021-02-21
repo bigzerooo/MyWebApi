@@ -1,12 +1,16 @@
-﻿using DataAccessLayer.Interfaces.EntityInterfaces;
+﻿using DataAccessLayer.Attributes;
+using DataAccessLayer.Interfaces.EntityInterfaces;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace DataAccessLayer.Entities
 {
-    public class New : IEntity<int>
+    [BsonCollection("news")]
+    public class New : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime Date { get; set; }
         public string Description { get; set; }
     }

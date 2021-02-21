@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.DBContext;
+﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces.IRepositories;
@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Repositories.SpecificRepositories
+namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class CarHireRepository : GenericRepository<CarHire, int>, ICarHireRepository
+    public class CarHireRepository : SQLGenericRepository<CarHire>, ICarHireRepository
     {
-        public CarHireRepository(MyDBContext myDBContext) : base(myDBContext) { }
+        public CarHireRepository(SQLDbContext myDBContext) : base(myDBContext) { }
         public async Task<int> GetReturnedCarCountByIdAsync(int clientId) =>
             await _myDBContext.CarHires.CountAsync(x => x.Returned == true && x.ClientId == clientId);
         public async Task<List<CarHire>> GetUnreturnedCarHiresByClientIdAsync(int clientId) =>

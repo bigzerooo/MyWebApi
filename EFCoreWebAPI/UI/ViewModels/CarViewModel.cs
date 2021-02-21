@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace UI.ViewModels
+﻿namespace UI.ViewModels
 {
     public class CarViewModel
-    {   
+    {
         public int id { get; set; }
         public string brand { get; set; }
         public decimal price { get; set; }
@@ -14,6 +9,6 @@ namespace UI.ViewModels
         public int carTypeId { get; set; }
         public int? year { get; set; }
         public string imagePath { get; set; }
-        public string description { get; set; }        
+        public string description { get; set; }
     }
 }

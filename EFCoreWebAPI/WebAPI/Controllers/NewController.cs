@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using BusinessLogicLayer.DTO;
+﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -16,7 +12,7 @@ namespace WebAPI.Controllers
     {
         INewService _newService;
         public NewController(INewService newService) =>
-            _newService = newService;        
+            _newService = newService;
 
         [AllowAnonymous]
         [HttpGet]
@@ -31,7 +27,7 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
         }
-        
+
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -47,7 +43,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]NewDTO value)
+        public async Task<IActionResult> Post([FromBody] NewDTO value)
         {
             try
             {
@@ -61,9 +57,9 @@ namespace WebAPI.Controllers
                 return BadRequest();
             }
         }
-        
+
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]NewDTO value)
+        public async Task<IActionResult> Put([FromBody] NewDTO value)
         {
             try
             {
@@ -75,7 +71,7 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
         }
-        
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

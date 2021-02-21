@@ -1,8 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UI.ViewModels;
 
 namespace UI.Validators
@@ -10,7 +6,7 @@ namespace UI.Validators
     public class ClientViewModelValidator : AbstractValidator<ClientViewModel>
     {
         public ClientViewModelValidator()
-        {            
+        {
             RuleFor(x => x.firstName).MaximumLength(45);
             RuleFor(x => x.lastName).MaximumLength(45);
             RuleFor(x => x.secondName).MaximumLength(45);

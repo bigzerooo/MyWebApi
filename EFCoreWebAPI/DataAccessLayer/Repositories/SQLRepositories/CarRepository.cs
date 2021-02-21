@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.DBContext;
+﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces.IRepositories;
@@ -8,12 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-namespace DataAccessLayer.Repositories.SpecificRepositories
+namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class CarRepository : GenericRepository<Car, int>, ICarRepository
+    public class CarRepository : SQLGenericRepository<Car>, ICarRepository
     {
         private readonly ISortHelper<Car> _sortHelper;
-        public CarRepository(MyDBContext myDBContext, ISortHelper<Car> sortHelper) : base(myDBContext) =>
+        public CarRepository(SQLDbContext myDBContext, ISortHelper<Car> sortHelper) : base(myDBContext) =>
             _sortHelper = sortHelper;
         public async Task<int> GetCarCountAsync(CarParameters parameters) =>
             await _myDBContext.Cars.CountAsync(x =>

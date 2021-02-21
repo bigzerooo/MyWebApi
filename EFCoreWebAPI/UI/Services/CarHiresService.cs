@@ -1,7 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -64,18 +63,18 @@ namespace UI.Services
         //    var responseContent = await response.Content.ReadAsStringAsync();
         //    return responseContent;
         //}
-        public async Task<HttpResponseMessage> ReturnCarAsync(string id,string carStateId)
+        public async Task<HttpResponseMessage> ReturnCarAsync(string id, string carStateId)
         {
             string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);            
-            return await _httpClient.PostAsync($"api/carhire/return", GetStringContentFromObject(new CarHireViewModel(){ id = Int32.Parse(id), carStateId = Int32.Parse(carStateId) })); ;
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            return await _httpClient.PostAsync($"api/carhire/return", GetStringContentFromObject(new CarHireViewModel() { id = Int32.Parse(id), carStateId = Int32.Parse(carStateId) })); ;
         }
         public async Task<HttpResponseMessage> HireTheCarAsync(string carId, string clientId, DateTime expectedEndDate)
         {
             string token = await _localStorage.GetItemAsync<string>("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.PostAsync($"api/carhire/hire", GetStringContentFromObject(new CarHireViewModel { carId=Int32.Parse(carId), clientId=Int32.Parse(clientId), expectedEndDate= expectedEndDate}));
+            return await _httpClient.PostAsync($"api/carhire/hire", GetStringContentFromObject(new CarHireViewModel { carId = Int32.Parse(carId), clientId = Int32.Parse(clientId), expectedEndDate = expectedEndDate }));
         }
 
         //public async Task<HttpResponseMessage> UpdateCarTypeAsync(CarTypeViewModel carType)

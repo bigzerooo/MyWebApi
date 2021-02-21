@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.IRepositories
 {
-    public interface ICarTypeRepository : IGenericRepository<CarType, int>
+    public interface ICarTypeRepository : IGenericRepository<CarType>
     {
         public Task<CarType> GetCarTypeDetailsByIdAsync(int id);
         public Task<List<CarType>> GetCarTypeDetailsAsync();

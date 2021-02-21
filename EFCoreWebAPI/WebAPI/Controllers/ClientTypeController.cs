@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ClientTypeDTO clientType)
+        public async Task<IActionResult> Post([FromBody] ClientTypeDTO clientType)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ClientTypeDTO clientType)
+        public async Task<IActionResult> Put([FromBody] ClientTypeDTO clientType)
         {
             try
             {

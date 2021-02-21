@@ -1,9 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using BusinessLogicLayer.DTO.Identity.Results;
 using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -37,10 +34,10 @@ namespace UI.Services
             var serialized = JsonSerializer.Serialize(obj);
             var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
             return stringContent;
-        }        
+        }
         public async Task<LoginResult> Login(MyUserLoginViewModel loginModel)
         {
-            
+
             var response = await _httpClient.PostAsync("api/account/login", GetStringContentFromObject(loginModel));
 
             using var responseContent = await response.Content.ReadAsStreamAsync();
@@ -51,7 +48,7 @@ namespace UI.Services
             }
 
             await _localStorage.SetItemAsync("authToken", $"{loginResult.token}");
-            
+
             ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginResult.token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.token);
             return loginResult;

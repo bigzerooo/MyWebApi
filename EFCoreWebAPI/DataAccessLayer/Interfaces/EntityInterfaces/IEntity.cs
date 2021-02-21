@@ -1,7 +1,10 @@
-﻿namespace DataAccessLayer.Interfaces.EntityInterfaces
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace DataAccessLayer.Interfaces.EntityInterfaces
 {
-    public interface IEntity<T>
+    public interface IEntity
     {
-        T Id { get; set; }
+        [BsonId]
+        int Id { get; set; }
     }
 }

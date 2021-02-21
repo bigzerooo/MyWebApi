@@ -1,7 +1,5 @@
 ﻿using Blazored.LocalStorage;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -41,7 +39,7 @@ namespace UI.Services
         {
             string token = await _localStorage.GetItemAsync<string>("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            
+
             return await _httpClient.PostAsync($"api/cartype", GetStringContentFromObject(carType));
         }
 

@@ -17,12 +17,12 @@ namespace WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet("count")]
-        public async Task<IActionResult> Count([FromQuery]CarParameters parameters) =>
+        public async Task<IActionResult> Count([FromQuery] CarParameters parameters) =>
             Ok(await _carService.GetCarCountAsync(parameters));
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]CarParameters parameters)
+        public async Task<IActionResult> Get([FromQuery] CarParameters parameters)
         {
             if (!parameters.ValidPriceRange)
                 return BadRequest("Invalid price range!");
@@ -84,7 +84,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CarDTO car)
+        public async Task<IActionResult> Post([FromBody] CarDTO car)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]CarDTO car)
+        public async Task<IActionResult> Put([FromBody] CarDTO car)
         {
             try
             {

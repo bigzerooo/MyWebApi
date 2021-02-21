@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CarTypeDTO carType)
+        public async Task<IActionResult> Post([FromBody] CarTypeDTO carType)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]CarTypeDTO carType)
+        public async Task<IActionResult> Put([FromBody] CarTypeDTO carType)
         {
             try
             {

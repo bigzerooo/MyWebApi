@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.DBContext;
+﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Repositories.SpecificRepositories
+namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class ClientTypeRepository : GenericRepository<ClientType, int>, IClientTypeRepository
+    public class ClientTypeRepository : SQLGenericRepository<ClientType>, IClientTypeRepository
     {
-        public ClientTypeRepository(MyDBContext myDBContext) : base(myDBContext) { }
+        public ClientTypeRepository(SQLDbContext myDBContext) : base(myDBContext) { }
         public async Task<ClientType> GetClientTypeDetailsByIdAsync(int id) =>
             await _myDBContext.ClientTypes
                 .Include(c => c.Clients)

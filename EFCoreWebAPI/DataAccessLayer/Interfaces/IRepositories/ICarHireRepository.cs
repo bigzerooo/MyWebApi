@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.IRepositories
 {
-    public interface ICarHireRepository : IGenericRepository<CarHire, int>
+    public interface ICarHireRepository : IGenericRepository<CarHire>
     {
         public Task<CarHire> GetCarHireDetailsByIdAsync(int id);
         public Task<List<CarHire>> GetCarHireDetailsAsync();

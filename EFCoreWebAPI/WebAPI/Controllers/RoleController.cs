@@ -17,17 +17,17 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [Route("GiveRole")]
-        public async Task GiveRole([FromQuery]string id, [FromQuery]string role) =>
+        public async Task GiveRole([FromQuery] string id, [FromQuery] string role) =>
             await _roleService.AppointRole(id, role);
 
         [HttpGet]
         [Route("GetUserRoles")]
-        public async Task<IList<string>> GetRoles([FromQuery]string id) =>
+        public async Task<IList<string>> GetRoles([FromQuery] string id) =>
             await _roleService.GetAllRolesByUserId(id);
 
         [HttpPost]
         [Route("CreateRole")]
-        public async Task<IActionResult> CreateRole([FromBody]RoleDTO role)
+        public async Task<IActionResult> CreateRole([FromBody] RoleDTO role)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Invalid model");

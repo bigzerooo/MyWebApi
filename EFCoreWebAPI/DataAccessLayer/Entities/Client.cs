@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DataAccessLayer.Entities
 {
-    public class Client : IEntity<int>
+    public class Client : IEntity
     {
         public int Id { get; set; }
         public string LastName { get; set; }

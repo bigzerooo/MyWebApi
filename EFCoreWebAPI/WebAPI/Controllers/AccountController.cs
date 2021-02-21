@@ -55,11 +55,11 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Route("edit")]
-        public async Task<IActionResult> Edit([FromBody]MyUserEditDTO myUser) => Ok(await _accountService.Edit(myUser));
+        public async Task<IActionResult> Edit([FromBody] MyUserEditDTO myUser) => Ok(await _accountService.Edit(myUser));
 
         [HttpPost]
         [Route("changepassword")]
-        public async Task<IActionResult> ChangePassword([FromBody]MyUserChangePasswordDTO myUser)
+        public async Task<IActionResult> ChangePassword([FromBody] MyUserChangePasswordDTO myUser)
         {
             IdentityResult result = await _accountService.ChangePassword(myUser);
             if (result.Succeeded)

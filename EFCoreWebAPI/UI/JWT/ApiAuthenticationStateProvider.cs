@@ -26,7 +26,7 @@ namespace UI.JWT
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var savedToken = await _localStorage.GetItemAsync<string>("authToken");
-            
+
 
             if (string.IsNullOrWhiteSpace(savedToken))
             {

@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]ClientParameters parameters)
+        public async Task<IActionResult> Get([FromQuery] ClientParameters parameters)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace WebAPI.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ClientDTO client)
+        public async Task<IActionResult> Post([FromBody] ClientDTO client)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ClientDTO client)
+        public async Task<IActionResult> Put([FromBody] ClientDTO client)
         {
             try
             {
