@@ -12,21 +12,18 @@ namespace BusinessLogicLayer.Services
     {
         public CarStateService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
         public async Task<int> AddCarStateAsync(CarStateDTO carState) =>
-            await _unitOfWork.CarStateRepository.AddAsync(_mapper.Map<CarStateDTO, CarState>(carState));
+            await _unitOfWork.CarStateRepository.AddAsync(_mapper.Map<CarState>(carState));
         public async Task DeleteCarStateAsync(int id) =>
             await _unitOfWork.CarStateRepository.DeleteAsync(id);
         public async Task<IEnumerable<CarStateDTO>> GetAllCarStatesAsync()
         {
-            IEnumerable<CarState> x = await _unitOfWork.CarStateRepository.GetAllAsync();
-            List<CarStateDTO> result = new List<CarStateDTO>();
-            foreach (var element in x)
-                result.Add(_mapper.Map<CarState, CarStateDTO>(element));
-            return result;
+            IEnumerable<CarState> carState = await _unitOfWork.CarStateRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<CarStateDTO>>(carState);
         }
         public async Task<string> GetCarStateByIdAsync(int Id) =>
             await _unitOfWork.CarStateRepository.GetCarStateById(Id);
         public async Task UpdateCarStateAsync(CarStateDTO carState) =>
-            await _unitOfWork.CarStateRepository.UpdateAsync(_mapper.Map<CarStateDTO, CarState>(carState));
+            await _unitOfWork.CarStateRepository.UpdateAsync(_mapper.Map<CarState>(carState));
         public async Task<CarState> GetCarStateDetailsByIdAsync(int Id) =>
             await _unitOfWork.CarStateRepository.GetCarStateDetailsByIdAsync(Id);
         public async Task<List<CarState>> GetCarStateDetailsAsync() =>

@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<int> HireCarAsync(CarHireDTO carHire)
         {
-            CarHire x = _mapper.Map<CarHireDTO, CarHire>(carHire);
+            CarHire x = _mapper.Map<CarHire>(carHire);
 
             x.BeginDate = DateTime.Now;
             Car car = await _unitOfWork.CarRepository.GetAsync(x.CarId);
@@ -99,23 +99,18 @@ namespace BusinessLogicLayer.Services
             await _unitOfWork.CarHireRepository.DeleteAsync(Id);
         public async Task<IEnumerable<CarHireDTO>> GetAllCarHiresAsync()
         {
-            IEnumerable<CarHire> x = await _unitOfWork.CarHireRepository.GetAllAsync();
-
-            List<CarHireDTO> result = new List<CarHireDTO>();
-            foreach (var element in x)
-                result.Add(_mapper.Map<CarHire, CarHireDTO>(element));
-
-            return result;
+            IEnumerable<CarHire> carHires = await _unitOfWork.CarHireRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<CarHireDTO>>(carHires);
         }
         public async Task<CarHireDTO> GetCarHireByIdAsync(int Id)
         {
             var x = await _unitOfWork.CarHireRepository.GetAsync(Id);
-            return _mapper.Map<CarHire, CarHireDTO>(x);
+            return _mapper.Map<CarHireDTO>(x);
         }
 
         public async Task UpdateCarHireAsync(CarHireDTO carHire)
         {
-            var x = _mapper.Map<CarHireDTO, CarHire>(carHire);
+            var x = _mapper.Map<CarHire>(carHire);
             await _unitOfWork.CarHireRepository.UpdateAsync(x);
         }
         public async Task<CarHire> GetCarHireDetailsByIdAsync(int Id) =>

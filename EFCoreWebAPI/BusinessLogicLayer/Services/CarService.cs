@@ -20,15 +20,15 @@ namespace BusinessLogicLayer.Services
             return await _unitOfWork.CarRepository.GetCarCountAsync(parameters);
         }
         public async Task<int> AddCarAsync(CarDTO car) =>
-            await _unitOfWork.CarRepository.AddAsync(_mapper.Map<CarDTO, Car>(car));
+            await _unitOfWork.CarRepository.AddAsync(_mapper.Map<Car>(car));
         public async Task DeleteCarAsync(int id) =>
             await _unitOfWork.CarRepository.DeleteAsync(id);
         public async Task<IEnumerable<CarDTO>> GetAllCarsAsync() =>
             _mapper.Map<List<CarDTO>>(await _unitOfWork.CarRepository.GetAllAsync());
         public async Task<CarDTO> GetCarByIdAsync(int Id) =>
-            _mapper.Map<Car, CarDTO>(await _unitOfWork.CarRepository.GetAsync(Id));
+            _mapper.Map<CarDTO>(await _unitOfWork.CarRepository.GetAsync(Id));
         public async Task UpdateCarAsync(CarDTO car) =>
-            await _unitOfWork.CarRepository.UpdateAsync(_mapper.Map<CarDTO, Car>(car));
+            await _unitOfWork.CarRepository.UpdateAsync(_mapper.Map<Car>(car));
         public async Task<Car> GetCarDetailsByIdAsync(int Id) =>
             await _unitOfWork.CarRepository.GetCarDetailsByIdAsync(Id);
         public async Task<List<Car>> GetCarDetailsAsync() =>

@@ -12,21 +12,18 @@ namespace BusinessLogicLayer.Services
     {
         public ClientTypeService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
         public async Task<int> AddClientTypeAsync(ClientTypeDTO clientType) =>
-            await _unitOfWork.ClientTypeRepository.AddAsync(_mapper.Map<ClientTypeDTO, ClientType>(clientType));
+            await _unitOfWork.ClientTypeRepository.AddAsync(_mapper.Map<ClientType>(clientType));
         public async Task DeleteClientTypeAsync(int Id) =>
             await _unitOfWork.ClientTypeRepository.DeleteAsync(Id);
         public async Task<IEnumerable<ClientTypeDTO>> GetAllClientTypesAsync()
         {
-            var x = await _unitOfWork.ClientTypeRepository.GetAllAsync();
-            List<ClientTypeDTO> result = new List<ClientTypeDTO>();
-            foreach (var element in x)
-                result.Add(_mapper.Map<ClientType, ClientTypeDTO>(element));
-            return result;
+            var clientTypes = await _unitOfWork.ClientTypeRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ClientTypeDTO>>(clientTypes);
         }
         public async Task<string> GetClientTypeByIdAsync(int Id) =>
             await _unitOfWork.ClientTypeRepository.GetClientTypeByIdAsync(Id);
         public async Task UpdateClientTypeAsync(ClientTypeDTO clientType) =>
-            await _unitOfWork.ClientTypeRepository.UpdateAsync(_mapper.Map<ClientTypeDTO, ClientType>(clientType));
+            await _unitOfWork.ClientTypeRepository.UpdateAsync(_mapper.Map<ClientType>(clientType));
         public async Task<ClientType> GetClientTypeDetailsByIdAsync(int Id) =>
             await _unitOfWork.ClientTypeRepository.GetClientTypeDetailsByIdAsync(Id);
         public async Task<List<ClientType>> GetClientTypeDetailsAsync() =>

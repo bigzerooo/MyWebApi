@@ -16,7 +16,7 @@ namespace BusinessLogicLayer.Services
 
         public async Task<int> AddClientAsync(ClientDTO clientDTO)
         {
-            Client client = _mapper.Map<ClientDTO, Client>(clientDTO);
+            Client client = _mapper.Map<Client>(clientDTO);
             client.ClientTypeId = 1;
             return await _unitOfWork.ClientRepository.AddAsync(client);
         }
@@ -24,16 +24,13 @@ namespace BusinessLogicLayer.Services
             await _unitOfWork.ClientRepository.DeleteAsync(Id);
         public async Task<IEnumerable<ClientDTO>> GetAllClientsAsync()
         {
-            IEnumerable<Client> x = await _unitOfWork.ClientRepository.GetAllAsync();
-            List<ClientDTO> result = new List<ClientDTO>();
-            foreach (Client element in x)
-                result.Add(_mapper.Map<Client, ClientDTO>(element));
-            return result;
+            IEnumerable<Client> clients = await _unitOfWork.ClientRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ClientDTO>>(clients);
         }
         public async Task<ClientDTO> GetClientByIdAsync(int Id) =>
-            _mapper.Map<Client, ClientDTO>(await _unitOfWork.ClientRepository.GetAsync(Id));
+            _mapper.Map<ClientDTO>(await _unitOfWork.ClientRepository.GetAsync(Id));
         public async Task UpdateClientAsync(ClientDTO client) =>
-            await _unitOfWork.ClientRepository.UpdateAsync(_mapper.Map<ClientDTO, Client>(client));
+            await _unitOfWork.ClientRepository.UpdateAsync(_mapper.Map<Client>(client));
         public async Task<Client> GetClientDetailsByIdAsync(int Id) =>
             await _unitOfWork.ClientRepository.GetClientDetailsByIdAsync(Id);
         public async Task<List<Client>> GetClientDetailsAsync() =>

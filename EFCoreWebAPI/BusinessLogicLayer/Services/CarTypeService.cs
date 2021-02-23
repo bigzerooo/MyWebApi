@@ -12,21 +12,18 @@ namespace BusinessLogicLayer.Services
     {
         public CarTypeService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
         public async Task<int> AddCarTypeAsync(CarTypeDTO carType) =>
-            await _unitOfWork.CarTypeRepository.AddAsync(_mapper.Map<CarTypeDTO, CarType>(carType));
+            await _unitOfWork.CarTypeRepository.AddAsync(_mapper.Map<CarType>(carType));
         public async Task DeleteCarTypeAsync(int id) =>
             await _unitOfWork.CarTypeRepository.DeleteAsync(id);
         public async Task<IEnumerable<CarTypeDTO>> GetAllCarTypesAsync()
         {
-            IEnumerable<CarType> x = await _unitOfWork.CarTypeRepository.GetAllAsync();
-            List<CarTypeDTO> result = new List<CarTypeDTO>();
-            foreach (var element in x)
-                result.Add(_mapper.Map<CarType, CarTypeDTO>(element));
-            return result;
+            IEnumerable<CarType> carTypes = await _unitOfWork.CarTypeRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<CarTypeDTO>>(carTypes);
         }
         public async Task<string> GetCarTypeByIdAsync(int Id) =>
             await _unitOfWork.CarTypeRepository.GetCarTypeById(Id);
         public async Task UpdateCarTypeAsync(CarTypeDTO carType) =>
-            await _unitOfWork.CarTypeRepository.UpdateAsync(_mapper.Map<CarTypeDTO, CarType>(carType));
+            await _unitOfWork.CarTypeRepository.UpdateAsync(_mapper.Map<CarType>(carType));
         public async Task<CarType> GetCarTypeDetailsByIdAsync(int Id) =>
             await _unitOfWork.CarTypeRepository.GetCarTypeDetailsByIdAsync(Id);
         public async Task<List<CarType>> GetCarTypeDetailsAsync() =>

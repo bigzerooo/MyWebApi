@@ -13,7 +13,7 @@ namespace BusinessLogicLayer.Services
         public RoleService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         public async Task CreateRole(RoleDTO roleDTO) =>
-            await _unitOfWork.RoleManager.CreateAsync(_mapper.Map<RoleDTO, MyRole>(roleDTO));
+            await _unitOfWork.RoleManager.CreateAsync(_mapper.Map<MyRole>(roleDTO));
         public async Task AppointRole(string id, string role) =>
             await _unitOfWork.UserManager.AddToRoleAsync(await _unitOfWork.UserManager.FindByIdAsync(id), role);
         public async Task<IList<string>> GetAllRolesByUserId(string id)
