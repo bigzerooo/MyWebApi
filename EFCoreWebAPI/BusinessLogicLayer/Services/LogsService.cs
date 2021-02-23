@@ -30,5 +30,7 @@ namespace BusinessLogicLayer.Services
             IEnumerable<Log> logs = await unitOfWork.LogsRepository.GetAllAsync();
             return mapper.Map<IEnumerable<LogDTO>>(logs);
         }
+
+        //implement GetLogsByControllerName and GetLogsByActionName
     }
 }
