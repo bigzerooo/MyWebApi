@@ -22,6 +22,7 @@ namespace DataAccessLayer.UnitOfWork
         public ICarRepository CarRepository { get; }
         public IClientRepository ClientRepository { get; }
         public INewRepository NewRepository { get; }
+        public ILogsRepository LogsRepository { get; }
         public UserManager<MyUser> UserManager { get; }
         public RoleManager<MyRole> RoleManager { get; }
         public SignInManager<MyUser> SignInManager { get; }
@@ -34,6 +35,7 @@ namespace DataAccessLayer.UnitOfWork
             ICarRepository carRepository,
             IClientRepository clientRepository,
             INewRepository newRepository,
+            ILogsRepository logsRepository,
             UserManager<MyUser> userManager,
             SignInManager<MyUser> signInManager,
             RoleManager<MyRole> roleManager,
@@ -48,6 +50,7 @@ namespace DataAccessLayer.UnitOfWork
             CarRepository = carRepository;
             ClientRepository = clientRepository;
             NewRepository = newRepository;
+            LogsRepository = logsRepository;
             UserManager = userManager;
             SignInManager = signInManager;
             RoleManager = roleManager;

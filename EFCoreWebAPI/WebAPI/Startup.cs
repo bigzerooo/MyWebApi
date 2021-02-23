@@ -73,8 +73,8 @@ namespace WebAPI
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<ICarHireRepository, CarHireRepository>();
             services.AddTransient<IClientRepository, ClientRepository>();
-            //services.AddTransient<INewRepository, NewRepository>();
             services.AddTransient<INewRepository, MongoNewRepository>();
+            services.AddTransient<ILogsRepository, MongoLogsRepository>();
             #endregion
 
             services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);
@@ -89,6 +89,7 @@ namespace WebAPI
             services.AddTransient<ICarHireService, CarHireService>();
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<INewService, NewService>();
+            services.AddTransient<ILogsService, LogsService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IRoleService, RoleService>();
             #endregion

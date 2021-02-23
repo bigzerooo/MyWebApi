@@ -1,0 +1,15 @@
+﻿using BusinessLogicLayer.DTO;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusinessLogicLayer.Interfaces.IServices
+{
+    public interface ILogsService
+    {
+        Task<int> AddLogAsync(LogDTO logDTO);
+        Task<LogDTO> GetLogByIdAsync(int Id);
+        Task<IEnumerable<LogDTO>> GetAllLogsAsync();
+    }
+}

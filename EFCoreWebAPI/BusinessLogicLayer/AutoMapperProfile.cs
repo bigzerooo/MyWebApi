@@ -18,6 +18,7 @@ namespace BusinessLogicLayer
             CreateMap<ClientType, ClientTypeDTO>().ReverseMap();
             CreateMap<MyRole, RoleDTO>().ReverseMap();
             CreateMap<New, NewDTO>().ReverseMap();
+            CreateMap<Log, LogDTO>().ReverseMap();
         }
     }
 }

@@ -4,9 +4,11 @@ using DataAccessLayer.Parameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebAPI.Attributes;
 
 namespace WebAPI.Controllers
 {
+    [Analyze]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     public class CarHireController : Controller

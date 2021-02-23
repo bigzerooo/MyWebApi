@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebAPI.Attributes;
 
 namespace WebAPI.Controllers
 {
+    [Analyze]
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class RoleController : Controller
     {
         private readonly IRoleService _roleService;
@@ -16,17 +18,14 @@ namespace WebAPI.Controllers
             _roleService = roleService;
 
         [HttpPost]
-        [Route("GiveRole")]
         public async Task GiveRole([FromQuery] string id, [FromQuery] string role) =>
             await _roleService.AppointRole(id, role);
 
-        [HttpGet]
-        [Route("GetUserRoles")]
-        public async Task<IList<string>> GetRoles([FromQuery] string id) =>
+        [HttpGet("{id}")]
+        public async Task<IList<string>> GetRoles(string id) =>
             await _roleService.GetAllRolesByUserId(id);
 
         [HttpPost]
-        [Route("CreateRole")]
         public async Task<IActionResult> CreateRole([FromBody] RoleDTO role)
         {
             if (!ModelState.IsValid)
