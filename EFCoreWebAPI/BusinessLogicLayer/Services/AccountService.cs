@@ -15,20 +15,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace BusinessLogicLayer.Services
 {
-    public class AccountService : IAccountService
+    public class AccountService : BaseService, IAccountService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public AccountService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+
+        public AccountService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration) : base(unitOfWork, mapper) =>
             _configuration = configuration;
-        }
+
         public async Task<IdentityResult> Register(MyUserRegisterDTO myUser)
         {
             int clientId = await _unitOfWork.ClientRepository.AddAsync(new Client { ClientTypeId = 1 });

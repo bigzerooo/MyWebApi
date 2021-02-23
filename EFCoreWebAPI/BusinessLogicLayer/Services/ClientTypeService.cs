@@ -8,15 +8,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class ClientTypeService : IClientTypeService
+    public class ClientTypeService : BaseService, IClientTypeService
     {
-        IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public ClientTypeService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        public ClientTypeService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
         public async Task<int> AddClientTypeAsync(ClientTypeDTO clientType) =>
             await _unitOfWork.ClientTypeRepository.AddAsync(_mapper.Map<ClientTypeDTO, ClientType>(clientType));
         public async Task DeleteClientTypeAsync(int Id) =>

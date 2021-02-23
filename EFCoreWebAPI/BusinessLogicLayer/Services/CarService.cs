@@ -10,15 +10,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class CarService : ICarService
+    public class CarService : BaseService, ICarService
     {
-        IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public CarService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        public CarService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
         public async Task<int> GetCarCountAsync(CarParameters parameters)
         {
             if (parameters.Brand != null)

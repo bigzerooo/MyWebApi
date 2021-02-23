@@ -8,25 +8,20 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class RoleService : IRoleService
+    public class RoleService : BaseService, IRoleService
     {
-        private readonly IUnitOfWork _uow;
-        private readonly IMapper _mapper;
-        public RoleService(IUnitOfWork uow, IMapper mapper)
-        {
-            _uow = uow;
-            _mapper = mapper;
-        }
+        public RoleService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+
         public async Task CreateRole(RoleDTO roleDTO) =>
-            await _uow.RoleManager.CreateAsync(_mapper.Map<RoleDTO, MyRole>(roleDTO));
+            await _unitOfWork.RoleManager.CreateAsync(_mapper.Map<RoleDTO, MyRole>(roleDTO));
         public async Task AppointRole(string id, string role) =>
-            await _uow.UserManager.AddToRoleAsync(await _uow.UserManager.FindByIdAsync(id), role);
+            await _unitOfWork.UserManager.AddToRoleAsync(await _unitOfWork.UserManager.FindByIdAsync(id), role);
         public async Task<IList<string>> GetAllRolesByUserId(string id)
         {
-            MyUser user = await _uow.UserManager.FindByIdAsync(id);
+            MyUser user = await _unitOfWork.UserManager.FindByIdAsync(id);
             IList<string> userRoles = null;
             if (user != null)
-                userRoles = await _uow.UserManager.GetRolesAsync(user);
+                userRoles = await _unitOfWork.UserManager.GetRolesAsync(user);
             return userRoles;
         }
     }

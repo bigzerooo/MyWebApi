@@ -10,15 +10,32 @@ namespace BusinessLogicLayer
     {
         public AutoMapperProfile()
         {
-            CreateMap<CarHire, CarHireDTO>().ReverseMap();
-            CreateMap<CarType, CarTypeDTO>().ReverseMap();
-            CreateMap<CarState, CarStateDTO>().ReverseMap();
-            CreateMap<Car, CarDTO>().ReverseMap();
-            CreateMap<Client, ClientDTO>().ReverseMap();
-            CreateMap<ClientType, ClientTypeDTO>().ReverseMap();
-            CreateMap<MyRole, RoleDTO>().ReverseMap();
-            CreateMap<New, NewDTO>().ReverseMap();
-            CreateMap<Log, LogDTO>().ReverseMap();
+            CreateMap<CarHire, CarHireDTO>()
+                .ReverseMap();
+
+            CreateMap<CarType, CarTypeDTO>()
+                .ReverseMap();
+
+            CreateMap<CarState, CarStateDTO>()
+                .ReverseMap();
+
+            CreateMap<Car, CarDTO>()
+                .ReverseMap();
+
+            CreateMap<Client, ClientDTO>()
+                .ReverseMap();
+
+            CreateMap<ClientType, ClientTypeDTO>()
+                .ReverseMap();
+
+            CreateMap<MyRole, RoleDTO>()
+                .ReverseMap();
+
+            CreateMap<New, NewDTO>()
+                .ReverseMap();
+
+            CreateMap<Log, LogDTO>()
+                .ReverseMap();
         }
     }
 }

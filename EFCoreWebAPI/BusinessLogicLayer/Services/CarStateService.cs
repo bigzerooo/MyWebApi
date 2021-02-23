@@ -8,15 +8,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class CarStateService : ICarStateService
+    public class CarStateService : BaseService, ICarStateService
     {
-        IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public CarStateService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        public CarStateService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
         public async Task<int> AddCarStateAsync(CarStateDTO carState) =>
             await _unitOfWork.CarStateRepository.AddAsync(_mapper.Map<CarStateDTO, CarState>(carState));
         public async Task DeleteCarStateAsync(int id) =>

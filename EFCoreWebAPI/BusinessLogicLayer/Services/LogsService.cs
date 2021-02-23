@@ -3,23 +3,14 @@ using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class LogsService : ILogsService
+    public class LogsService : BaseService, ILogsService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public LogsService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        public LogsService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         public async Task<int> AddLogAsync(LogDTO logDTO)
         {
@@ -32,8 +23,8 @@ namespace BusinessLogicLayer.Services
             Log log = await _unitOfWork.LogsRepository.GetAsync(id);
             return _mapper.Map<LogDTO>(log);
         }
-            
-        
+
+
         public async Task<IEnumerable<LogDTO>> GetAllLogsAsync()
         {
             IEnumerable<Log> logs = await _unitOfWork.LogsRepository.GetAllAsync();

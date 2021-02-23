@@ -1,14 +1,14 @@
 ﻿using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace WebAPI.Attributes
 {
-    public class AnalyzeAttribute: Attribute, IAsyncActionFilter
+    public class AnalyzeAttribute : Attribute, IAsyncActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {

@@ -10,15 +10,10 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class ClientService : IClientService
+    public class ClientService : BaseService, IClientService
     {
-        IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public ClientService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        public ClientService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+
         public async Task<int> AddClientAsync(ClientDTO clientDTO)
         {
             Client client = _mapper.Map<ClientDTO, Client>(clientDTO);

@@ -11,15 +11,10 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class CarHireService : ICarHireService
+    public class CarHireService : BaseService, ICarHireService
     {
-        IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public CarHireService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        public CarHireService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+
         public async Task<int> HireCarAsync(CarHireDTO carHire)
         {
             CarHire x = _mapper.Map<CarHireDTO, CarHire>(carHire);

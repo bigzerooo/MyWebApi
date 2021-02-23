@@ -9,16 +9,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
-    public class NewService : INewService
+    public class NewService : BaseService, INewService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public NewService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        public NewService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         public async Task<int> AddNewAsync(NewDTO newsDTO)
         {
@@ -33,10 +26,7 @@ namespace BusinessLogicLayer.Services
         public async Task<IEnumerable<NewDTO>> GetAllNewsAsync()
         {
             IEnumerable<New> news = await _unitOfWork.NewRepository.GetAllAsync();
-            List<NewDTO> result = new List<NewDTO>();
-            foreach (New element in news)
-                result.Add(_mapper.Map<New, NewDTO>(element));
-            return result;
+            return _mapper.Map<IEnumerable<NewDTO>>(news);
         }
 
         public async Task<NewDTO> GetNewByIdAsync(int Id) =>
