@@ -2,7 +2,7 @@
 using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
-using DataAccessLayer.Interfaces;
+using DataAccessLayer.Interfaces.UnitOfWork;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

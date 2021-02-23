@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Interfaces.EntityInterfaces;
+﻿using DataAccessLayer.Interfaces.Entities;
 using System;
 
 namespace DataAccessLayer.Entities

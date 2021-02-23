@@ -2,8 +2,8 @@
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Helpers;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Interfaces.IRepositories;
+using DataAccessLayer.Interfaces.Repositories;
+using DataAccessLayer.Interfaces.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
@@ -21,11 +21,11 @@ namespace DataAccessLayer.UnitOfWork
         public ICarHireRepository CarHireRepository { get; }
         public ICarRepository CarRepository { get; }
         public IClientRepository ClientRepository { get; }
-        public INewRepository NewRepository { get; }
+        public INewsRepository NewRepository { get; }
         public ILogsRepository LogsRepository { get; }
-        public UserManager<MyUser> UserManager { get; }
-        public RoleManager<MyRole> RoleManager { get; }
-        public SignInManager<MyUser> SignInManager { get; }
+        public UserManager<User> UserManager { get; }
+        public RoleManager<Role> RoleManager { get; }
+        public SignInManager<User> SignInManager { get; }
         public UnitOfWork(
             SQLDbContext context,
             ICarStateRepository carStateRepository,
@@ -34,11 +34,11 @@ namespace DataAccessLayer.UnitOfWork
             ICarHireRepository carHireRepository,
             ICarRepository carRepository,
             IClientRepository clientRepository,
-            INewRepository newRepository,
+            INewsRepository newRepository,
             ILogsRepository logsRepository,
-            UserManager<MyUser> userManager,
-            SignInManager<MyUser> signInManager,
-            RoleManager<MyRole> roleManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            RoleManager<Role> roleManager,
             ISortHelper<Car> carSortHelper,
             ISortHelper<Client> clientSortHelper)
         {

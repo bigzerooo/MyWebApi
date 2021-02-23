@@ -7,8 +7,8 @@ using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Helpers;
-using DataAccessLayer.Interfaces;
-using DataAccessLayer.Interfaces.IRepositories;
+using DataAccessLayer.Interfaces.Repositories;
+using DataAccessLayer.Interfaces.UnitOfWork;
 using DataAccessLayer.Repositories.MongoDBRepositories;
 using DataAccessLayer.Repositories.SQLRepositories;
 using DataAccessLayer.UnitOfWork;
@@ -46,7 +46,7 @@ namespace WebAPI
                 cfg.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("DataAccessLayer"));
             });
 
-            services.AddIdentity<MyUser, MyRole>(options =>
+            services.AddIdentity<User, Role>(options =>
             {
                 options.User.RequireUniqueEmail = true;
                 options.Password = new PasswordOptions
@@ -67,13 +67,13 @@ namespace WebAPI
             #endregion
 
             #region repositories
-            services.AddTransient<ICarStateRepository, CarStateRepository>();
-            services.AddTransient<ICarTypeRepository, CarTypeRepository>();
-            services.AddTransient<IClientTypeRepository, ClientTypeRepository>();
-            services.AddTransient<ICarRepository, CarRepository>();
-            services.AddTransient<ICarHireRepository, CarHireRepository>();
-            services.AddTransient<IClientRepository, ClientRepository>();
-            services.AddTransient<INewRepository, MongoNewRepository>();
+            services.AddTransient<ICarStateRepository, SQLCarStateRepository>();
+            services.AddTransient<ICarTypeRepository, SQLCarTypeRepository>();
+            services.AddTransient<IClientTypeRepository, SQLClientTypeRepository>();
+            services.AddTransient<ICarRepository, SQLCarRepository>();
+            services.AddTransient<ICarHireRepository, SQLCarHireRepository>();
+            services.AddTransient<IClientRepository, SQLClientRepository>();
+            services.AddTransient<INewsRepository, MongoNewsRepository>();
             services.AddTransient<ILogsRepository, MongoLogsRepository>();
             #endregion
 
@@ -88,7 +88,7 @@ namespace WebAPI
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<ICarHireService, CarHireService>();
             services.AddTransient<IClientService, ClientService>();
-            services.AddTransient<INewService, NewService>();
+            services.AddTransient<INewsService, NewsService>();
             services.AddTransient<ILogsService, LogsService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IRoleService, RoleService>();

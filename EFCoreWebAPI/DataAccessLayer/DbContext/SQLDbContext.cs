@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.DbContext
 {
-    public class SQLDbContext : IdentityDbContext<MyUser, MyRole, int>
+    public class SQLDbContext : IdentityDbContext<User, Role, int>
     {
         public SQLDbContext(DbContextOptions<SQLDbContext> options) : base(options) =>
             Database.EnsureCreated();
@@ -114,7 +114,7 @@ namespace DataAccessLayer.DbContext
             modelBuilder.Entity<Client>()
                 .HasOne(u => u.User)
                 .WithOne(c => c.Client)
-                .HasForeignKey<MyUser>(c => c.ClientId);
+                .HasForeignKey<User>(c => c.ClientId);
 
             #endregion
             #region CarHire
@@ -161,19 +161,19 @@ namespace DataAccessLayer.DbContext
             #endregion
             #region New
 
-            modelBuilder.Entity<New>()
+            modelBuilder.Entity<News>()
                 .HasKey(x => x.Id);
 
-            modelBuilder.Entity<New>()
+            modelBuilder.Entity<News>()
                 .Property(x => x.Name)
                 .IsRequired()
                 .HasMaxLength(45);
 
-            modelBuilder.Entity<New>()
+            modelBuilder.Entity<News>()
                 .Property(x => x.Date)
                 .IsRequired();
 
-            modelBuilder.Entity<New>()
+            modelBuilder.Entity<News>()
                 .Property(x => x.Description)
                 .IsRequired()
                 .HasMaxLength(5000);
@@ -216,6 +216,6 @@ namespace DataAccessLayer.DbContext
         public DbSet<Car> Cars { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<CarHire> CarHires { get; set; }
-        public DbSet<New> News { get; set; }
+        public DbSet<News> News { get; set; }
     }
 }

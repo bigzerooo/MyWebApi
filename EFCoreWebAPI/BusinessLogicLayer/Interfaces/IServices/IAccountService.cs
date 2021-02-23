@@ -15,6 +15,6 @@ namespace BusinessLogicLayer.Interfaces.IServices
         Task<string> EditUserAsync(MyUserEditDTO userDTO);
         Task<IdentityResult> ChangePasswordAsync(MyUserChangePasswordDTO userDTO);
         Task<string> DeleteUserAsync(int id);
-        Task<List<MyUser>> GetAllUsersAsync();
+        Task<List<User>> GetAllUsersAsync();
     }
 }

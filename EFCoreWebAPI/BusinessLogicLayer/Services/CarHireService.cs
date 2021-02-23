@@ -3,7 +3,7 @@ using BusinessLogicLayer.DTO;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Helpers;
-using DataAccessLayer.Interfaces;
+using DataAccessLayer.Interfaces.UnitOfWork;
 using DataAccessLayer.Parameters;
 using System;
 using System.Collections.Generic;

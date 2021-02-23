@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DataAccessLayer.Interfaces;
+using DataAccessLayer.Interfaces.UnitOfWork;
 
 namespace BusinessLogicLayer.Services
 {

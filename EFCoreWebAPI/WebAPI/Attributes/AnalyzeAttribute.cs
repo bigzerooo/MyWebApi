@@ -21,6 +21,7 @@ namespace WebAPI.Attributes
                 ControllerName = actionDescriptor.ControllerName,
                 Date = DateTime.Now
             };
+
             await logsService.AddLogAsync(log);
 
             await next();

@@ -4,7 +4,7 @@ using BusinessLogicLayer.DTO.Identity.Results;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
-using DataAccessLayer.Interfaces;
+using DataAccessLayer.Interfaces.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +33,7 @@ namespace BusinessLogicLayer.Services
                     ClientTypeId = 1 //убрать хардкод
                 });
 
-            var user = new MyUser
+            var user = new User
             {
                 Email = userDTO.Email,
                 UserName = userDTO.UserName,//заюзать автомаппер
@@ -99,11 +99,11 @@ namespace BusinessLogicLayer.Services
             return "User deleted"; //переделать
         }
 
-        public async Task<List<MyUser>> GetAllUsersAsync() =>
+        public async Task<List<User>> GetAllUsersAsync() =>
             await unitOfWork.UserManager.Users.ToListAsync();
 
         //пересмотреть
-        private async Task<string> BuildToken(MyUser user)
+        private async Task<string> BuildToken(User user)
         {
             var roles = await unitOfWork.SignInManager.UserManager.GetRolesAsync(user);
             var claims = new List<Claim>();

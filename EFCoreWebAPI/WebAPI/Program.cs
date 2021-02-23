@@ -23,8 +23,8 @@ namespace WebAPI
                 IServiceProvider services = scope.ServiceProvider;
                 try
                 {
-                    UserManager<MyUser> userManager = services.GetRequiredService<UserManager<MyUser>>();
-                    RoleManager<MyRole> rolesManager = services.GetRequiredService<RoleManager<MyRole>>();
+                    UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
+                    RoleManager<Role> rolesManager = services.GetRequiredService<RoleManager<Role>>();
                     IClientService clientManage = services.GetRequiredService<IClientService>();
                     await RoleInitializer.InitializeAsync(userManager, rolesManager);
                 }

@@ -19,7 +19,7 @@ namespace UI.Services
         }
         public async Task<List<NewViewModel>> GetNewsAsync()
         {
-            var response = await _httpClient.GetAsync($"api/new");
+            var response = await _httpClient.GetAsync($"api/news");
             if (!response.IsSuccessStatusCode)
                 return null;
 
@@ -31,7 +31,7 @@ namespace UI.Services
             string token = await _localStorage.GetItemAsync<string>("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.PostAsync($"api/new", GetStringContentFromObject(news));
+            return await _httpClient.PostAsync($"api/news", GetStringContentFromObject(news));
         }
         private StringContent GetStringContentFromObject(object obj)
         {
@@ -45,7 +45,7 @@ namespace UI.Services
             string token = await _localStorage.GetItemAsync<string>("authToken");
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.DeleteAsync($"api/new/{id}");
+            return await _httpClient.DeleteAsync($"api/news/{id}");
         }
     }
 }

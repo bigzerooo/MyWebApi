@@ -5,8 +5,8 @@ using DataAccessLayer.Repositories.GenericRepositories;
 
 namespace DataAccessLayer.Repositories.MongoDBRepositories
 {
-    public class MongoLogsRepository : MongoGenericRepository<Log>, ILogsRepository
+    public class MongoNewsRepository : MongoGenericRepository<News>, INewsRepository
     {
-        public MongoLogsRepository(IMongoDbSettings settings) : base(settings) { }
+        public MongoNewsRepository(IMongoDbSettings settings) : base(settings) { }
     }
 }

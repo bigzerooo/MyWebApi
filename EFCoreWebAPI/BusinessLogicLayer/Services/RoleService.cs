@@ -2,7 +2,7 @@
 using BusinessLogicLayer.DTO.Identity;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities.Identity;
-using DataAccessLayer.Interfaces;
+using DataAccessLayer.Interfaces.UnitOfWork;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,12 +13,12 @@ namespace BusinessLogicLayer.Services
         public RoleService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
         public async Task CreateRole(RoleDTO roleDTO) =>
-            await unitOfWork.RoleManager.CreateAsync(mapper.Map<MyRole>(roleDTO));
+            await unitOfWork.RoleManager.CreateAsync(mapper.Map<Role>(roleDTO));
         public async Task AppointRole(string id, string role) =>
             await unitOfWork.UserManager.AddToRoleAsync(await unitOfWork.UserManager.FindByIdAsync(id), role);
         public async Task<IList<string>> GetAllRolesByUserId(string id)
         {
-            MyUser user = await unitOfWork.UserManager.FindByIdAsync(id);
+            User user = await unitOfWork.UserManager.FindByIdAsync(id);
             IList<string> userRoles = null;
             if (user != null)
                 userRoles = await unitOfWork.UserManager.GetRolesAsync(user);
