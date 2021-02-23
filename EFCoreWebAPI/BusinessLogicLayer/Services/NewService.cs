@@ -15,24 +15,24 @@ namespace BusinessLogicLayer.Services
 
         public async Task<int> AddNewAsync(NewDTO newsDTO)
         {
-            New news = _mapper.Map<New>(newsDTO);
+            New news = mapper.Map<New>(newsDTO);
             news.Date = DateTime.Now;
-            return await _unitOfWork.NewRepository.AddAsync(news);
+            return await unitOfWork.NewRepository.AddAsync(news);
         }
 
         public async Task DeleteNewAsync(int id) =>
-            await _unitOfWork.NewRepository.DeleteAsync(id);
+            await unitOfWork.NewRepository.DeleteAsync(id);
 
         public async Task<IEnumerable<NewDTO>> GetAllNewsAsync()
         {
-            IEnumerable<New> news = await _unitOfWork.NewRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<NewDTO>>(news);
+            IEnumerable<New> news = await unitOfWork.NewRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<NewDTO>>(news);
         }
 
         public async Task<NewDTO> GetNewByIdAsync(int Id) =>
-            _mapper.Map<NewDTO>(await _unitOfWork.NewRepository.GetAsync(Id));
+            mapper.Map<NewDTO>(await unitOfWork.NewRepository.GetAsync(Id));
 
         public async Task UpdateNewAsync(NewDTO news) =>
-            await _unitOfWork.NewRepository.UpdateAsync(_mapper.Map<New>(news));
+            await unitOfWork.NewRepository.UpdateAsync(mapper.Map<New>(news));
     }
 }

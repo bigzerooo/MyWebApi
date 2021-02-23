@@ -15,112 +15,119 @@ namespace BusinessLogicLayer.Services
     {
         public CarHireService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
-        public async Task<int> HireCarAsync(CarHireDTO carHire)
+        //пересмотреть
+        public async Task<int> HireTheCarAsync(CarHireDTO carHireDTO)
         {
-            CarHire x = _mapper.Map<CarHire>(carHire);
+            var carHire = mapper.Map<CarHire>(carHireDTO);
 
-            x.BeginDate = DateTime.Now;
-            Car car = await _unitOfWork.CarRepository.GetAsync(x.CarId);
+            carHire.BeginDate = DateTime.Now;
+            var car = await unitOfWork.CarRepository.GetAsync(carHire.CarId);
             if (car == null)
-                return -1;
+                return -1; //переделать
 
-            Client client = await _unitOfWork.ClientRepository.GetAsync(x.ClientId);
+            var client = await unitOfWork.ClientRepository.GetAsync(carHire.ClientId);
             if (client == null)
-                return -2;
+                return -2; //переделать
 
-            if (x.ExpectedEndDate < x.BeginDate)
-                return -3;
+            if (carHire.ExpectedEndDate < carHire.BeginDate)
+                return -3; //переделать
 
-            double timeGap = (x.ExpectedEndDate - x.BeginDate).TotalSeconds;
+            var timeGap = (carHire.ExpectedEndDate - carHire.BeginDate).TotalSeconds;
 
-            x.ExpectedPrice = car.PricePerHour / 3600 * Convert.ToDecimal(timeGap);
+            carHire.ExpectedPrice = car.PricePerHour / 3600 * Convert.ToDecimal(timeGap); //упростить/вынести в другой метод
 
-            x.Returned = false;
+            carHire.Returned = false;
 
-            if (x.ExpectedPrice <= 0)
-                x.ExpectedPrice = 0;
+            if (carHire.ExpectedPrice <= 0) //очень интересная проверка
+                carHire.ExpectedPrice = 0;
 
-            return await _unitOfWork.CarHireRepository.AddAsync(x);
+            return await unitOfWork.CarHireRepository.AddAsync(carHire);
         }
         public async Task<List<CarHireDTO>> GetUnreturnedCarHiresByClientIdAsync(int clientId)
         {
-            List<CarHire> x = await _unitOfWork.CarHireRepository.GetUnreturnedCarHiresByClientIdAsync(clientId);
-            return _mapper.Map<List<CarHireDTO>>(x);
+            var carHires = await unitOfWork.CarHireRepository.GetUnreturnedCarHiresByClientIdAsync(clientId);
+            return mapper.Map<List<CarHireDTO>>(carHires);
         }
         public async Task<List<CarHireDTO>> GetCarHiresByClientIdAsync(int clientId)
         {
-            List<CarHire> x = await _unitOfWork.CarHireRepository.GetCarHiresByClientIdAsync(clientId);
-            return _mapper.Map<List<CarHireDTO>>(x);
+            var carHires = await unitOfWork.CarHireRepository.GetCarHiresByClientIdAsync(clientId);
+            return mapper.Map<List<CarHireDTO>>(carHires);
         }
-        public async Task<int> ReturnCarAsync(CarHireDTO carHireDTO)
+        public async Task<int> ReturnTheCarAsync(CarHireDTO carHireDTO)
         {
-            CarHire carHire = await _unitOfWork.CarHireRepository.GetAsync(carHireDTO.Id);
-            Car car = await _unitOfWork.CarRepository.GetAsync(carHire.CarId);
-            Client client = await _unitOfWork.ClientRepository.GetAsync(carHire.ClientId);
+            var carHire = await unitOfWork.CarHireRepository.GetAsync(carHireDTO.Id);
+            var car = await unitOfWork.CarRepository.GetAsync(carHire.CarId);
+            var client = await unitOfWork.ClientRepository.GetAsync(carHire.ClientId);
 
-            DateTime EndDate = DateTime.Now;
+            var EndDate = DateTime.Now;
 
-            double timeGap = (EndDate - carHire.BeginDate).TotalSeconds;
+            var timeGap = (EndDate - carHire.BeginDate).TotalSeconds;
             carHire.EndDate = EndDate;
 
-            decimal price = car.PricePerHour / 3600 * Convert.ToDecimal(timeGap);
+            var price = car.PricePerHour / 3600 * Convert.ToDecimal(timeGap); //аналогично с верхним пересмотреть
 
-            if (client.ClientTypeId != 2 && await _unitOfWork.CarHireRepository.GetReturnedCarCountByIdAsync(client.Id) > 5)
+            if (client.ClientTypeId != 2 && await unitOfWork.CarHireRepository.GetReturnedCarCountByIdAsync(client.Id) > 5) //избавиться от хардкода
             {
                 client.ClientTypeId = 2;
-                await _unitOfWork.ClientRepository.UpdateAsync(client);
+                await unitOfWork.ClientRepository.UpdateAsync(client);
             }
 
-            if (client.ClientTypeId == 2)
+            if (client.ClientTypeId == 2) //избавиться от хардкода
             {
-                decimal discount = price * 0.01M;
+                var discount = price * 0.01M; //тут тоже
                 carHire.Discount = discount;
                 price -= discount;
             }
 
-            carHire.CarStateId = carHireDTO.CarStateId;
+            carHire.CarStateId = carHireDTO.CarStateId; //избавиться от хардкода
             if (carHireDTO.CarStateId == 2)
             {
-                decimal penalty = price * 0.3M;
+                var penalty = price * 0.3M; //тут тоже
                 carHire.Penalty = penalty;
                 price += penalty;
             }
             if (carHire.Penalty == null)
                 carHire.Penalty = 0;
-            if (carHire.Discount == null)
+            if (carHire.Discount == null) //пересмотреть
                 carHire.Discount = 0;
 
             carHire.Price = price;
             carHire.Returned = true;
-            await _unitOfWork.CarHireRepository.UpdateAsync(carHire);
+            await unitOfWork.CarHireRepository.UpdateAsync(carHire);
             return 1;
         }
-        public async Task DeleteCarHireAsync(int Id) =>
-            await _unitOfWork.CarHireRepository.DeleteAsync(Id);
+
+        public async Task DeleteCarHireAsync(int id) =>
+            await unitOfWork.CarHireRepository.DeleteAsync(id);
+
         public async Task<IEnumerable<CarHireDTO>> GetAllCarHiresAsync()
         {
-            IEnumerable<CarHire> carHires = await _unitOfWork.CarHireRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<CarHireDTO>>(carHires);
-        }
-        public async Task<CarHireDTO> GetCarHireByIdAsync(int Id)
-        {
-            var x = await _unitOfWork.CarHireRepository.GetAsync(Id);
-            return _mapper.Map<CarHireDTO>(x);
+            var carHires = await unitOfWork.CarHireRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<CarHireDTO>>(carHires);
         }
 
-        public async Task UpdateCarHireAsync(CarHireDTO carHire)
+        public async Task<CarHireDTO> GetCarHireByIdAsync(int Id)
         {
-            var x = _mapper.Map<CarHire>(carHire);
-            await _unitOfWork.CarHireRepository.UpdateAsync(x);
+            var carHire = await unitOfWork.CarHireRepository.GetAsync(Id);
+            return mapper.Map<CarHireDTO>(carHire);
         }
-        public async Task<CarHire> GetCarHireDetailsByIdAsync(int Id) =>
-            await _unitOfWork.CarHireRepository.GetCarHireDetailsByIdAsync(Id);
+
+        public async Task UpdateCarHireAsync(CarHireDTO carHireDTO)
+        {
+            var carHire = mapper.Map<CarHire>(carHireDTO);
+            await unitOfWork.CarHireRepository.UpdateAsync(carHire);
+        }
+
+        public async Task<CarHire> GetCarHireDetailsByIdAsync(int id) =>
+            await unitOfWork.CarHireRepository.GetCarHireDetailsByIdAsync(id);
+
         public async Task<List<CarHire>> GetCarHireDetailsAsync() =>
-            await _unitOfWork.CarHireRepository.GetCarHireDetailsAsync();
+            await unitOfWork.CarHireRepository.GetCarHireDetailsAsync();
+
         public async Task<PagedList<CarHireDTO>> GetCarHirePages(CarHireParameters parameters)
         {
-            PagedList<CarHire> x = await _unitOfWork.CarHireRepository.GetAllPagesAsync(parameters);
-            return _mapper.Map<PagedList<CarHireDTO>>(x);
+            var carHires = await unitOfWork.CarHireRepository.GetAllPagesAsync(parameters);
+            return mapper.Map<PagedList<CarHireDTO>>(carHires);
         }
     }
 }

@@ -9,14 +9,14 @@ namespace BusinessLogicLayer.Interfaces.IServices
 {
     public interface ICarService
     {
-        Task<int> AddCarAsync(CarDTO car);
-        Task UpdateCarAsync(CarDTO car);
-        Task DeleteCarAsync(int Id);
-        Task<CarDTO> GetCarByIdAsync(int Id);
+        Task<int> AddCarAsync(CarDTO carDTO);
+        Task UpdateCarAsync(CarDTO carDTO);
+        Task DeleteCarAsync(int id);
+        Task<CarDTO> GetCarByIdAsync(int id);
         Task<IEnumerable<CarDTO>> GetAllCarsAsync();
-        Task<Car> GetCarDetailsByIdAsync(int Id);
+        Task<Car> GetCarDetailsByIdAsync(int id);
         Task<List<Car>> GetCarDetailsAsync();
         Task<PagedList<CarDTO>> GetCarPagesFilteredAsync(CarParameters parameters);
-        Task<int> GetCarCountAsync(CarParameters parameters);
+        Task<int> GetCarsCountAsync(CarParameters parameters);
     }
 }

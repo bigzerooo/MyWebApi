@@ -105,7 +105,7 @@ namespace WebAPI.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid model");
-                int result = await _carHireService.HireCarAsync(carHire);
+                int result = await _carHireService.HireTheCarAsync(carHire);
                 switch (result)
                 {
                     case 0: return BadRequest();
@@ -126,7 +126,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                int result = await _carHireService.ReturnCarAsync(value);
+                int result = await _carHireService.ReturnTheCarAsync(value);
                 if (result == 1)
                     return Ok();
                 return BadRequest();

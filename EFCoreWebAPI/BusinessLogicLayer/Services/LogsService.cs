@@ -14,21 +14,21 @@ namespace BusinessLogicLayer.Services
 
         public async Task<int> AddLogAsync(LogDTO logDTO)
         {
-            Log log = _mapper.Map<Log>(logDTO);
-            return await _unitOfWork.LogsRepository.AddAsync(log);
+            Log log = mapper.Map<Log>(logDTO);
+            return await unitOfWork.LogsRepository.AddAsync(log);
         }
 
         public async Task<LogDTO> GetLogByIdAsync(int id)
         {
-            Log log = await _unitOfWork.LogsRepository.GetAsync(id);
-            return _mapper.Map<LogDTO>(log);
+            Log log = await unitOfWork.LogsRepository.GetAsync(id);
+            return mapper.Map<LogDTO>(log);
         }
 
 
         public async Task<IEnumerable<LogDTO>> GetAllLogsAsync()
         {
-            IEnumerable<Log> logs = await _unitOfWork.LogsRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<LogDTO>>(logs);
+            IEnumerable<Log> logs = await unitOfWork.LogsRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<LogDTO>>(logs);
         }
     }
 }

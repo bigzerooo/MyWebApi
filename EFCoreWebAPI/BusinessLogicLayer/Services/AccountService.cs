@@ -19,74 +19,94 @@ namespace BusinessLogicLayer.Services
 {
     public class AccountService : BaseService, IAccountService
     {
-        private readonly IConfiguration _configuration;
+        //посмотреть нужна ли тут конфигурация
+        private readonly IConfiguration configuration;
 
         public AccountService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration) : base(unitOfWork, mapper) =>
-            _configuration = configuration;
+            this.configuration = configuration;
 
-        public async Task<IdentityResult> Register(MyUserRegisterDTO myUser)
+        public async Task<IdentityResult> RegisterAsync(MyUserRegisterDTO userDTO)
         {
-            int clientId = await _unitOfWork.ClientRepository.AddAsync(new Client { ClientTypeId = 1 });
-            MyUser user = new MyUser { Email = myUser.Email, UserName = myUser.UserName, ClientId = clientId };
-            return await _unitOfWork.UserManager.CreateAsync(user, myUser.Password);
+            var clientId = await unitOfWork.ClientRepository
+                .AddAsync(new Client
+                {
+                    ClientTypeId = 1 //убрать хардкод
+                });
+
+            var user = new MyUser
+            {
+                Email = userDTO.Email,
+                UserName = userDTO.UserName,//заюзать автомаппер
+                ClientId = clientId
+            };
+
+            return await unitOfWork.UserManager.CreateAsync(user, userDTO.Password);
         }
-        public async Task<LoginResult> Login(MyUserLoginDTO myUser)
+
+        public async Task<LoginResult> LoginAsync(MyUserLoginDTO userDTO)
         {
-            MyUser user = await _unitOfWork.UserManager.FindByNameAsync(myUser.UserName);
+            var user = await unitOfWork.UserManager.FindByNameAsync(userDTO.UserName);
             if (user != null)
             {
-                SignInResult result = await _unitOfWork.SignInManager.PasswordSignInAsync(myUser.UserName, myUser.Password, myUser.RememberMe, false);
+                var result = await unitOfWork.SignInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, userDTO.RememberMe, false);
                 if (result.Succeeded)
                     return new LoginResult { token = await BuildToken(user), successful = true };
                 else
-                    return new LoginResult { successful = false, error = "Invalid password" };
+                    return new LoginResult { successful = false, error = "Invalid password" }; //переделать ошибки
             }
             return new LoginResult { successful = false, error = "User not found" };
         }
-        public async Task<string> Logout()
+
+        public async Task<string> LogoutAsync()
         {
-            await _unitOfWork.SignInManager.SignOutAsync();
-            return "Logout successful";
+            await unitOfWork.SignInManager.SignOutAsync();
+            return "Logout successful"; //переделать вывод
         }
-        public async Task<string> Edit(MyUserEditDTO myUser)
+
+        public async Task<string> EditUserAsync(MyUserEditDTO userDTO)
         {
-            MyUser user = await _unitOfWork.UserManager.FindByIdAsync(myUser.Id.ToString());
+            var user = await unitOfWork.UserManager.FindByIdAsync(userDTO.Id.ToString());
             if (user != null)
             {
-                user.Email = myUser.Email;
-                user.UserName = myUser.UserName;
-                IdentityResult result = await _unitOfWork.UserManager.UpdateAsync(user);
+                user.Email = userDTO.Email; //автомаппер
+                user.UserName = userDTO.UserName;
+                var result = await unitOfWork.UserManager.UpdateAsync(user);
                 if (result.Succeeded)
-                    return "User edited successfuly";
+                    return "User edited successfuly"; //переделать
                 else
                 {
                     string ErrorMessage = "";
-                    foreach (IdentityError error in result.Errors)
+                    foreach (var error in result.Errors) //тем более переделать
                         ErrorMessage += error.Description + "\n";
                     return ErrorMessage;
                 }
             }
-            return "User not found";
+            return "User not found"; //аналогично
         }
-        public async Task<IdentityResult> ChangePassword(MyUserChangePasswordDTO myUser)
+
+        public async Task<IdentityResult> ChangePasswordAsync(MyUserChangePasswordDTO userDTO)
         {
-            MyUser user = await _unitOfWork.UserManager.FindByIdAsync(myUser.Id.ToString());
-            return await _unitOfWork.UserManager.ChangePasswordAsync(user, myUser.OldPassword, myUser.NewPassword);
+            var user = await unitOfWork.UserManager.FindByIdAsync(userDTO.Id.ToString());
+            return await unitOfWork.UserManager.ChangePasswordAsync(user, userDTO.OldPassword, userDTO.NewPassword);
         }
-        public async Task<string> Delete(int Id)
+
+        public async Task<string> DeleteUserAsync(int id)
         {
-            MyUser user = await _unitOfWork.UserManager.FindByIdAsync(Id.ToString());
+            var user = await unitOfWork.UserManager.FindByIdAsync(id.ToString());
             if (user == null)
-                return "User not found";
-            await _unitOfWork.UserManager.DeleteAsync(user);
-            return "User deleted";
+                return "User not found"; //переделать
+            await unitOfWork.UserManager.DeleteAsync(user);
+            return "User deleted"; //переделать
         }
-        public async Task<List<MyUser>> UserList() =>
-            await _unitOfWork.UserManager.Users.ToListAsync();
+
+        public async Task<List<MyUser>> GetAllUsersAsync() =>
+            await unitOfWork.UserManager.Users.ToListAsync();
+
+        //пересмотреть
         private async Task<string> BuildToken(MyUser user)
         {
-            IList<string> roles = await _unitOfWork.SignInManager.UserManager.GetRolesAsync(user);
-            List<Claim> claims = new List<Claim>();
+            var roles = await unitOfWork.SignInManager.UserManager.GetRolesAsync(user);
+            var claims = new List<Claim>();
 
             claims.Add(new Claim(ClaimTypes.Name, user.UserName));
             claims.Add(new Claim("accountId", user.Id.ToString()));
@@ -96,17 +116,18 @@ namespace BusinessLogicLayer.Services
             foreach (var role in roles)
                 claims.Add(new Claim(ClaimTypes.Role, role));
 
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));
-            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            DateTime expiration = DateTime.UtcNow.AddDays(double.Parse(_configuration["JwtExpiryInDays"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSecurityKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expiration = DateTime.UtcNow.AddDays(double.Parse(configuration["JwtExpiryInDays"]));
 
-            JwtSecurityToken token = new JwtSecurityToken(
-                issuer: _configuration["JwtIssuer"],
-                audience: _configuration["JwtAudience"],
+            var token = new JwtSecurityToken(
+                issuer: configuration["JwtIssuer"],
+                audience: configuration["JwtAudience"],
                 claims: claims,
                 notBefore: DateTime.UtcNow,
                 expires: expiration,
-                signingCredentials: creds);
+                signingCredentials: creds
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

@@ -9,12 +9,12 @@ namespace BusinessLogicLayer.Interfaces.IServices
 {
     public interface IAccountService
     {
-        public Task<IdentityResult> Register(MyUserRegisterDTO myUser);
-        public Task<LoginResult> Login(MyUserLoginDTO myUser);
-        public Task<string> Logout();
-        public Task<string> Edit(MyUserEditDTO myUser);
-        public Task<IdentityResult> ChangePassword(MyUserChangePasswordDTO myUser);
-        public Task<string> Delete(int Id);
-        public Task<List<MyUser>> UserList();
+        Task<IdentityResult> RegisterAsync(MyUserRegisterDTO userDTO);
+        Task<LoginResult> LoginAsync(MyUserLoginDTO userDTO);
+        Task<string> LogoutAsync();
+        Task<string> EditUserAsync(MyUserEditDTO userDTO);
+        Task<IdentityResult> ChangePasswordAsync(MyUserChangePasswordDTO userDTO);
+        Task<string> DeleteUserAsync(int id);
+        Task<List<MyUser>> GetAllUsersAsync();
     }
 }

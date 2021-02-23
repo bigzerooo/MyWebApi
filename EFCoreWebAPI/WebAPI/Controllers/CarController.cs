@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         [HttpGet("count")]
         public async Task<IActionResult> Count([FromQuery] CarParameters parameters) =>
-            Ok(await _carService.GetCarCountAsync(parameters));
+            Ok(await _carService.GetCarsCountAsync(parameters));
 
         [AllowAnonymous]
         [HttpGet]

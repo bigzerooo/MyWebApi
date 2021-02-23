@@ -7,12 +7,12 @@ namespace BusinessLogicLayer.Interfaces.IServices
 {
     public interface ICarTypeService
     {
-        Task<int> AddCarTypeAsync(CarTypeDTO carType);
-        Task UpdateCarTypeAsync(CarTypeDTO carType);
-        Task DeleteCarTypeAsync(int Id);
-        Task<string> GetCarTypeByIdAsync(int Id);
+        Task<int> AddCarTypeAsync(CarTypeDTO carTypeDTO);
+        Task UpdateCarTypeAsync(CarTypeDTO carTypeDTO);
+        Task DeleteCarTypeAsync(int id);
+        Task<string> GetCarTypeByIdAsync(int id);
         Task<IEnumerable<CarTypeDTO>> GetAllCarTypesAsync();
-        Task<CarType> GetCarTypeDetailsByIdAsync(int Id);
+        Task<CarType> GetCarTypeDetailsByIdAsync(int id);
         Task<List<CarType>> GetCarTypeDetailsAsync();
     }
 }

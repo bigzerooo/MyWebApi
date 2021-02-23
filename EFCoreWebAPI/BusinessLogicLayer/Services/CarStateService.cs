@@ -11,22 +11,35 @@ namespace BusinessLogicLayer.Services
     public class CarStateService : BaseService, ICarStateService
     {
         public CarStateService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-        public async Task<int> AddCarStateAsync(CarStateDTO carState) =>
-            await _unitOfWork.CarStateRepository.AddAsync(_mapper.Map<CarState>(carState));
+
+        public async Task<int> AddCarStateAsync(CarStateDTO carStateDTO)
+        {
+            var carState = mapper.Map<CarState>(carStateDTO);
+            return await unitOfWork.CarStateRepository.AddAsync(carState);
+        }
+
         public async Task DeleteCarStateAsync(int id) =>
-            await _unitOfWork.CarStateRepository.DeleteAsync(id);
+            await unitOfWork.CarStateRepository.DeleteAsync(id);
+
         public async Task<IEnumerable<CarStateDTO>> GetAllCarStatesAsync()
         {
-            IEnumerable<CarState> carState = await _unitOfWork.CarStateRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<CarStateDTO>>(carState);
+            var carStates = await unitOfWork.CarStateRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<CarStateDTO>>(carStates);
         }
-        public async Task<string> GetCarStateByIdAsync(int Id) =>
-            await _unitOfWork.CarStateRepository.GetCarStateById(Id);
-        public async Task UpdateCarStateAsync(CarStateDTO carState) =>
-            await _unitOfWork.CarStateRepository.UpdateAsync(_mapper.Map<CarState>(carState));
-        public async Task<CarState> GetCarStateDetailsByIdAsync(int Id) =>
-            await _unitOfWork.CarStateRepository.GetCarStateDetailsByIdAsync(Id);
+
+        public async Task<string> GetCarStateByIdAsync(int id) =>
+            await unitOfWork.CarStateRepository.GetCarStateById(id);
+
+        public async Task UpdateCarStateAsync(CarStateDTO carStateDTO)
+        {
+            var carState = mapper.Map<CarState>(carStateDTO);
+            await unitOfWork.CarStateRepository.UpdateAsync(carState);
+        }
+
+        public async Task<CarState> GetCarStateDetailsByIdAsync(int id) =>
+            await unitOfWork.CarStateRepository.GetCarStateDetailsByIdAsync(id);
+
         public async Task<List<CarState>> GetCarStateDetailsAsync() =>
-            await _unitOfWork.CarStateRepository.GetCarStateDetailsAsync();
+            await unitOfWork.CarStateRepository.GetCarStateDetailsAsync();
     }
 }

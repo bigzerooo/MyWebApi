@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] MyUserRegisterDTO myUser)
         {
-            IdentityResult result = await _accountService.Register(myUser);
+            IdentityResult result = await _accountService.RegisterAsync(myUser);
             if (result.Succeeded)
                 return Ok("User registered");
             else
@@ -38,26 +38,26 @@ namespace WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] MyUserLoginDTO myUser)
         {
-            LoginResult result = await _accountService.Login(myUser);
+            LoginResult result = await _accountService.LoginAsync(myUser);
             if (result.successful)
                 return Ok(result);
             return BadRequest(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Logout() => Ok(await _accountService.Logout());
+        public async Task<IActionResult> Logout() => Ok(await _accountService.LogoutAsync());
 
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id) => Ok(await _accountService.Delete(id));
+        public async Task<IActionResult> Delete(int id) => Ok(await _accountService.DeleteUserAsync(id));
 
         [HttpGet]
-        public async Task<IActionResult> Edit([FromBody] MyUserEditDTO myUser) => Ok(await _accountService.Edit(myUser));
+        public async Task<IActionResult> Edit([FromBody] MyUserEditDTO myUser) => Ok(await _accountService.EditUserAsync(myUser));
 
         [HttpPost]
         public async Task<IActionResult> ChangePassword([FromBody] MyUserChangePasswordDTO myUser)
         {
-            IdentityResult result = await _accountService.ChangePassword(myUser);
+            IdentityResult result = await _accountService.ChangePasswordAsync(myUser);
             if (result.Succeeded)
                 return Ok("Password changed");
             string errors = "";
@@ -68,6 +68,6 @@ namespace WebAPI.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpGet]
-        public async Task<IActionResult> UserList() => Ok(await _accountService.UserList());
+        public async Task<IActionResult> UserList() => Ok(await _accountService.GetAllUsersAsync());
     }
 }
