@@ -19,6 +19,7 @@ namespace WebAPI.Attributes
             {
                 ActionName = actionDescriptor.ActionName,
                 ControllerName = actionDescriptor.ControllerName,
+                ActionType = context.HttpContext.Request.Method,
                 Date = DateTime.Now
             };
 

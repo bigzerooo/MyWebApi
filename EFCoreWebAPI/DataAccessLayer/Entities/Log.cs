@@ -11,6 +11,7 @@ namespace DataAccessLayer.Entities
         public int Id { get; set; }
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
+        public string ActionType { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime Date { get; set; }
     }

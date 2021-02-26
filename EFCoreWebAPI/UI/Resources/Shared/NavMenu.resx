@@ -135,6 +135,9 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
   <data name="News" xml:space="preserve">
     <value>News</value>
   </data>

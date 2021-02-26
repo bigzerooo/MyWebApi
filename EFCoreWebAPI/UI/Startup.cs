@@ -77,6 +77,11 @@ namespace UI
             {
                 client.BaseAddress = new Uri("https://localhost:44337");
             });
+            services.AddHttpClient<LogsService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44337");
+            });
+
             services.AddSingleton<HttpClient>();
 
             services.AddValidatorsFromAssemblyContaining<CarViewModelValidator>();
