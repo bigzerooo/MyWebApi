@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.GenericRepositories
 {
-    public class MongoGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
+    public abstract class MongoGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
     {
         private const string SequenceCollectionName = "sequence";
 
@@ -59,7 +59,7 @@ namespace DataAccessLayer.Repositories.GenericRepositories
             return sequence.Value;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _collection.Find(doc => true).ToListAsync();
         }

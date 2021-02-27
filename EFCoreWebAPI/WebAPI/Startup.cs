@@ -41,6 +41,7 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            #region SQLServer
             services.AddDbContext<SQLDbContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("Default"), b => b.MigrationsAssembly("DataAccessLayer"));
@@ -58,12 +59,21 @@ namespace WebAPI
                     RequireNonAlphanumeric = false
                 };
             }).AddEntityFrameworkStores<SQLDbContext>();
+            #endregion
 
             #region MongoDb
             services.Configure<MongoDbSettings>(Configuration.GetSection("MongoDbSettings"));
 
             services.AddSingleton<IMongoDbSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+            #endregion
+
+            #region Redis
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("Redis");
+                options.InstanceName = "MyWebApi_";
+            });
             #endregion
 
             #region repositories
@@ -75,11 +85,14 @@ namespace WebAPI
             services.AddTransient<IClientRepository, SQLClientRepository>();
             services.AddTransient<INewsRepository, MongoNewsRepository>();
             services.AddTransient<ILogsRepository, MongoLogsRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             #endregion
 
+            #region helpers
             services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);
             services.AddTransient<ISortHelper<Car>, SortHelper<Car>>();
             services.AddTransient<ISortHelper<Client>, SortHelper<Client>>();
+            #endregion
 
             #region services
             services.AddTransient<ICarStateService, CarStateService>();
@@ -94,13 +107,12 @@ namespace WebAPI
             services.AddTransient<IRoleService, RoleService>();
             #endregion
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-
             services.AddMvc(option => option.EnableEndpointRouting = false)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CarDTOValidator>());//добавляет флюент валидацию
 
+            #region Authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -117,9 +129,11 @@ namespace WebAPI
                             ClockSkew = TimeSpan.Zero
                         };
                     });
+            #endregion
 
             services.AddControllers();
 
+            #region Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -129,6 +143,7 @@ namespace WebAPI
                     Description = "ASP.NET Core Web API"
                 });
             });
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
