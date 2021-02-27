@@ -10,15 +10,17 @@ namespace DataAccessLayer.Extensions
         public static async Task SetRecordAsync<T>(this IDistributedCache cache,
             string recordId,
             T data,
-            TimeSpan? absoluteExpireTime = null,
-            TimeSpan? unusedExpireTime = null)
+            TimeSpan? absoluteExpireTime = null, TimeSpan?
+            unusedExpireTime = null)
         {
-            var options = new DistributedCacheEntryOptions();
-
-            options.AbsoluteExpirationRelativeToNow = absoluteExpireTime ?? TimeSpan.FromSeconds(60);
-            options.SlidingExpiration = unusedExpireTime;
-
             var jsonData = JsonSerializer.Serialize(data);
+
+            var options = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = absoluteExpireTime ?? TimeSpan.FromSeconds(60),
+                SlidingExpiration = unusedExpireTime
+            };
+
             await cache.SetStringAsync(recordId, jsonData, options);
         }
 
@@ -26,12 +28,9 @@ namespace DataAccessLayer.Extensions
         {
             var jsonData = await cache.GetStringAsync(recordId);
 
-            if (jsonData is null)
-            {
-                return default(T);
-            }
-
-            return JsonSerializer.Deserialize<T>(jsonData);
+            return jsonData is null ?
+                default :
+                JsonSerializer.Deserialize<T>(jsonData);
         }
     }
 }

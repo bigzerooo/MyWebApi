@@ -51,11 +51,11 @@ namespace BusinessLogicLayer.Services
             await unitOfWork.CarRepository.UpdateAsync(car);
         }
 
-        public async Task<Car> GetCarDetailsByIdAsync(int Id) =>
-            await unitOfWork.CarRepository.GetCarDetailsByIdAsync(Id);
+        //public async Task<Car> GetCarDetailsByIdAsync(int Id) =>
+        //    await unitOfWork.CarRepository.GetCarDetailsByIdAsync(Id);
 
-        public async Task<List<Car>> GetCarDetailsAsync() =>
-            await unitOfWork.CarRepository.GetCarDetailsAsync();
+        //public async Task<List<Car>> GetCarDetailsAsync() =>
+        //    await unitOfWork.CarRepository.GetCarDetailsAsync();
 
         public async Task<PagedList<CarDTO>> GetCarPagesFilteredAsync(CarParameters parameters)
         {

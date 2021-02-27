@@ -31,10 +31,10 @@ namespace BusinessLogicLayer.Services
             mapper.Map<ClientDTO>(await unitOfWork.ClientRepository.GetAsync(Id));
         public async Task UpdateClientAsync(ClientDTO client) =>
             await unitOfWork.ClientRepository.UpdateAsync(mapper.Map<Client>(client));
-        public async Task<Client> GetClientDetailsByIdAsync(int Id) =>
-            await unitOfWork.ClientRepository.GetClientDetailsByIdAsync(Id);
-        public async Task<List<Client>> GetClientDetailsAsync() =>
-            await unitOfWork.ClientRepository.GetClientDetailsAsync();
+        //public async Task<Client> GetClientDetailsByIdAsync(int Id) =>
+        //    await unitOfWork.ClientRepository.GetClientDetailsByIdAsync(Id);
+        //public async Task<List<Client>> GetClientDetailsAsync() =>
+        //    await unitOfWork.ClientRepository.GetClientDetailsAsync();
         public async Task<PagedList<ClientDTO>> GetClientPages(ClientParameters parameters) =>
             mapper.Map<PagedList<ClientDTO>>(await unitOfWork.ClientRepository.GetAllPagesAsync(parameters));
     }

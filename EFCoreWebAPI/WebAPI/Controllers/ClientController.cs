@@ -31,33 +31,33 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("details/{id}")]
-        public async Task<IActionResult> GetDetails(int id)
-        {
-            try
-            {
-                return Ok(await _clientService.GetClientDetailsByIdAsync(id));
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //[Authorize(Roles = "admin")]
+        //[HttpGet("details/{id}")]
+        //public async Task<IActionResult> GetDetails(int id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _clientService.GetClientDetailsByIdAsync(id));
+        //    }
+        //    catch
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("details")]
-        public async Task<IActionResult> GetDetails()
-        {
-            try
-            {
-                return Ok(await _clientService.GetClientDetailsAsync());
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //[Authorize(Roles = "admin")]
+        //[HttpGet("details")]
+        //public async Task<IActionResult> GetDetails()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _clientService.GetClientDetailsAsync());
+        //    }
+        //    catch
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
         [Authorize]
         [HttpGet("{id}")]

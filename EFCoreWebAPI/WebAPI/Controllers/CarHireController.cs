@@ -70,33 +70,33 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("details/{id}")]
-        public async Task<IActionResult> GetDetails(int id)
-        {
-            try
-            {
-                return Ok(await _carHireService.GetCarHireDetailsByIdAsync(id));
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //[Authorize(Roles = "admin")]
+        //[HttpGet("details/{id}")]
+        //public async Task<IActionResult> GetDetails(int id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _carHireService.GetCarHireDetailsByIdAsync(id));
+        //    }
+        //    catch
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("details")]
-        public async Task<IActionResult> GetDetails()
-        {
-            try
-            {
-                return Ok(await _carHireService.GetCarHireDetailsAsync());
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //[Authorize(Roles = "admin")]
+        //[HttpGet("details")]
+        //public async Task<IActionResult> GetDetails()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _carHireService.GetCarHireDetailsAsync());
+        //    }
+        //    catch
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
         [HttpPost("Hire")]
         public async Task<IActionResult> Post([FromBody] CarHireDTO carHire)

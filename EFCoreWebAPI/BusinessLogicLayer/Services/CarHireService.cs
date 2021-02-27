@@ -50,7 +50,7 @@ namespace BusinessLogicLayer.Services
         }
         public async Task<List<CarHireDTO>> GetCarHiresByClientIdAsync(int clientId)
         {
-            var carHires = await unitOfWork.CarHireRepository.GetCarHiresByClientIdAsync(clientId);
+            var carHires = await unitOfWork.CarHireRepository.GetReturnedCarHiresByClientIdAsync(clientId);
             return mapper.Map<List<CarHireDTO>>(carHires);
         }
         public async Task<int> ReturnTheCarAsync(CarHireDTO carHireDTO)
@@ -118,11 +118,11 @@ namespace BusinessLogicLayer.Services
             await unitOfWork.CarHireRepository.UpdateAsync(carHire);
         }
 
-        public async Task<CarHire> GetCarHireDetailsByIdAsync(int id) =>
-            await unitOfWork.CarHireRepository.GetCarHireDetailsByIdAsync(id);
+        //public async Task<CarHire> GetCarHireDetailsByIdAsync(int id) =>
+        //    await unitOfWork.CarHireRepository.GetCarHireDetailsByIdAsync(id);
 
-        public async Task<List<CarHire>> GetCarHireDetailsAsync() =>
-            await unitOfWork.CarHireRepository.GetCarHireDetailsAsync();
+        //public async Task<List<CarHire>> GetCarHireDetailsAsync() =>
+        //    await unitOfWork.CarHireRepository.GetCarHireDetailsAsync();
 
         public async Task<PagedList<CarHireDTO>> GetCarHirePages(CarHireParameters parameters)
         {

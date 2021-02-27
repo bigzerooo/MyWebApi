@@ -1,8 +1,6 @@
-using BusinessLogicLayer.Interfaces.IServices;
-using DataAccessLayer.Entities.Identity;
+using DataAccessLayer.Interfaces.UnitOfWork;
 using DataAccessLayer.Seeding;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -23,10 +21,8 @@ namespace WebAPI
                 IServiceProvider services = scope.ServiceProvider;
                 try
                 {
-                    UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
-                    RoleManager<Role> rolesManager = services.GetRequiredService<RoleManager<Role>>();
-                    IClientService clientManage = services.GetRequiredService<IClientService>();
-                    await RoleInitializer.InitializeAsync(userManager, rolesManager);
+                    IUnitOfWork unitOfWork = services.GetRequiredService<IUnitOfWork>();
+                    await DataInitializer.InitializeUsersWithRolesAsync(unitOfWork);
                 }
                 catch (Exception ex)
                 {

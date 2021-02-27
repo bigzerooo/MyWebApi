@@ -21,12 +21,12 @@ namespace BusinessLogicLayer.Services
             return mapper.Map<IEnumerable<ClientTypeDTO>>(clientTypes);
         }
         public async Task<string> GetClientTypeByIdAsync(int Id) =>
-            await unitOfWork.ClientTypeRepository.GetClientTypeByIdAsync(Id);
+            await unitOfWork.ClientTypeRepository.GetClientTypeStringByIdAsync(Id);
         public async Task UpdateClientTypeAsync(ClientTypeDTO clientType) =>
             await unitOfWork.ClientTypeRepository.UpdateAsync(mapper.Map<ClientType>(clientType));
-        public async Task<ClientType> GetClientTypeDetailsByIdAsync(int Id) =>
-            await unitOfWork.ClientTypeRepository.GetClientTypeDetailsByIdAsync(Id);
-        public async Task<List<ClientType>> GetClientTypeDetailsAsync() =>
-            await unitOfWork.ClientTypeRepository.GetClientTypeDetailsAsync();
+        //public async Task<ClientType> GetClientTypeDetailsByIdAsync(int Id) =>
+        //    await unitOfWork.ClientTypeRepository.GetClientTypeDetailsByIdAsync(Id);
+        //public async Task<List<ClientType>> GetClientTypeDetailsAsync() =>
+        //    await unitOfWork.ClientTypeRepository.GetClientTypeDetailsAsync();
     }
 }

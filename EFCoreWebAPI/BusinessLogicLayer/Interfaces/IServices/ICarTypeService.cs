@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.Interfaces.IServices
         Task DeleteCarTypeAsync(int id);
         Task<string> GetCarTypeByIdAsync(int id);
         Task<IEnumerable<CarTypeDTO>> GetAllCarTypesAsync();
-        Task<CarType> GetCarTypeDetailsByIdAsync(int id);
-        Task<List<CarType>> GetCarTypeDetailsAsync();
+        //Task<CarType> GetCarTypeDetailsByIdAsync(int id);
+        //Task<List<CarType>> GetCarTypeDetailsAsync();
     }
 }

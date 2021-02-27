@@ -9,11 +9,11 @@ namespace DataAccessLayer.Interfaces.Repositories
 {
     public interface ICarHireRepository : IGenericRepository<CarHire>
     {
-        public Task<CarHire> GetCarHireDetailsByIdAsync(int id);
-        public Task<List<CarHire>> GetCarHireDetailsAsync();
-        public Task<PagedList<CarHire>> GetAllPagesAsync(CarHireParameters parameters);
-        public Task<int> GetReturnedCarCountByIdAsync(int id);
-        public Task<List<CarHire>> GetUnreturnedCarHiresByClientIdAsync(int clientId);
-        public Task<List<CarHire>> GetCarHiresByClientIdAsync(int clientId);
+        Task<int> GetReturnedCarCountByIdAsync(int id);
+        Task<IEnumerable<CarHire>> GetReturnedCarHiresByClientIdAsync(int clientId);
+        Task<IEnumerable<CarHire>> GetUnreturnedCarHiresByClientIdAsync(int clientId);
+        Task<PagedList<CarHire>> GetAllPagesAsync(CarHireParameters parameters);
+        //public Task<CarHire> GetCarHireDetailsByIdAsync(int id);
+        //public Task<List<CarHire>> GetCarHireDetailsAsync();
     }
 }

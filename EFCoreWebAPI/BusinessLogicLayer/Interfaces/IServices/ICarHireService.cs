@@ -17,8 +17,8 @@ namespace BusinessLogicLayer.Interfaces.IServices
         Task<IEnumerable<CarHireDTO>> GetAllCarHiresAsync();
         Task<List<CarHireDTO>> GetUnreturnedCarHiresByClientIdAsync(int clientId);
         Task<List<CarHireDTO>> GetCarHiresByClientIdAsync(int clientId);
-        Task<CarHire> GetCarHireDetailsByIdAsync(int id);
-        Task<List<CarHire>> GetCarHireDetailsAsync();
+        //Task<CarHire> GetCarHireDetailsByIdAsync(int id);
+        //Task<List<CarHire>> GetCarHireDetailsAsync();
         Task<PagedList<CarHireDTO>> GetCarHirePages(CarHireParameters parameters);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Attributes;
-using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities.Mongo;
 using DataAccessLayer.Interfaces.Entities;
+using DataAccessLayer.Interfaces.Entities.Mongo;
 using DataAccessLayer.Interfaces.Helpers;
 using MongoDB.Driver;
 using System.Linq;

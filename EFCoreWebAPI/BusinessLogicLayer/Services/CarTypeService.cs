@@ -29,7 +29,7 @@ namespace BusinessLogicLayer.Services
         }
 
         public async Task<string> GetCarTypeByIdAsync(int id) =>
-            await unitOfWork.CarTypeRepository.GetCarTypeById(id);
+            await unitOfWork.CarTypeRepository.GetCarTypeStringById(id);
 
         public async Task UpdateCarTypeAsync(CarTypeDTO carTypeDTO)
         {
@@ -37,10 +37,10 @@ namespace BusinessLogicLayer.Services
             await unitOfWork.CarTypeRepository.UpdateAsync(carType);
         }
 
-        public async Task<CarType> GetCarTypeDetailsByIdAsync(int id) =>
-            await unitOfWork.CarTypeRepository.GetCarTypeDetailsByIdAsync(id);
+        //public async Task<CarType> GetCarTypeDetailsByIdAsync(int id) =>
+        //    await unitOfWork.CarTypeRepository.GetCarTypeDetailsByIdAsync(id);
 
-        public async Task<List<CarType>> GetCarTypeDetailsAsync() =>
-            await unitOfWork.CarTypeRepository.GetCarTypeDetailsAsync();
+        //public async Task<List<CarType>> GetCarTypeDetailsAsync() =>
+        //    await unitOfWork.CarTypeRepository.GetCarTypeDetailsAsync();
     }
 }

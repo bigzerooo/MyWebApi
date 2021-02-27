@@ -59,31 +59,31 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet("details/{id}")]
-        public async Task<IActionResult> GetDetails(int id)
-        {
-            try
-            {
-                return Ok(await _carService.GetCarDetailsByIdAsync(id));
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //[HttpGet("details/{id}")]
+        //public async Task<IActionResult> GetDetails(int id)
+        //{
+        //    try
+        //    {
+        //        return Ok(await _carService.GetCarDetailsByIdAsync(id));
+        //    }
+        //    catch
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
-        [HttpGet("details")]
-        public async Task<IActionResult> GetDetails()
-        {
-            try
-            {
-                return Ok(await _carService.GetCarDetailsAsync());
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
+        //[HttpGet("details")]
+        //public async Task<IActionResult> GetDetails()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _carService.GetCarDetailsAsync());
+        //    }
+        //    catch
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CarDTO car)

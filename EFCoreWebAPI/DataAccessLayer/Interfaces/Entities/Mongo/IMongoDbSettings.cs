@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.DbContext
+﻿namespace DataAccessLayer.Interfaces.Entities.Mongo
 {
     public interface IMongoDbSettings
     {

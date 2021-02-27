@@ -14,8 +14,8 @@ namespace BusinessLogicLayer.Interfaces.IServices
         Task DeleteClientAsync(int Id);
         Task<ClientDTO> GetClientByIdAsync(int Id);
         Task<IEnumerable<ClientDTO>> GetAllClientsAsync();
-        Task<Client> GetClientDetailsByIdAsync(int Id);
-        Task<List<Client>> GetClientDetailsAsync();
+        //Task<Client> GetClientDetailsByIdAsync(int Id);
+        //Task<List<Client>> GetClientDetailsAsync();
         Task<PagedList<ClientDTO>> GetClientPages(ClientParameters parameters);
     }
 }
