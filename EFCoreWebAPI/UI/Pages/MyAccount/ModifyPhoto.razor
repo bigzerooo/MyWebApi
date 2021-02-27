@@ -8,40 +8,41 @@
 <h3>@L["Modify photo"]</h3>
 <hr />
 <p>@Error</p>
-<InputFile OnChange="HandleFileSelected" />
+<InputFile OnChange="@OnInputFileChange" />
 @if (file != null)
 {
     <p>@L["File downloaded"] : @file.Name</p>
-    <p></p>    
+    <p>@file.ContentType</p>    
+    <p></p>
     <button @onclick="Insert">@L["Insert"]</button>
 }
 @code {
     public ClientViewModel client { get; set; } = new ClientViewModel();
-    IFileListEntry file;
-    public string Error { get; set; }   
+    IBrowserFile file;
+    public string Error { get; set; }
     protected override async Task OnInitializedAsync()
     {
         var authState = await authentificationStateProvider.GetAuthenticationStateAsync();
         var clientId = authState.User.Claims.First(x => x.Type == "clientId").Value;
         client = await clientService.GetClientsByIdAsync(Int32.Parse(clientId));
     }
-    void HandleFileSelected(IFileListEntry[] files)
+    void OnInputFileChange(InputFileChangeEventArgs e)
     {
-        file = files.FirstOrDefault();
+        file = e.File;
     }
     public async Task Insert()
     {
         try
         {
+            var format = "image/jpeg";
             if (file == null)
                 throw new Exception("File not found");
-            if (file.Type != "image/jpeg")
+            if (file.ContentType != format)
                 throw new Exception("File in the wrong format! Please use .jpg");
-            var newFile = await file.ToImageFileAsync("image/jpeg", 150, 150);
-            var ms = new MemoryStream();
-            await newFile.Data.CopyToAsync(ms);
-            byte[] bytefile = ms.GetBuffer();            
-            client.photo = bytefile;
+            var resizedImageFile = await file.RequestImageFileAsync(format, 150, 150);
+            var buffer = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+            client.photo = buffer;
             var result = await clientService.UpdateClientAsync(client);
             if (!result.IsSuccessStatusCode)
                 throw new Exception(result.StatusCode.ToString());

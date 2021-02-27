@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
 @using Microsoft.AspNetCore.Hosting;
 @inject IWebHostEnvironment _appEnvironment
 @inject Services.CarService carService
@@ -38,7 +40,7 @@
     </p>
 
 
-    <InputFile OnChange="HandleFileSelected" />
+    <InputFile OnChange="@OnInputFileChange" />
     @if (file != null)
     {
         <p>Загружен файл : @file.Name</p>
@@ -61,11 +63,11 @@
 
     public string Error { get; set; }
 
-    IFileListEntry file;
+    IBrowserFile file;
 
-    void HandleFileSelected(IFileListEntry[] files)
+    void OnInputFileChange(InputFileChangeEventArgs e)
     {
-        file = files.FirstOrDefault();
+        file = e.File;
     }
 
     protected override async Task OnInitializedAsync()
@@ -85,9 +87,11 @@
             int CarTypeId = CarTypes.First(x => x.type == CarType).id;
 
             string Path;
+            var format = "image/jpeg";
+
             if (file == null)
                 throw new Exception("File not found");
-            if (file.Type != "image/jpeg")
+            if (file.ContentType != format)
                 throw new Exception("File in the wrong format! Please use .jpg");
             Car.carTypeId = CarTypeId;
 
@@ -115,26 +119,26 @@
         Car.year = null;
         file = null;
     }
-    protected async Task<string> AddFile(IFileListEntry uploadedFile)
+    protected async Task<string> AddFile(IBrowserFile uploadedFile)
     {
         if (uploadedFile != null)
         {
-            var newFile = await uploadedFile.ToImageFileAsync("image/jpeg", 1280, 720);//resizing
+            var resizedImageFile = await uploadedFile.RequestImageFileAsync("image/jpeg", 1280, 720);
+            var buffer = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream().ReadAsync(buffer);
 
             var date = DateTime.Now;
             string path = "/car_images/"
                 + $"{date.Year}_{date.Month}_{date.Day}_{date.Hour}_{date.Minute}_{date.Second}_"
-                + newFile.Name;//generating unique filename
+                + resizedImageFile.Name;
 
-            using (var filestream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-            {
-                await newFile.Data.CopyToAsync(filestream);//сохранение файла по пути
-            }
+            MemoryStream ms = new MemoryStream(buffer, 0, buffer.Length);
+            Image image = Image.FromStream(ms, true);
+            image.Save(_appEnvironment.WebRootPath + path, ImageFormat.Jpeg);
 
             return path;
         }
         else
             return null;
-
     }
 }
