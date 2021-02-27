@@ -1,7 +1,5 @@
 ﻿using DataAccessLayer.DbContext;
-using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
-using DataAccessLayer.Helpers;
 using DataAccessLayer.Interfaces.Repositories;
 using DataAccessLayer.Interfaces.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
@@ -13,8 +11,7 @@ namespace DataAccessLayer.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly SQLDbContext _context;
-        private readonly ISortHelper<Car> _carSortHelper;
-        private readonly ISortHelper<Client> _clientSortHelper;
+
         public ICarStateRepository CarStateRepository { get; }
         public ICarTypeRepository CarTypeRepository { get; }
         public IClientTypeRepository ClientTypeRepository { get; }
@@ -38,9 +35,7 @@ namespace DataAccessLayer.UnitOfWork
             ILogsRepository logsRepository,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<Role> roleManager,
-            ISortHelper<Car> carSortHelper,
-            ISortHelper<Client> clientSortHelper)
+            RoleManager<Role> roleManager)
         {
             _context = context;
             CarStateRepository = carStateRepository;
@@ -54,8 +49,6 @@ namespace DataAccessLayer.UnitOfWork
             UserManager = userManager;
             SignInManager = signInManager;
             RoleManager = roleManager;
-            _carSortHelper = carSortHelper;
-            _clientSortHelper = clientSortHelper;
         }
         public Task<int> Complete() => _context.SaveChangesAsync();
         private bool disposed = false;

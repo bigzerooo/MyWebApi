@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Parameters;
+﻿using DataAccessLayer.Interfaces.Helpers;
+using DataAccessLayer.Parameters;
 using System;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -32,7 +33,7 @@ namespace DataAccessLayer.Helpers
 
                 string sortingOrder = param.EndsWith(" desc") ? "descending" : "ascending";
 
-                orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {sortingOrder}, ");
+                orderQueryBuilder.Append($"{objectProperty.Name} {sortingOrder}, ");
             }
 
             string orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');

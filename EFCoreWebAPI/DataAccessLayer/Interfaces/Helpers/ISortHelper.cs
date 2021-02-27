@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Parameters;
 using System.Linq;
 
-namespace DataAccessLayer.Helpers
+namespace DataAccessLayer.Interfaces.Helpers
 {
     public interface ISortHelper<T>
     {

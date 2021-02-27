@@ -1,6 +1,6 @@
-﻿using DataAccessLayer.DbContext;
-using DataAccessLayer.Entities;
+﻿using DataAccessLayer.Entities;
 using DataAccessLayer.Extensions;
+using DataAccessLayer.Interfaces.Helpers;
 using DataAccessLayer.Interfaces.Repositories;
 using DataAccessLayer.Repositories.GenericRepositories;
 using Microsoft.Extensions.Caching.Distributed;
@@ -13,7 +13,7 @@ namespace DataAccessLayer.Repositories.MongoDBRepositories
     {
         private readonly IDistributedCache cache;
 
-        public MongoLogsRepository(IMongoDbSettings settings, IDistributedCache cache) : base(settings)
+        public MongoLogsRepository(IMongoHelper mongoHelper, IDistributedCache cache) : base(mongoHelper)
         {
             this.cache = cache;
         }
@@ -23,7 +23,7 @@ namespace DataAccessLayer.Repositories.MongoDBRepositories
             var recordKey = GetType().Name + "_Data";
             var data = await cache.GetRecordAsync<IEnumerable<Log>>(recordKey);
 
-            if(data is null)
+            if (data is null)
             {
                 data = await base.GetAllAsync();
                 await cache.SetRecordAsync(recordKey, data);

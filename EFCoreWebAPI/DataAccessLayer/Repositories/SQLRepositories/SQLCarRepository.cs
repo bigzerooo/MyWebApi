@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Helpers;
+using DataAccessLayer.Interfaces.Helpers;
 using DataAccessLayer.Interfaces.Repositories;
 using DataAccessLayer.Parameters;
 using DataAccessLayer.Repositories.GenericRepositories;

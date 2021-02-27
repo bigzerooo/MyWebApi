@@ -10,35 +10,51 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.GenericRepositories
 {
-    public class SQLGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
+    public abstract class SQLGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
     {
         protected SQLDbContext _myDBContext;
         protected DbSet<TEntity> _dbSet;
+
         public SQLGenericRepository(SQLDbContext myDBContext)
         {
             _myDBContext = myDBContext;
             _dbSet = _myDBContext.Set<TEntity>();
         }
-        public async Task<int> AddAsync(TEntity entity)
+
+        public virtual async Task<int> AddAsync(TEntity entity)
         {
             _dbSet.Add(entity);
             await _myDBContext.SaveChangesAsync();
             return entity.Id;
         }
-        public async Task UpdateAsync(TEntity entity)
+
+        public virtual async Task UpdateAsync(TEntity entity)
         {
             _myDBContext.Entry(entity).State = EntityState.Modified;
             await _myDBContext.SaveChangesAsync();
         }
-        public async Task DeleteAsync(int id)
+
+        public virtual async Task DeleteAsync(int id)
         {
-            TEntity x = await _dbSet.FindAsync(id);
-            _dbSet.Remove(x);
+            TEntity entity = await _dbSet.FindAsync(id);
+            _dbSet.Remove(entity);
             await _myDBContext.SaveChangesAsync();
         }
-        public async Task<TEntity> GetAsync(int id) => await _dbSet.FindAsync(id);
-        public async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
-        public IQueryable<TEntity> FindByConditionAsync(Expression<Func<TEntity, bool>> expression) =>
-            _dbSet.Where(expression);
+
+        public async Task<TEntity> GetAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
+
+        public IQueryable<TEntity> FindByConditionAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return _dbSet.Where(expression);
+        }
+
     }
 }

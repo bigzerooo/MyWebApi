@@ -7,6 +7,7 @@ using DataAccessLayer.DbContext;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Entities.Identity;
 using DataAccessLayer.Helpers;
+using DataAccessLayer.Interfaces.Helpers;
 using DataAccessLayer.Interfaces.Repositories;
 using DataAccessLayer.Interfaces.UnitOfWork;
 using DataAccessLayer.Repositories.MongoDBRepositories;
@@ -92,6 +93,7 @@ namespace WebAPI
             services.AddAutoMapper(typeof(AutoMapperProfile).GetTypeInfo().Assembly);
             services.AddTransient<ISortHelper<Car>, SortHelper<Car>>();
             services.AddTransient<ISortHelper<Client>, SortHelper<Client>>();
+            services.AddTransient<IMongoHelper, MongoHelper>();
             #endregion
 
             #region services
