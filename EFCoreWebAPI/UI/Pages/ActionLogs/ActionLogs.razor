@@ -1,5 +1,5 @@
 ﻿@page "/logs"
-@inject IStringLocalizer<Logs> L
+@inject IStringLocalizer<ActionLogs> L
 @inject UI.Services.LogsService logsService
 @attribute [Authorize(Roles = "admin")]
 
@@ -21,9 +21,9 @@
     </table>
 }
 
-    @code {
-        List<LogViewModel> logs { get; set; } = new List<LogViewModel>();
-protected override async Task OnInitializedAsync()
+@code {
+    List<LogViewModel> logs { get; set; } = new List<LogViewModel>();
+    protected override async Task OnInitializedAsync()
     {
         logs = await logsService.GetLogsAsync();
     }
@@ -50,4 +50,4 @@ protected override async Task OnInitializedAsync()
         }
         return color;
     }
-    }
+}
