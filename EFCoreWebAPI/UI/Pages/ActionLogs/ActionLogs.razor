@@ -1,0 +1,53 @@
+﻿@page "/logs"
+@inject IStringLocalizer<Logs> L
+@inject UI.Services.LogsService logsService
+@attribute [Authorize(Roles = "admin")]
+
+<h3>@L["Logs"]</h3>
+
+@if (logs != null)
+{
+    <table class="table table-condensed table-striped table-bordered">
+        <tr><th>@L["Id"]</th><th>@L["Controller name"]</th><th>@L["Action name"]</th><th>@L["Date"]</th></tr>
+        @foreach (var log in logs)
+        {
+            <tr>
+                <td>@log.id</td>
+                <td>@log.controllerName</td>
+                <td class="@Color(log.actionType)">@log.actionName</td>
+                <td>@log.date</td>
+            </tr>
+        }
+    </table>
+}
+
+    @code {
+        List<LogViewModel> logs { get; set; } = new List<LogViewModel>();
+protected override async Task OnInitializedAsync()
+    {
+        logs = await logsService.GetLogsAsync();
+    }
+    protected string Color(string httpMethod)
+    {
+        string color;
+        switch (httpMethod)
+        {
+            case "GET":
+                color = "text-success";
+                break;
+            case "POST":
+                color = "text-warning";
+                break;
+            case "PUT":
+                color = "text-primary";
+                break;
+            case "DELETE":
+                color = "text-danger";
+                break;
+            default:
+                color = "text-dark";
+                break;
+        }
+        return color;
+    }
+    }

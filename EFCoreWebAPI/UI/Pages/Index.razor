@@ -5,10 +5,14 @@
 {
     <NewsCard New="main" Delete="false"></NewsCard>
 }
-@for (int i = news.Count - 1; i >= 0; i--)
+@if(news!=null)
 {
-    <NewsCard New="news[i]"></NewsCard>
+    @for (int i = news.Count - 1; i >= 0; i--)
+    {
+        <NewsCard New="news[i]"></NewsCard>
+    }
 }
+
 @code{
     public NewViewModel main { get; set; } = new NewViewModel
     {
