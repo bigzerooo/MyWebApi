@@ -86,8 +86,8 @@ namespace WebAPI
             services.AddTransient<ICarRepository, SQLCarRepository>();
             services.AddTransient<ICarHireRepository, SQLCarHireRepository>();
             services.AddTransient<IClientRepository, SQLClientRepository>();
-            services.AddTransient<INewsRepository, MongoNewsRepository>();
-            services.AddTransient<ILogsRepository, MongoLogsRepository>();
+            services.AddTransient<INewsRepository, SQLNewsRepository>();
+            services.AddTransient<ILogsRepository, SQLLogsRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             #endregion
 
