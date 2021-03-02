@@ -15,7 +15,7 @@ namespace DataAccessLayer.DbContext.SQL
         public DbSet<Client> Clients { get; set; }
         public DbSet<CarHire> CarHires { get; set; }
         public DbSet<News> News { get; set; }
-
+        public DbSet<Log> Logs { get; set; }
         public SQLDbContext(DbContextOptions<SQLDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -31,6 +31,7 @@ namespace DataAccessLayer.DbContext.SQL
             new ClientConfiguration().Configure(builder.Entity<Client>());
             new CarHireConfiguration().Configure(builder.Entity<CarHire>());
             new NewsConfiguration().Configure(builder.Entity<News>());
+            new LogsConfiguration().Configure(builder.Entity<Log>());
         }
     }
 }
