@@ -21,22 +21,22 @@
     <ValidationSummary />
     <p>@Error</p>
     <p>
-        <MatTextField @bind-Value="Car.brand" Label=@L["Brand"]></MatTextField>
+        <MatTextField @bind-Value="Car.Brand" Label=@L["Brand"]></MatTextField>
     </p>
     <p>
-        <MatTextField @bind-Value="Car.price" Label=@L["Price"]></MatTextField>
+        <MatTextField @bind-Value="Car.Price" Label=@L["Price"]></MatTextField>
     </p>
     <p>
-        <MatTextField @bind-Value="Car.pricePerHour" Label=@L["Price per hour"]></MatTextField>
+        <MatTextField @bind-Value="Car.PricePerHour" Label=@L["Price per hour"]></MatTextField>
     </p>
     <p>
         <MatSelectItem @bind-Value="@CarType" Items="@CarTypeNames"></MatSelectItem>
     </p>
     <p>
-        <MatTextField @bind-Value="Car.year" Label=@L["Year"]></MatTextField>
+        <MatTextField @bind-Value="Car.Year" Label=@L["Year"]></MatTextField>
     </p>
     <p style="width: auto">
-        <MatTextField @bind-Value="Car.description" Label="Description" TextArea="true" Outlined="true"></MatTextField>
+        <MatTextField @bind-Value="Car.Description" Label="Description" TextArea="true" Outlined="true"></MatTextField>
     </p>
 
 
@@ -75,7 +75,7 @@
         CarTypes = await carTypeService.GetCarTypesAsync();
         foreach (var carType in CarTypes)
         {
-            CarTypeNames.Add(carType.type);
+            CarTypeNames.Add(carType.Type);
         }
     }
 
@@ -84,7 +84,7 @@
         Error = "";
         try
         {
-            int CarTypeId = CarTypes.First(x => x.type == CarType).id;
+            int CarTypeId = CarTypes.First(x => x.Type == CarType).Id;
 
             string Path;
             var format = "image/jpeg";
@@ -93,10 +93,10 @@
                 throw new Exception("File not found");
             if (file.ContentType != format)
                 throw new Exception("File in the wrong format! Please use .jpg");
-            Car.carTypeId = CarTypeId;
+            Car.CarTypeId = CarTypeId;
 
             Path = await AddFile(file);
-            Car.imagePath = Path;
+            Car.ImagePath = Path;
 
             var result = await carService.InsertCarAsync(Car);
             if (!result.IsSuccessStatusCode)
@@ -112,11 +112,11 @@
     }
     protected void ClearFields()
     {
-        Car.brand = "";
-        Car.price = 0;
-        Car.pricePerHour = 0;
-        Car.description = "";
-        Car.year = null;
+        Car.Brand = "";
+        Car.Price = 0;
+        Car.PricePerHour = 0;
+        Car.Description = "";
+        Car.Year = null;
         file = null;
     }
     protected async Task<string> AddFile(IBrowserFile uploadedFile)

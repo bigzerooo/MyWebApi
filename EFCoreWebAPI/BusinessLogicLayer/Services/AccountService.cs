@@ -46,21 +46,22 @@ namespace BusinessLogicLayer.Services
         public async Task<LoginResult> LoginAsync(MyUserLoginDTO userDTO)
         {
             var user = await unitOfWork.UserManager.FindByNameAsync(userDTO.UserName);
-            if (user != null)
+
+            if(user == null)
             {
-                var result = await unitOfWork.SignInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, userDTO.RememberMe, false);
-                if (result.Succeeded)
-                    return new LoginResult { token = await BuildToken(user), successful = true };
-                else
-                    return new LoginResult { successful = false, error = "Invalid password" }; //переделать ошибки
+                return new LoginResult { Successful = false, Error = "User not found" };
             }
-            return new LoginResult { successful = false, error = "User not found" };
+
+            var result = await unitOfWork.SignInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, userDTO.RememberMe, false);
+
+            return result.Succeeded ?
+                 new LoginResult { Token = await BuildToken(user), Successful = true } :
+                 new LoginResult { Successful = false, Error = "Invalid password" };
         }
 
-        public async Task<string> LogoutAsync()
+        public async Task LogoutAsync()
         {
             await unitOfWork.SignInManager.SignOutAsync();
-            return "Logout successful"; //переделать вывод
         }
 
         public async Task<string> EditUserAsync(MyUserEditDTO userDTO)

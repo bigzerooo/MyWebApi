@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using WebAPI.Configurations;
+using Newtonsoft.Json.Serialization;
 
 namespace WebAPI
 {
@@ -28,7 +29,8 @@ namespace WebAPI
             services.AddHelpers();
             services.AddServices();
             services.AddMvc()
-                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CarDTOValidator>());
+                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<CarDTOValidator>())
+                .AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddJWTAuthentication(configuration);
             services.AddControllers();
             services.AddSwagger();

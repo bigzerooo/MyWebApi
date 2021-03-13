@@ -15,21 +15,20 @@ namespace WebAPI
         {
 
             IHost host = CreateHostBuilder(args).Build();
-
-            using (var scope = host.Services.CreateScope())
+            
+            using var scope = host.Services.CreateScope();
+            IServiceProvider services = scope.ServiceProvider;
+            try
             {
-                IServiceProvider services = scope.ServiceProvider;
-                try
-                {
-                    IUnitOfWork unitOfWork = services.GetRequiredService<IUnitOfWork>();
-                    await DataInitializer.InitializeUsersWithRolesAsync(unitOfWork);
-                }
-                catch (Exception ex)
-                {
-                    ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while seeding the database.");
-                }
+                IUnitOfWork unitOfWork = services.GetRequiredService<IUnitOfWork>();
+                await DataInitializer.InitializeUsersWithRolesAsync(unitOfWork);
             }
+            catch (Exception ex)
+            {
+                ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred while seeding the database.");
+            }
+
             host.Run();
         }
 

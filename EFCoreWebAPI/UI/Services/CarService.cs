@@ -64,7 +64,7 @@ namespace UI.Services
             var x = await JsonSerializer.DeserializeAsync<CarViewModel>(responseContent);
 
             var timeGap = (expectedEndDate - DateTime.Now).TotalSeconds;
-            var ExpectedPrice = x.pricePerHour / 3600 * (decimal)timeGap;
+            var ExpectedPrice = x.PricePerHour / 3600 * (decimal)timeGap;
             return ExpectedPrice;
         }
         private StringContent GetStringContentFromObject(object obj)

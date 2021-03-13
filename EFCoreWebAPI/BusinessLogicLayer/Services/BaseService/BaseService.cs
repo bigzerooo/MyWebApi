@@ -8,7 +8,7 @@ namespace BusinessLogicLayer.Services
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IMapper mapper;
 
-        public BaseService(IUnitOfWork unitOfWork, IMapper mapper)
+        protected BaseService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;

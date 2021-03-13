@@ -7,8 +7,8 @@ namespace UI.Validators
     {
         public NewViewModelValidator()
         {
-            RuleFor(x => x.name).NotEmpty().MaximumLength(45);
-            RuleFor(x => x.description).NotEmpty().MaximumLength(5000);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(45);
+            RuleFor(x => x.Description).NotEmpty().MaximumLength(5000);
         }
 
     }

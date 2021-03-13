@@ -2,9 +2,9 @@
 {
     public class MyUserChangePasswordViewModel
     {
-        public int id { get; set; }
-        public string newPassword { get; set; }
-        public string newPasswordConfirm { get; set; }
-        public string oldPassword { get; set; }
+        public int Id { get; set; }
+        public string NewPassword { get; set; }
+        public string NewPasswordConfirm { get; set; }
+        public string OldPassword { get; set; }
     }
 }

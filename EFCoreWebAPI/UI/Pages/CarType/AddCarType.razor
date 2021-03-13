@@ -1,26 +1,44 @@
-﻿@page "/cartypes/add"
-@inject UI.Services.CarTypeService carTypeService
+﻿@inject UI.Services.CarTypeService carTypeService
 @inject NavigationManager navigationManager
 @inject IStringLocalizer<AddCarType> L
+
 @attribute [Authorize(Roles = "admin")]
+@page "/cartypes/add"
+
 <h3>@L["Add car type"]</h3>
 <hr />
-<EditForm Model="@carType" OnValidSubmit="@Add">
-    <FluentValidator></FluentValidator>
+
+<EditForm class="d-flex flex-column w-25" Model="@CarType" OnValidSubmit="@Add">
+
+    <FluentValidator />
     <ValidationSummary />
-    <p>@Error</p>
-    <p>
-        <MatTextField @bind-Value="@carType.type" Label="@L["Car type"]"></MatTextField>
-    </p>
+    @if (!string.IsNullOrWhiteSpace(Error))
+    {
+        <ul class="validation-errors">
+            <li class="validation-message">@Error</li>
+        </ul>
+    }
+
+    <MatTextField @bind-Value="@CarType.Type" Label="@L["Car type"]" />
+
     <button type="submit" class="btn btn-sm btn-primary">@L["Add"]</button>
+
 </EditForm>
+
 @code {
-    CarTypeViewModel carType { get; set; } = new CarTypeViewModel();
-    string Error { get; set; } = "";
-    protected async Task Add()
+    CarTypeViewModel CarType { get; set; }
+    string Error { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CarType = new CarTypeViewModel();
+        Error = string.Empty;
+    }
+
+    private async Task Add()
     {
         Error = "";
-        var result = await carTypeService.AddCarTypeAsync(carType);
+        var result = await carTypeService.AddCarTypeAsync(CarType);
         if (result.IsSuccessStatusCode)
             navigationManager.NavigateTo("/cartypes");
         else

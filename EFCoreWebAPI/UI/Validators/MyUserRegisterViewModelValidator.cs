@@ -6,20 +6,20 @@ namespace UI.Validators
     {
         public MyUserRegisterViewModelValidator()
         {
-            RuleFor(x => x.userName)
+            RuleFor(x => x.UserName)
                 .NotEmpty();
 
-            RuleFor(x => x.email)
+            RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress();
 
-            RuleFor(x => x.password)
+            RuleFor(x => x.Password)
                 .NotEmpty()
                 .MinimumLength(6);
 
-            RuleFor(x => x.passwordConfirm)
+            RuleFor(x => x.PasswordConfirm)
                 .NotEmpty()
-                .Equal(x => x.password)
+                .Equal(x => x.Password)
                 .WithMessage("Passwords are not equal");
         }
     }

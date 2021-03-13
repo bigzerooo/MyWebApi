@@ -2,13 +2,13 @@
 {
     public class ClientViewModel
     {
-        public int id { get; set; }
-        public string lastName { get; set; }
-        public string firstName { get; set; }
-        public string secondName { get; set; }
-        public string adress { get; set; }
-        public string phoneNumber { get; set; }
-        public int clientTypeId { get; set; }
-        public byte[] photo { get; set; }
+        public int Id { get; set; }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string Adress { get; set; }
+        public string PhoneNumber { get; set; }
+        public int ClientTypeId { get; set; }
+        public byte[] Photo { get; set; }
     }
 }

@@ -8,23 +8,23 @@ namespace UI.Validators
     {
         public CarViewModelValidator()
         {
-            RuleFor(x => x.brand)
+            RuleFor(x => x.Brand)
                 .NotEmpty()
                 .MaximumLength(45);
 
-            RuleFor(x => x.price)
+            RuleFor(x => x.Price)
                 .NotEmpty()
                 .GreaterThanOrEqualTo(0);
 
-            RuleFor(x => x.pricePerHour)
+            RuleFor(x => x.PricePerHour)
                 .NotEmpty()
                 .GreaterThanOrEqualTo(0);
 
-            RuleFor(x => x.year)
+            RuleFor(x => x.Year)
                 .LessThanOrEqualTo(DateTime.Now.Year)
                 .GreaterThanOrEqualTo(1900);
 
-            RuleFor(x => x.description)
+            RuleFor(x => x.Description)
                 .MaximumLength(1000);
         }
     }

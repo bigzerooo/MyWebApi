@@ -18,101 +18,47 @@ namespace WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetCarStates()
         {
-            try
-            {
-                return Ok(await _carStateService.GetAllCarStatesAsync());
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await _carStateService.GetAllCarStatesAsync();
+
+            return Json(result);
         }
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetCarStateById(int id)
         {
-            try
-            {
-                return Ok(await _carStateService.GetCarStateByIdAsync(id));
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await _carStateService.GetCarStateByIdAsync(id);
+
+            return Json(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CarStateDTO carState)
+        public async Task<IActionResult> AddCarState([FromBody] CarStateDTO carState)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest("Invalid model");
-                await _carStateService.AddCarStateAsync(carState);
-                return StatusCode(201);
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid model");
+
+            var result = await _carStateService.AddCarStateAsync(carState);
+
+            return Json(result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] CarStateDTO carState)
+        public async Task<IActionResult> UpdateCarState([FromBody] CarStateDTO carState)
         {
-            try
-            {
-                await _carStateService.UpdateCarStateAsync(carState);
-                return NoContent();
-            }
-            catch
-            {
-                return StatusCode(404);
-            }
+            var result = await _carStateService.UpdateCarStateAsync(carState);
+
+            return Json(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteCarState(int id)
         {
-            try
-            {
-                await _carStateService.DeleteCarStateAsync(id);
-                return NoContent();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await _carStateService.DeleteCarStateAsync(id);
 
+            return Json(result);
         }
-
-        //[HttpGet("details/{id}")]
-        //public async Task<IActionResult> GetDetails(int id)
-        //{
-        //    try
-        //    {
-        //        return Ok(await _carStateService.GetCarStateDetailsByIdAsync(id));
-        //    }
-        //    catch
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-
-        //[HttpGet("details")]
-        //public async Task<IActionResult> GetDetails()
-        //{
-        //    try
-        //    {
-        //        return Ok(await _carStateService.GetCarStateDetailsAsync());
-        //    }
-        //    catch
-        //    {
-        //        return NotFound();
-        //    }
-        //}
     }
 }

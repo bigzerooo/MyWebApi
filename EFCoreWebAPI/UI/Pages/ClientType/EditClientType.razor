@@ -10,7 +10,7 @@
     <ValidationSummary />
     <p>@Error</p>
     <p>
-        <MatTextField @bind-Value="@clientType.type" Label="@L["Client type"]"></MatTextField>
+        <MatTextField @bind-Value="@clientType.Type" Label="@L["Client type"]"></MatTextField>
     </p>
     <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
 </EditForm>
@@ -27,8 +27,8 @@
     protected override async Task OnInitializedAsync()
     {
         int intId = Int32.Parse(Id);
-        clientType.type = await clientTypeService.GetClientTypeByIdAsync(intId);
-        clientType.id = intId;
+        clientType.Type = await clientTypeService.GetClientTypeByIdAsync(intId);
+        clientType.Id = intId;
     }
     public async Task Edit()
     {

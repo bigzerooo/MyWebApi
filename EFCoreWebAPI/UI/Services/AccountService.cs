@@ -1,71 +1,64 @@
 ﻿using Blazored.LocalStorage;
 using BusinessLogicLayer.DTO.Identity.Results;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using UI.JWT;
 using UI.ViewModels;
 
 namespace UI.Services
 {
-    public class AccountService
+    public class AccountService : BaseService
     {
-        private readonly HttpClient _httpClient;
-        private readonly AuthenticationStateProvider _authenticationStateProvider;
-        private readonly ILocalStorageService _localStorage;
+        private readonly AuthenticationStateProvider authenticationStateProvider;
+
         public AccountService(
             HttpClient httpClient,
             AuthenticationStateProvider authenticationStateProvider,
-            ILocalStorageService localStorage)
+            ILocalStorageService localStorage):base (httpClient, localStorage)
         {
-            _httpClient = httpClient;
-            _authenticationStateProvider = authenticationStateProvider;
-            _localStorage = localStorage;
+            this.authenticationStateProvider = authenticationStateProvider;
         }
-        public async Task<HttpResponseMessage> CreateUserAsync(MyUserRegisterViewModel user)
-        {
-            return await _httpClient.PostAsync("api/account/register", GetStringContentFromObject(user));
-        }
-        private StringContent GetStringContentFromObject(object obj)
-        {
-            var serialized = JsonSerializer.Serialize(obj);
-            var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
-            return stringContent;
-        }
-        public async Task<LoginResult> Login(MyUserLoginViewModel loginModel)
-        {
 
-            var response = await _httpClient.PostAsync("api/account/login", GetStringContentFromObject(loginModel));
+        public async Task<IdentityResultViewModel> CreateUserAsync(MyUserRegisterViewModel user)
+        {
+            var result = await httpClient.PostJsonAsync<IdentityResultViewModel>("api/account/register", user);
 
-            using var responseContent = await response.Content.ReadAsStreamAsync();
-            var loginResult = await JsonSerializer.DeserializeAsync<LoginResult>(responseContent);
-            if (!response.IsSuccessStatusCode)
+            return result;
+        }
+
+        public async Task<LoginResult> LoginAsync(MyUserLoginViewModel loginModel)
+        {
+            var result = await httpClient.PostJsonAsync<LoginResult>("api/account/login", loginModel);
+
+            //пересмотреть
+            if (result.Successful)
             {
-                return loginResult;
+                await localStorage.SetItemAsync("authToken", $"{result.Token}");
+                ((ApiAuthenticationStateProvider)authenticationStateProvider).MarkUserAsAuthenticated(result.Token);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
             }
 
-            await _localStorage.SetItemAsync("authToken", $"{loginResult.token}");
-
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(loginResult.token);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.token);
-            return loginResult;
+            return result;
         }
 
         public async Task Logout()
         {
-            await _localStorage.RemoveItemAsync("authToken");
-            ((ApiAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
-            _httpClient.DefaultRequestHeaders.Authorization = null;
+            //пересмотреть
+            await localStorage.RemoveItemAsync("authToken");
+            ((ApiAuthenticationStateProvider)authenticationStateProvider).MarkUserAsLoggedOut();
+            httpClient.DefaultRequestHeaders.Authorization = null;
         }
-        public async Task<HttpResponseMessage> ChangePasswordAsync(MyUserChangePasswordViewModel user)
-        {
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.PostAsync("api/account/changepassword", GetStringContentFromObject(user));
+        public async Task<IdentityResultViewModel> ChangePasswordAsync(MyUserChangePasswordViewModel user)
+        {
+            //пересмотреть
+            string token = await localStorage.GetItemAsync<string>("authToken");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            return await httpClient.PostJsonAsync<IdentityResultViewModel>("api/account/changepassword", user);
         }
     }
 }

@@ -12,20 +12,20 @@
     public string Id { get; set; }
     public string Error { get; set; } = "";
     public List<string> CarStates { get; set; } = new List<string>();
-    public List<CarStateViewModel> carStates { get; set; }
+    public IEnumerable<CarStateViewModel> carStates { get; set; }
     string CarState{get;set;}
     protected override async Task OnInitializedAsync()
     {
         carStates = await carStateService.GetCarStatesAsync();
         foreach (var carState in carStates)
         {
-            CarStates.Add(carState.state);
+            CarStates.Add(carState.State);
         }
     }
     protected async Task Return()
     {
         Error="";
-        string carStateId=carStates.First(x=>x.state==CarState).id.ToString();
+        string carStateId=carStates.First(x=>x.State==CarState).Id.ToString();
         if(carStateId==null)
         {
             Error = "carstateId is null";

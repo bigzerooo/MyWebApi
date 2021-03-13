@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.DTO;
+using BusinessLogicLayer.DTO.Results;
+using BusinessLogicLayer.Extensions;
 using BusinessLogicLayer.Interfaces.IServices;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces.UnitOfWork;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,34 +15,57 @@ namespace BusinessLogicLayer.Services
     {
         public CarStateService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
 
-        public async Task<int> AddCarStateAsync(CarStateDTO carStateDTO)
-        {
-            var carState = mapper.Map<CarState>(carStateDTO);
-            return await unitOfWork.CarStateRepository.AddAsync(carState);
-        }
-
-        public async Task DeleteCarStateAsync(int id) =>
-            await unitOfWork.CarStateRepository.DeleteAsync(id);
-
         public async Task<IEnumerable<CarStateDTO>> GetAllCarStatesAsync()
         {
             var carStates = await unitOfWork.CarStateRepository.GetAllAsync();
             return mapper.Map<IEnumerable<CarStateDTO>>(carStates);
         }
 
-        public async Task<string> GetCarStateByIdAsync(int id) =>
-            await unitOfWork.CarStateRepository.GetCarStateStringById(id);
-
-        public async Task UpdateCarStateAsync(CarStateDTO carStateDTO)
+        public async Task<string> GetCarStateByIdAsync(int id)
         {
-            var carState = mapper.Map<CarState>(carStateDTO);
-            await unitOfWork.CarStateRepository.UpdateAsync(carState);
+            return await unitOfWork.CarStateRepository.GetCarStateStringById(id);
         }
 
-        //public async Task<CarState> GetCarStateDetailsByIdAsync(int id) =>
-        //    await unitOfWork.CarStateRepository.GetCarStateDetailsByIdAsync(id);
+        public async Task<RequestResultDTO> AddCarStateAsync(CarStateDTO carStateDTO)
+        {
+            try
+            {
+                var carState = mapper.Map<CarState>(carStateDTO);
+                await unitOfWork.CarStateRepository.AddAsync(carState);
+                return new RequestResultDTO();
+            }
+            catch(Exception ex)
+            {
+                return ex.RequestResult();
+            }
+        }
 
-        //public async Task<List<CarState>> GetCarStateDetailsAsync() =>
-        //    await unitOfWork.CarStateRepository.GetCarStateDetailsAsync();
+        public async Task<RequestResultDTO> UpdateCarStateAsync(CarStateDTO carStateDTO)
+        {
+            try
+            {
+                var carState = mapper.Map<CarState>(carStateDTO);
+                await unitOfWork.CarStateRepository.UpdateAsync(carState);
+                return new RequestResultDTO();
+            }
+            catch(Exception ex)
+            {
+                return ex.RequestResult();
+            }
+            
+        }
+
+        public async Task<RequestResultDTO> DeleteCarStateAsync(int id)
+        {
+            try
+            {
+                await unitOfWork.CarStateRepository.DeleteAsync(id);
+                return new RequestResultDTO();
+            }
+            catch (Exception ex)
+            {
+                return ex.RequestResult();
+            }
+        }
     }
 }

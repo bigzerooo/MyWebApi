@@ -1,0 +1,43 @@
+﻿@inject UI.Services.CarStateService carStateService
+@inject IStringLocalizer<CarStatesPage> L
+
+@attribute [Authorize(Roles = "admin")]
+@page "/carstates"
+
+<h3>@L["Car states"]</h3>
+<hr />
+
+<table class="table table-condensed table-striped table-bordered">
+
+    <tr>
+        <th>Id</th>
+        <th>@L["State"]</th>
+        <th></th>
+    </tr>
+
+    @foreach (var carState in CarStates)
+    {
+        <tr>
+            <td>@carState.Id</td>
+            <td>@carState.State</td>
+            <td>
+                <a href="/carstates/update/@carState.Id" class="btn btn-sm btn-primary">@L["Edit"]</a>
+                <a href="/carstates/delete/@carState.Id" class="btn btn-sm btn-primary">@L["Delete"]</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<a href="/carstates/add" class="btn btn-primary">@L["Add"]</a>
+
+@code
+{
+    IEnumerable<CarStateViewModel> CarStates { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CarStates = new CarStateViewModel[0];
+        CarStates = await carStateService.GetCarStatesAsync();
+    }
+}

@@ -2,7 +2,7 @@
 {
     public class CarStateViewModel
     {
-        public int id { get; set; }
-        public string state { get; set; }
+        public int Id { get; set; }
+        public string State { get; set; }
     }
 }

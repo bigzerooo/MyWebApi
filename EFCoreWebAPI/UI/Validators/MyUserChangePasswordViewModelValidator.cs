@@ -7,9 +7,9 @@ namespace UI.Validators
     {
         public MyUserChangePasswordViewModelValidator()
         {
-            RuleFor(x => x.oldPassword).NotEmpty();
-            RuleFor(x => x.newPassword).NotEmpty().MinimumLength(6);
-            RuleFor(x => x.newPasswordConfirm).NotEmpty().Equal(x => x.newPassword).WithMessage("Passwords are not equal");
+            RuleFor(x => x.OldPassword).NotEmpty();
+            RuleFor(x => x.NewPassword).NotEmpty().MinimumLength(6);
+            RuleFor(x => x.NewPasswordConfirm).NotEmpty().Equal(x => x.NewPassword).WithMessage("Passwords are not equal");
         }
     }
 }

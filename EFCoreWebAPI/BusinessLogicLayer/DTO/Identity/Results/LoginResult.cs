@@ -2,8 +2,8 @@
 {
     public class LoginResult
     {
-        public bool successful { get; set; }
-        public string error { get; set; }
-        public string token { get; set; }
+        public bool Successful { get; set; }
+        public string Error { get; set; }
+        public string Token { get; set; }
     }
 }

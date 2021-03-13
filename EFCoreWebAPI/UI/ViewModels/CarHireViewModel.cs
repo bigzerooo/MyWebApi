@@ -4,21 +4,21 @@ namespace UI.ViewModels
 {
     public class CarHireViewModel
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
-        public int carId { get; set; }
-        public int clientId { get; set; }
+        public int CarId { get; set; }
+        public int ClientId { get; set; }
 
-        public DateTime beginDate { get; set; }
-        public DateTime expectedEndDate { get; set; }
-        public decimal expectedPrice { get; set; }
+        public DateTime BeginDate { get; set; }
+        public DateTime ExpectedEndDate { get; set; }
+        public decimal ExpectedPrice { get; set; }
 
-        public int? carStateId { get; set; }
-        public decimal? discount { get; set; }
-        public decimal? penalty { get; set; }
+        public int? CarStateId { get; set; }
+        public decimal? Discount { get; set; }
+        public decimal? Penalty { get; set; }
 
-        public DateTime endDate { get; set; }
-        public decimal? price { get; set; }
-        public bool returned { get; set; }
+        public DateTime EndDate { get; set; }
+        public decimal? Price { get; set; }
+        public bool Returned { get; set; }
     }
 }

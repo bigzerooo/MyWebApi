@@ -10,7 +10,7 @@
     <ValidationSummary />
     <p>@Error</p>
     <p>
-        <MatTextField @bind-Value="@carType.type" Label=@L["Car type"]></MatTextField>
+        <MatTextField @bind-Value="@carType.Type" Label=@L["Car type"]></MatTextField>
     </p>
     <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
 </EditForm>
@@ -27,8 +27,8 @@
     protected override async Task OnInitializedAsync()
     {
         int intId = Int32.Parse(Id);
-        carType.type = await carTypeService.GetCarTypeByIdAsync(intId);
-        carType.id = intId;
+        carType.Type = await carTypeService.GetCarTypeByIdAsync(intId);
+        carType.Id = intId;
     }
     public async Task Edit()
     {

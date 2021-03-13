@@ -7,7 +7,7 @@ namespace UI.Validators
     {
         public CarStateViewModelValidator()
         {
-            RuleFor(x => x.state).NotEmpty().MaximumLength(45);
+            RuleFor(x => x.State).NotEmpty().MaximumLength(45);
         }
     }
 }

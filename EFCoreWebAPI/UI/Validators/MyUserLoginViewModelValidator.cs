@@ -7,9 +7,9 @@ namespace UI.Validators
     {
         public MyUserLoginViewModelValidator()
         {
-            RuleFor(x => x.userName)
+            RuleFor(x => x.UserName)
                 .NotEmpty();
-            RuleFor(x => x.password)
+            RuleFor(x => x.Password)
                 .NotEmpty();
         }
     }

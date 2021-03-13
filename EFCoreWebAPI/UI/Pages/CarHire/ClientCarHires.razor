@@ -17,13 +17,13 @@
     @foreach (var carHire in carHires)
     {
         <tr>
-            <td><a class="btn btn-primary" href="/cars/@carHire.carId">@L["Car"]</a></td>
-            <td>@carHire.beginDate</td>
-            <td>@carHire.carStateId</td>                        
-            <td>@carHire.discount</td>
-            <td>@carHire.penalty</td>
-            <td>@carHire.endDate</td>
-            <td>@carHire.price</td>            
+            <td><a class="btn btn-primary" href="/cars/@carHire.CarId">@L["Car"]</a></td>
+            <td>@carHire.BeginDate</td>
+            <td>@carHire.CarStateId</td>                        
+            <td>@carHire.Discount</td>
+            <td>@carHire.Penalty</td>
+            <td>@carHire.EndDate</td>
+            <td>@carHire.Price</td>            
         </tr>
     }
 </table>

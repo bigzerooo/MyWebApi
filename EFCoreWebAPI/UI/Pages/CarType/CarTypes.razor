@@ -8,11 +8,11 @@
     @foreach (var carType in carTypes)
     {
         <tr>
-            <td>@carType.id</td>
-            <td>@carType.type</td>
+            <td>@carType.Id</td>
+            <td>@carType.Type</td>
             <td>
-                <a href="/cartypes/update/@carType.id" class="btn btn-sm btn-primary">@L["Edit"]</a>
-                <a href="/cartypes/delete/@carType.id" class="btn btn-sm btn-primary">@L["Delete"]</a>
+                <a href="/cartypes/update/@carType.Id" class="btn btn-sm btn-primary">@L["Edit"]</a>
+                <a href="/cartypes/delete/@carType.Id" class="btn btn-sm btn-primary">@L["Delete"]</a>
             </td>
         </tr>
     }

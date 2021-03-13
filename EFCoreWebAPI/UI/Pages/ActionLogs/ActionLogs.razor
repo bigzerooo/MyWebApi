@@ -12,10 +12,10 @@
         @foreach (var log in logs)
         {
             <tr>
-                <td>@log.id</td>
-                <td>@log.controllerName</td>
-                <td class="@Color(log.actionType)">@log.actionName</td>
-                <td>@log.date</td>
+                <td>@log.Id</td>
+                <td>@log.ControllerName</td>
+                <td class="@Color(log.ActionType)">@log.ActionName</td>
+                <td>@log.Date</td>
             </tr>
         }
     </table>

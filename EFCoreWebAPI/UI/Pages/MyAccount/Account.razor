@@ -34,7 +34,7 @@
     </style>
     <div class="dataBlock">
         <div class="headBlock">
-            @if (base64string == null || string.IsNullOrEmpty(base64string) || client.photo == null)
+            @if (base64string == null || string.IsNullOrEmpty(base64string) || client.Photo == null)
             {
                 <img src="/default_images/defaultUser.jpg">
             }
@@ -52,11 +52,11 @@
         <hr />
 
         <h4>@L["Personal information"] :</h4>
-        <p><b>@L["Last name"]: </b>@client.lastName</p>
-        <p><b>@L["First name"]: </b>@client.firstName</p>
-        <p><b>@L["Second name"]: </b>@client.secondName</p>
-        <p><b>@L["Address"]: </b>@client.adress</p>
-        <p><b>@L["Phone number"]: </b>@client.phoneNumber</p>
+        <p><b>@L["Last name"]: </b>@client.LastName</p>
+        <p><b>@L["First name"]: </b>@client.FirstName</p>
+        <p><b>@L["Second name"]: </b>@client.SecondName</p>
+        <p><b>@L["Address"]: </b>@client.Adress</p>
+        <p><b>@L["Phone number"]: </b>@client.PhoneNumber</p>
         <a class="btn btn-primary" href="/myaccount/modify">@L["Modify"]</a>
         <br />
         <br />
@@ -83,7 +83,7 @@
         Username = authState.User.Identity.Name;
         Email = authState.User.Claims.First(x => x.Type == "email").Value;
         client = await clientService.GetClientsByIdAsync(Int32.Parse(clientId));
-        base64string = Convert.ToBase64String(client.photo);
+        base64string = Convert.ToBase64String(client.Photo);
     }
 
 }

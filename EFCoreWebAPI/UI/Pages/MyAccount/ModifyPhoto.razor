@@ -42,7 +42,7 @@
             var resizedImageFile = await file.RequestImageFileAsync(format, 150, 150);
             var buffer = new byte[resizedImageFile.Size];
             await resizedImageFile.OpenReadStream().ReadAsync(buffer);
-            client.photo = buffer;
+            client.Photo = buffer;
             var result = await clientService.UpdateClientAsync(client);
             if (!result.IsSuccessStatusCode)
                 throw new Exception(result.StatusCode.ToString());

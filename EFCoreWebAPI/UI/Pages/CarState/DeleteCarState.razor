@@ -1,14 +1,16 @@
-﻿@page "/carstates/delete/{id}"
-@inject UI.Services.CarStateService carStateService
-@inject NavigationManager navigationManager;
+﻿@inject UI.Services.CarStateService carStateService
+@inject NavigationManager navigationManager
+
 @attribute [Authorize(Roles = "admin")]
+@page "/carstates/delete/{id}"
+
 @code {
     [Parameter]
     public string Id { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await carStateService.DeleteCarStateAsync(Id);
         navigationManager.NavigateTo("/carstates");
     }
-
 }

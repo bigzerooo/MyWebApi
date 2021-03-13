@@ -8,11 +8,11 @@
     @foreach (var clientType in clientTypes)
     {
         <tr>
-            <td>@clientType.id</td>
-            <td>@clientType.type</td>
+            <td>@clientType.Id</td>
+            <td>@clientType.Type</td>
             <td>
-                <a href="/clienttypes/update/@clientType.id" class="btn btn-sm btn-primary">@L["Edit"]</a>
-                <a href="/clienttypes/delete/@clientType.id" class="btn btn-sm btn-primary">@L["Delete"]</a>
+                <a href="/clienttypes/update/@clientType.Id" class="btn btn-sm btn-primary">@L["Edit"]</a>
+                <a href="/clienttypes/delete/@clientType.Id" class="btn btn-sm btn-primary">@L["Delete"]</a>
             </td>
         </tr>
     }
