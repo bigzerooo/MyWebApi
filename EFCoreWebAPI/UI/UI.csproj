@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\car_images\" />
+    <Folder Include="wwwroot\default_images\initial_car_images\" />
   </ItemGroup>
 
 </Project>

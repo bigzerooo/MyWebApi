@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Entities;
+using DataAccessLayer.Seeding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -29,6 +30,9 @@ namespace DataAccessLayer.DbContext.SQL.Configurations
             builder
                 .Property(p => p.Description)
                 .HasMaxLength(1000);
+
+            builder
+                .HasData(DataInitializer.InitialCars);
         }
     }
 }
