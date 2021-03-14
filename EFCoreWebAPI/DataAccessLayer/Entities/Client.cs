@@ -12,7 +12,6 @@ namespace DataAccessLayer.Entities
         public string SecondName { get; set; }
         public string Adress { get; set; }
         public string PhoneNumber { get; set; }
-        //Пересмотреть с User
         public int ClientTypeId { get; set; }
         public byte[] Photo { get; set; }
         public User User { get; set; }

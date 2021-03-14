@@ -9,6 +9,7 @@ namespace DataAccessLayer.Helpers
         public static string GetMongoCollectionName(this IEntity document)
         {
             var documentType = document.GetType();
+
             return ((BsonCollectionAttribute)documentType.GetCustomAttributes(typeof(BsonCollectionAttribute), true)
                 .FirstOrDefault())?.CollectionName
                 ?? documentType.Name.ToLower() + "s";

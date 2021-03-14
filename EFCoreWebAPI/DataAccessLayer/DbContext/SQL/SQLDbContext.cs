@@ -16,6 +16,7 @@ namespace DataAccessLayer.DbContext.SQL
         public DbSet<CarHire> CarHires { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Log> Logs { get; set; }
+
         public SQLDbContext(DbContextOptions<SQLDbContext> options) : base(options)
         {
             Database.EnsureCreated();

@@ -10,7 +10,8 @@ namespace DataAccessLayer.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly SQLDbContext _context;
+        private readonly SQLDbContext context;
+        private bool disposed = false;
 
         public ICarStateRepository CarStateRepository { get; }
         public ICarTypeRepository CarTypeRepository { get; }
@@ -23,6 +24,7 @@ namespace DataAccessLayer.UnitOfWork
         public UserManager<User> UserManager { get; }
         public RoleManager<Role> RoleManager { get; }
         public SignInManager<User> SignInManager { get; }
+        
         public UnitOfWork(
             SQLDbContext context,
             ICarStateRepository carStateRepository,
@@ -37,7 +39,7 @@ namespace DataAccessLayer.UnitOfWork
             SignInManager<User> signInManager,
             RoleManager<Role> roleManager)
         {
-            _context = context;
+            this.context = context;
             CarStateRepository = carStateRepository;
             CarTypeRepository = carTypeRepository;
             ClientTypeRepository = clientTypeRepository;
@@ -50,17 +52,22 @@ namespace DataAccessLayer.UnitOfWork
             SignInManager = signInManager;
             RoleManager = roleManager;
         }
-        public Task<int> Complete() => _context.SaveChangesAsync();
-        private bool disposed = false;
+
+        public Task<int> Complete()
+        {
+            return context.SaveChangesAsync();
+        }
+
         public virtual void Dispose(bool disposing)
         {
             if (!disposed)
             {
                 if (disposing)
-                    _context.Dispose();
+                    context.Dispose();
                 disposed = true;
             }
         }
+
         public void Dispose()
         {
             Dispose(true);
