@@ -1,44 +1,54 @@
-﻿@page "/clienttypes/update/{id}"
-@inject UI.Services.ClientTypeService clientTypeService
+﻿@inject UI.Services.ClientTypeService clientTypeService
 @inject NavigationManager  navigationManager
-@attribute [Authorize(Roles = "admin")]
 @inject IStringLocalizer<EditClientType> L
-<h3>@L["Edit client type"]</h3>
-<hr />
-<EditForm Model="@clientType" OnValidSubmit="@Edit">
-    <FluentValidator></FluentValidator>
-    <ValidationSummary />
-    <p>@Error</p>
-    <p>
-        <MatTextField @bind-Value="@clientType.Type" Label="@L["Client type"]"></MatTextField>
-    </p>
-    <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
-</EditForm>
 
 @attribute [Authorize(Roles = "admin")]
+@page "/clienttypes/update/{id}"
+
+<h3>@L["Edit client type"]</h3>
+<hr />
+
+<EditForm class="d-flex flex-column w-25" Model="@clientType" OnValidSubmit="@EditAsync">
+
+    <FluentValidator />
+    <ValidationSummary />
+    <ErrorSummary Errors="Errors" />
+
+    <MatTextField @bind-Value="@clientType.Type" Label="@L["Client type"]" />
+
+    <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
+
+</EditForm>
+
 @code {
     [Parameter]
     public string Id { get; set; }
 
-    ClientTypeViewModel clientType { get; set; } = new ClientTypeViewModel();
+    private ClientTypeViewModel clientType { get; set; }
 
-    public string Error { get; set; } = "";
+    private IEnumerable<string> Errors { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        clientType = new ClientTypeViewModel();
+        Errors = new string[0];
+
         int intId = Int32.Parse(Id);
         clientType.Type = await clientTypeService.GetClientTypeByIdAsync(intId);
         clientType.Id = intId;
     }
-    public async Task Edit()
+
+    private async Task EditAsync()
     {
-        Error = "";
         var result = await clientTypeService.UpdateClientTypeAsync(clientType);
-        if (result.IsSuccessStatusCode)
+
+        if (result.IsSuccessful)
+        {
             navigationManager.NavigateTo("/clienttypes");
+        }
         else
-            Error = result.StatusCode.ToString();
-
+        {
+            Errors = result.Errors;
+        }
     }
-
 }

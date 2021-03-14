@@ -1,44 +1,54 @@
-﻿@page "/cartypes/update/{id}"
-@inject UI.Services.CarTypeService carTypeService
+﻿@inject UI.Services.CarTypeService carTypeService
 @inject NavigationManager  navigationManager
-@attribute [Authorize(Roles = "admin")]
 @inject IStringLocalizer<EditCarType> L
-<h3>@L["Edit car type"]</h3>
-<hr />
-<EditForm Model="@carType" OnValidSubmit="@Edit">
-    <FluentValidator></FluentValidator>
-    <ValidationSummary />
-    <p>@Error</p>
-    <p>
-        <MatTextField @bind-Value="@carType.Type" Label=@L["Car type"]></MatTextField>
-    </p>
-    <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
-</EditForm>
 
 @attribute [Authorize(Roles = "admin")]
+@page "/cartypes/update/{id}"
+
+<h3>@L["Edit car type"]</h3>
+<hr />
+
+<EditForm class="d-flex flex-column w-25" Model="@CarType" OnValidSubmit="@EditAsync">
+
+    <FluentValidator />
+    <ValidationSummary />
+    <ErrorSummary Errors="Errors" />
+
+    <MatTextField @bind-Value="@CarType.Type" Label=@L["Car type"]></MatTextField>
+
+    <button type="submit" class="btn btn-sm btn-primary">@L["Edit"]</button>
+
+</EditForm>
+
 @code {
     [Parameter]
     public string Id { get; set; }
 
-    CarTypeViewModel carType { get; set; } = new CarTypeViewModel();
+    CarTypeViewModel CarType { get; set; }
 
-    public string Error { get; set; } = "";
+    IEnumerable<string> Errors { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        CarType = new CarTypeViewModel();
+        Errors = new string[0];
+
         int intId = Int32.Parse(Id);
-        carType.Type = await carTypeService.GetCarTypeByIdAsync(intId);
-        carType.Id = intId;
+        CarType.Type = await carTypeService.GetCarTypeByIdAsync(intId);
+        CarType.Id = intId;
     }
-    public async Task Edit()
+
+    private async Task EditAsync()
     {
-        Error = "";
-        var result = await carTypeService.UpdateCarTypeAsync(carType);
-        if (result.IsSuccessStatusCode)
+        var result = await carTypeService.UpdateCarTypeAsync(CarType);
+
+        if (result.IsSuccessful)
+        {
             navigationManager.NavigateTo("/cartypes");
+        }
         else
-            Error = result.StatusCode.ToString();
-
+        {
+            Errors = result.Errors;
+        }
     }
-
 }

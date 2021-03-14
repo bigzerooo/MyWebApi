@@ -24,9 +24,9 @@
     [Parameter]
     public string Id { get; set; }
 
-    CarStateViewModel CarState { get; set; }
+    private CarStateViewModel CarState { get; set; }
 
-    IEnumerable<string> Errors { get; set; }
+    private IEnumerable<string> Errors { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

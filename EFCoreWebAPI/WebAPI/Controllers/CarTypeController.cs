@@ -12,107 +12,56 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class CarTypeController : Controller
     {
+        private readonly ICarTypeService carTypeService;
 
-        ICarTypeService _carTypeService;
-        public CarTypeController(ICarTypeService carTypeService) =>
-            _carTypeService = carTypeService;
+        public CarTypeController(ICarTypeService carTypeService)
+        {
+            this.carTypeService = carTypeService;
+        }
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetCarTypes()
         {
-            try
-            {
-                return Ok(await _carTypeService.GetAllCarTypesAsync());
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await carTypeService.GetAllCarTypesAsync();
+
+            return Json(result);
         }
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetCarTypeById(int id)
         {
-            try
-            {
-                return Ok(await _carTypeService.GetCarTypeByIdAsync(id));
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await carTypeService.GetCarTypeByIdAsync(id);
+
+            return Json(result);
         }
 
-        //[HttpGet("details/{id}")]
-        //public async Task<IActionResult> GetDetails(int id)
-        //{
-        //    try
-        //    {
-        //        return Ok(await _carTypeService.GetCarTypeDetailsByIdAsync(id));
-        //    }
-        //    catch
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-
-        //[HttpGet("details")]
-        //public async Task<IActionResult> GetDetails()
-        //{
-        //    try
-        //    {
-        //        return Ok(await _carTypeService.GetCarTypeDetailsAsync());
-        //    }
-        //    catch
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CarTypeDTO carType)
+        public async Task<IActionResult> AddCarType([FromBody] CarTypeDTO carType)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest("Invalid model");
-                await _carTypeService.AddCarTypeAsync(carType);
-                return StatusCode(201);
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid model");
+
+            var result = await carTypeService.AddCarTypeAsync(carType);
+
+            return Json(result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] CarTypeDTO carType)
+        public async Task<IActionResult> UpdateCarType([FromBody] CarTypeDTO carType)
         {
-            try
-            {
-                await _carTypeService.UpdateCarTypeAsync(carType);
-                return NoContent();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await carTypeService.UpdateCarTypeAsync(carType);
+
+            return Json(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteCarType(int id)
         {
-            try
-            {
-                await _carTypeService.DeleteCarTypeAsync(id);
-                return NoContent();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await carTypeService.DeleteCarTypeAsync(id);
+
+            return Json(result);
         }
     }
 }

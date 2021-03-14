@@ -12,15 +12,19 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class CarStateController : Controller
     {
-        ICarStateService _carStateService;
-        public CarStateController(ICarStateService carStateService) =>
-            _carStateService = carStateService;
+        private readonly ICarStateService carStateService;
+
+        public CarStateController(ICarStateService carStateService)
+        {
+            this.carStateService = carStateService;
+        }
+            
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCarStates()
         {
-            var result = await _carStateService.GetAllCarStatesAsync();
+            var result = await carStateService.GetAllCarStatesAsync();
 
             return Json(result);
         }
@@ -29,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCarStateById(int id)
         {
-            var result = await _carStateService.GetCarStateByIdAsync(id);
+            var result = await carStateService.GetCarStateByIdAsync(id);
 
             return Json(result);
         }
@@ -38,9 +42,11 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> AddCarState([FromBody] CarStateDTO carState)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest("Invalid model");
+            }
 
-            var result = await _carStateService.AddCarStateAsync(carState);
+            var result = await carStateService.AddCarStateAsync(carState);
 
             return Json(result);
         }
@@ -48,7 +54,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateCarState([FromBody] CarStateDTO carState)
         {
-            var result = await _carStateService.UpdateCarStateAsync(carState);
+            var result = await carStateService.UpdateCarStateAsync(carState);
 
             return Json(result);
         }
@@ -56,7 +62,7 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarState(int id)
         {
-            var result = await _carStateService.DeleteCarStateAsync(id);
+            var result = await carStateService.DeleteCarStateAsync(id);
 
             return Json(result);
         }

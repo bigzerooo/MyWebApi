@@ -1,70 +1,53 @@
 ﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+using UI.Extensions;
 using UI.ViewModels;
 
 namespace UI.Services
 {
-    public class ClientTypeService
+    public class ClientTypeService : BaseService
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILocalStorageService _localStorage;
-        public ClientTypeService(HttpClient client, ILocalStorageService localStorage)
-        {
-            _httpClient = client;
-            _localStorage = localStorage;
-        }
-        public async Task<List<ClientTypeViewModel>> GetClientTypesAsync()
-        {
-            var response = await _httpClient.GetAsync($"api/clienttype");
-            if (!response.IsSuccessStatusCode)
-                return null;
+        public ClientTypeService(HttpClient httpClient, ILocalStorageService localStorage)
+            : base(httpClient, localStorage) { }
 
-            using var responseContent = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<List<ClientTypeViewModel>>(responseContent);
+        public async Task<IEnumerable<ClientTypeViewModel>> GetClientTypesAsync()
+        {
+            var result = await httpClient.GetJsonAsync<IEnumerable<ClientTypeViewModel>>("api/clienttype");
+
+            return result;
         }
+
         public async Task<string> GetClientTypeByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"api/clienttype/{id}");
-            if (!response.IsSuccessStatusCode)
-                return null;
+            var result = await httpClient.GetJsonAsync<string>($"api/clienttype/{id}");
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
+            return result;
         }
-        public async Task<HttpResponseMessage> AddClientTypeAsync(ClientTypeViewModel clientType)
+        public async Task<RequestResultViewModel> AddClientTypeAsync(ClientTypeViewModel clientType)
         {
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            string token = await localStorage.GetItemAsync<string>("authToken");
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.PostAsync($"api/clienttype", GetStringContentFromObject(clientType));
+            return await httpClient.PostJsonAsync<RequestResultViewModel>("api/clienttype", clientType);
         }
 
-        public async Task<HttpResponseMessage> UpdateClientTypeAsync(ClientTypeViewModel clientType)
+        public async Task<RequestResultViewModel> UpdateClientTypeAsync(ClientTypeViewModel clientType)
         {
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            string token = await localStorage.GetItemAsync<string>("authToken");
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.PutAsync($"api/clienttype", GetStringContentFromObject(clientType));
+            return await httpClient.PutJsonAsync<RequestResultViewModel>("api/clienttype", clientType);
         }
 
-        public async Task<HttpResponseMessage> DeleteClientTypeAsync(string id)
+        public async Task<RequestResultViewModel> DeleteClientTypeAsync(string id)
         {
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            string token = await localStorage.GetItemAsync<string>("authToken");
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.DeleteAsync($"api/clienttype/{id}");
-        }
-
-        private StringContent GetStringContentFromObject(object obj)
-        {
-            var serialized = JsonSerializer.Serialize(obj);
-            var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-            return stringContent;
+            return await httpClient.DeleteAsync<RequestResultViewModel>($"api/clienttype/{id}");
         }
     }
 }

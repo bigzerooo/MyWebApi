@@ -1,70 +1,52 @@
 ﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+using UI.Extensions;
 using UI.ViewModels;
 
 namespace UI.Services
 {
-    public class CarTypeService
+    public class CarTypeService : BaseService
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILocalStorageService _localStorage;
-        public CarTypeService(HttpClient client, ILocalStorageService localStorage)
-        {
-            _httpClient = client;
-            _localStorage = localStorage;
-        }
-        public async Task<List<CarTypeViewModel>> GetCarTypesAsync()
-        {
-            var response = await _httpClient.GetAsync($"api/cartype");
-            if (!response.IsSuccessStatusCode)
-                return null;
+        public CarTypeService(HttpClient httpClient, ILocalStorageService localStorage)
+            : base(httpClient, localStorage) { }
 
-            using var responseContent = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<List<CarTypeViewModel>>(responseContent);
+        public async Task<IEnumerable<CarTypeViewModel>> GetCarTypesAsync()
+        {
+            var result = await httpClient.GetJsonAsync<IEnumerable<CarTypeViewModel>>("api/cartype");
+
+            return result;
         }
         public async Task<string> GetCarTypeByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"api/cartype/{id}");
-            if (!response.IsSuccessStatusCode)
-                return null;
+            var result = await httpClient.GetJsonAsync<string>($"api/cartype/{id}");
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
+            return result;
         }
-        public async Task<HttpResponseMessage> AddCarTypeAsync(CarTypeViewModel carType)
+        public async Task<RequestResultViewModel> AddCarTypeAsync(CarTypeViewModel carType)
         {
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            string token = await localStorage.GetItemAsync<string>("authToken");
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.PostAsync($"api/cartype", GetStringContentFromObject(carType));
+            return await httpClient.PostJsonAsync<RequestResultViewModel>("api/cartype", carType);
         }
 
-        public async Task<HttpResponseMessage> UpdateCarTypeAsync(CarTypeViewModel carType)
+        public async Task<RequestResultViewModel> UpdateCarTypeAsync(CarTypeViewModel carType)
         {
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            string token = await localStorage.GetItemAsync<string>("authToken");
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.PutAsync($"api/cartype", GetStringContentFromObject(carType));
+            return await httpClient.PutJsonAsync<RequestResultViewModel>("api/cartype", carType);
         }
 
-        public async Task<HttpResponseMessage> DeleteCarTypeAsync(string id)
+        public async Task<RequestResultViewModel> DeleteCarTypeAsync(string id)
         {
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            string token = await localStorage.GetItemAsync<string>("authToken");
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            return await _httpClient.DeleteAsync($"api/cartype/{id}");
-        }
-
-        private StringContent GetStringContentFromObject(object obj)
-        {
-            var serialized = JsonSerializer.Serialize(obj);
-            var stringContent = new StringContent(serialized, Encoding.UTF8, "application/json");
-
-            return stringContent;
+            return await httpClient.DeleteAsync<RequestResultViewModel>($"api/cartype/{id}");
         }
     }
 }

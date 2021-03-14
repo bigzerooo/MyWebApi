@@ -12,107 +12,58 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     public class ClientTypeController : Controller
     {
+        private readonly IClientTypeService clientTypeService;
 
-        IClientTypeService _clientTypeService;
-        public ClientTypeController(IClientTypeService clientTypeService) =>
-            _clientTypeService = clientTypeService;
+        public ClientTypeController(IClientTypeService clientTypeService)
+        {
+            this.clientTypeService = clientTypeService;
+        }
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetClientTypes()
         {
-            try
-            {
-                return Ok(await _clientTypeService.GetAllClientTypesAsync());
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await clientTypeService.GetAllClientTypesAsync();
+
+            return Json(result);
         }
 
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetClientTypeById(int id)
         {
-            try
-            {
-                return Ok(await _clientTypeService.GetClientTypeByIdAsync(id));
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await clientTypeService.GetClientTypeByIdAsync(id);
+
+            return Json(result);
         }
 
-        //[HttpGet("details/{id}")]
-        //public async Task<IActionResult> GetDetails(int id)
-        //{
-        //    try
-        //    {
-        //        return Ok(await _clientTypeService.GetClientTypeDetailsByIdAsync(id));
-        //    }
-        //    catch
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-
-        //[HttpGet("details")]
-        //public async Task<IActionResult> GetDetails()
-        //{
-        //    try
-        //    {
-        //        return Ok(await _clientTypeService.GetClientTypeDetailsAsync());
-        //    }
-        //    catch
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ClientTypeDTO clientType)
+        public async Task<IActionResult> AddClientType([FromBody] ClientTypeDTO clientType)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                    return BadRequest("Invalid model");
-                await _clientTypeService.AddClientTypeAsync(clientType);
-                return StatusCode(201);
+                return BadRequest("Invalid model");
             }
-            catch
-            {
-                return BadRequest();
-            }
+
+            var result = await clientTypeService.AddClientTypeAsync(clientType);
+
+            return Json(result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ClientTypeDTO clientType)
+        public async Task<IActionResult> UpdateClientType([FromBody] ClientTypeDTO clientType)
         {
-            try
-            {
-                await _clientTypeService.UpdateClientTypeAsync(clientType);
-                return NoContent();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await clientTypeService.UpdateClientTypeAsync(clientType);
+
+            return Json(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                await _clientTypeService.DeleteClientTypeAsync(id);
-                return NoContent();
-            }
-            catch
-            {
-                return NotFound();
-            }
+            var result = await clientTypeService.DeleteClientTypeAsync(id);
+
+            return Json(result);
         }
     }
 }

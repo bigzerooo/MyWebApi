@@ -6,7 +6,7 @@ namespace UI.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, string? requestUri)
+        public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, string requestUri)
         {
             var response = await httpClient.DeleteAsync(requestUri);
 

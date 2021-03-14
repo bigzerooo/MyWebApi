@@ -8,16 +8,11 @@
 <h3>@L["Add car type"]</h3>
 <hr />
 
-<EditForm class="d-flex flex-column w-25" Model="@CarType" OnValidSubmit="@Add">
+<EditForm class="d-flex flex-column w-25" Model="@CarType" OnValidSubmit="@AddAsync">
 
     <FluentValidator />
     <ValidationSummary />
-    @if (!string.IsNullOrWhiteSpace(Error))
-    {
-        <ul class="validation-errors">
-            <li class="validation-message">@Error</li>
-        </ul>
-    }
+    <ErrorSummary Errors="Errors" />
 
     <MatTextField @bind-Value="@CarType.Type" Label="@L["Car type"]" />
 
@@ -27,22 +22,26 @@
 
 @code {
     CarTypeViewModel CarType { get; set; }
-    string Error { get; set; }
+
+    IEnumerable<string> Errors { get; set; }
 
     protected override void OnInitialized()
     {
         CarType = new CarTypeViewModel();
-        Error = string.Empty;
+        Errors = new string[0];
     }
 
-    private async Task Add()
+    private async Task AddAsync()
     {
-        Error = "";
         var result = await carTypeService.AddCarTypeAsync(CarType);
-        if (result.IsSuccessStatusCode)
-            navigationManager.NavigateTo("/cartypes");
-        else
-            Error = result.StatusCode.ToString();
-    }
 
+        if (result.IsSuccessful)
+        {
+            navigationManager.NavigateTo("/cartypes");
+        }
+        else
+        {
+            Errors = result.Errors;
+        }
+    }
 }
