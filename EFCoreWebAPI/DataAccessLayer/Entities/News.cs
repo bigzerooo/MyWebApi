@@ -6,7 +6,7 @@ using System;
 namespace DataAccessLayer.Entities
 {
     [BsonCollection("news")]
-    public class News : IEntity
+    public class News : IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }

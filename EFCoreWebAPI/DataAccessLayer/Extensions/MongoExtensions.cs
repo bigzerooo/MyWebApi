@@ -6,7 +6,7 @@ namespace DataAccessLayer.Helpers
 {
     public static class MongoExtensions
     {
-        public static string GetMongoCollectionName(this IEntity document)
+        public static string GetMongoCollectionName(this IEntity<int> document)
         {
             var documentType = document.GetType();
 

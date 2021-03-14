@@ -2,9 +2,9 @@
 
 namespace DataAccessLayer.Interfaces.Entities
 {
-    public interface IEntity
+    public interface IEntity<T>
     {
         [BsonId]
-        int Id { get; set; }
+        T Id { get; set; }
     }
 }

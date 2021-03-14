@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace DataAccessLayer.Entities
 {
-    public class Car : IEntity
+    public class Car : IEntity<int>
     {
         public int Id { get; set; }
         public string Brand { get; set; }

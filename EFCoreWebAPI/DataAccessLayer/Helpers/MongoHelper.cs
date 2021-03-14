@@ -29,7 +29,7 @@ namespace DataAccessLayer.Helpers
                 ?? documentType.Name.ToLower() + "s";
         }
 
-        public async Task<int> GetNextSequenceValue<TEntity>() where TEntity : IEntity
+        public async Task<int> GetNextSequenceValue<TEntity>() where TEntity : IEntity<int>
         {
             var collectionName = GetMongoCollectionName<TEntity>();
             var sequenceCollectionName = GetMongoCollectionName<Sequence>();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class SQLCarStateRepository : SQLGenericRepository<CarState>, ICarStateRepository
+    public class SQLCarStateRepository : SQLGenericRepository<CarState,int>, ICarStateRepository
     {
         public SQLCarStateRepository(SQLDbContext myDBContext) : base(myDBContext) { }
 

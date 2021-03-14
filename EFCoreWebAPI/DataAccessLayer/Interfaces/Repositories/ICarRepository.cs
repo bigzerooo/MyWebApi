@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.Repositories
 {
-    public interface ICarRepository : IGenericRepository<Car>
+    public interface ICarRepository : IGenericRepository<Car, int>
     {
         Task<int> GetCarCountAsync(CarParameters parameters);
         Task<PagedList<Car>> GetAllPagesFilteredAsync(CarParameters parameters);

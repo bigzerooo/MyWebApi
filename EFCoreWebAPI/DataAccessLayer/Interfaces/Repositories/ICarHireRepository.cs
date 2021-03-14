@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.Repositories
 {
-    public interface ICarHireRepository : IGenericRepository<CarHire>
+    public interface ICarHireRepository : IGenericRepository<CarHire, int>
     {
         Task<int> GetReturnedCarCountByIdAsync(int id);
         Task<IEnumerable<CarHire>> GetReturnedCarHiresByClientIdAsync(int clientId);

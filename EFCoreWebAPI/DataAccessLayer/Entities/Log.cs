@@ -6,7 +6,7 @@ using System;
 namespace DataAccessLayer.Entities
 {
     [BsonCollection("logs")]
-    public class Log : IEntity
+    public class Log : IEntity<int>
     {
         public int Id { get; set; }
         public string ControllerName { get; set; }

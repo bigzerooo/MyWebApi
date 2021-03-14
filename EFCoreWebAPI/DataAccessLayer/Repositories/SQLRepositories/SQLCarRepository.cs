@@ -11,7 +11,7 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class SQLCarRepository : SQLGenericRepository<Car>, ICarRepository
+    public class SQLCarRepository : SQLGenericRepository<Car, int>, ICarRepository
     {
         private readonly ISortHelper<Car> sortHelper;
 

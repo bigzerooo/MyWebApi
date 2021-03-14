@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class SQLClientRepository : SQLGenericRepository<Client>, IClientRepository
+    public class SQLClientRepository : SQLGenericRepository<Client, int>, IClientRepository
     {
         private readonly ISortHelper<Client> sortHelper;
         public SQLClientRepository(SQLDbContext myDBContext, ISortHelper<Client> sortHelper) : base(myDBContext)

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.GenericRepositories
 {
-    public abstract class MongoGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
+    public abstract class MongoGenericRepository<TEntity> : IGenericRepository<TEntity, int> where TEntity : class, IEntity<int>
     {
         protected readonly IMongoCollection<TEntity> collection;
         protected readonly IMongoHelper mongoHelper;

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class SQLCarHireRepository : SQLGenericRepository<CarHire>, ICarHireRepository
+    public class SQLCarHireRepository : SQLGenericRepository<CarHire, int>, ICarHireRepository
     {
         public SQLCarHireRepository(SQLDbContext myDBContext) : base(myDBContext) { }
 

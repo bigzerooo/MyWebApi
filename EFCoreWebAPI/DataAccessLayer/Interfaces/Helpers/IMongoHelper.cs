@@ -7,7 +7,7 @@ namespace DataAccessLayer.Interfaces.Helpers
     public interface IMongoHelper
     {
         string GetMongoCollectionName<T>();
-        Task<int> GetNextSequenceValue<TEntity>() where TEntity : IEntity;
+        Task<int> GetNextSequenceValue<TEntity>() where TEntity : IEntity<int>;
         IMongoDatabase GetMongoDatabase();
     }
 }

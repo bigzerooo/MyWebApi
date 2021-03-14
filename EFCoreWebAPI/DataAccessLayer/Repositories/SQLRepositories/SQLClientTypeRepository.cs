@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class SQLClientTypeRepository : SQLGenericRepository<ClientType>, IClientTypeRepository
+    public class SQLClientTypeRepository : SQLGenericRepository<ClientType, int>, IClientTypeRepository
     {
         public SQLClientTypeRepository(SQLDbContext myDBContext) : base(myDBContext) { }
 

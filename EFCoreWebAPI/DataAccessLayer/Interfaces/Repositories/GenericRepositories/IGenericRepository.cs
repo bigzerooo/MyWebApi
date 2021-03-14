@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.Repositories.GenericRepositories
 {
-    public interface IGenericRepository<TEntity> where TEntity : IEntity
+    public interface IGenericRepository<TEntity, TId> where TEntity : IEntity<TId>
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<TEntity> GetAsync(int id);
-        Task<int> AddAsync(TEntity entity);
+        Task<TEntity> GetAsync(TId id);
+        Task<TId> AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(TId id);
         IQueryable<TEntity> FindByConditionAsync(Expression<Func<TEntity, bool>> expression);
     }
 }

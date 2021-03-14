@@ -5,7 +5,7 @@ using DataAccessLayer.Repositories.GenericRepositories;
 
 namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class SQLNewsRepository : SQLGenericRepository<News>, INewsRepository
+    public class SQLNewsRepository : SQLGenericRepository<News, int>, INewsRepository
     {
         public SQLNewsRepository(SQLDbContext myDBContext) : base(myDBContext) { }
     }

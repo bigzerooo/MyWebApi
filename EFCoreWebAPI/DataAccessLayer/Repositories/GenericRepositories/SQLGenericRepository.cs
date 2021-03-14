@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.GenericRepositories
 {
-    public abstract class SQLGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IEntity
+    public abstract class SQLGenericRepository<TEntity, TId> : IGenericRepository<TEntity, TId> where TEntity : class, IEntity<TId>
     {
         protected SQLDbContext _myDBContext;
         protected DbSet<TEntity> _dbSet;
@@ -21,7 +21,7 @@ namespace DataAccessLayer.Repositories.GenericRepositories
             _dbSet = _myDBContext.Set<TEntity>();
         }
 
-        public virtual async Task<int> AddAsync(TEntity entity)
+        public virtual async Task<TId> AddAsync(TEntity entity)
         {
             _dbSet.Add(entity);
             await _myDBContext.SaveChangesAsync();
@@ -34,14 +34,14 @@ namespace DataAccessLayer.Repositories.GenericRepositories
             await _myDBContext.SaveChangesAsync();
         }
 
-        public virtual async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(TId id)
         {
             TEntity entity = await _dbSet.FindAsync(id);
             _dbSet.Remove(entity);
             await _myDBContext.SaveChangesAsync();
         }
 
-        public async Task<TEntity> GetAsync(int id)
+        public async Task<TEntity> GetAsync(TId id)
         {
             return await _dbSet.FindAsync(id);
         }

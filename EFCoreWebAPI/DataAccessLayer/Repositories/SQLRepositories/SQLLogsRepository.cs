@@ -5,7 +5,7 @@ using DataAccessLayer.Repositories.GenericRepositories;
 
 namespace DataAccessLayer.Repositories.SQLRepositories
 {
-    public class SQLLogsRepository : SQLGenericRepository<Log>, ILogsRepository
+    public class SQLLogsRepository : SQLGenericRepository<Log, int>, ILogsRepository
     {
         public SQLLogsRepository(SQLDbContext dbContext) : base(dbContext) { }
     }

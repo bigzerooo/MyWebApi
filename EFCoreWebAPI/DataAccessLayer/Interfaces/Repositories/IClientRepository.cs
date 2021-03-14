@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces.Repositories
 {
-    public interface IClientRepository : IGenericRepository<Client>
+    public interface IClientRepository : IGenericRepository<Client, int>
     {
         Task<PagedList<Client>> GetAllPagesAsync(ClientParameters parameters);
         //public Task<Client> GetClientDetailsByIdAsync(int id);
