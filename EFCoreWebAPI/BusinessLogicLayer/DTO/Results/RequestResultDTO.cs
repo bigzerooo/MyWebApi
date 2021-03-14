@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BusinessLogicLayer.DTO.Results
+﻿namespace BusinessLogicLayer.DTO.Results
 {
     public class RequestResultDTO
     {

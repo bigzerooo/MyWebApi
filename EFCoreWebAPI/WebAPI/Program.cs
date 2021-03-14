@@ -15,7 +15,7 @@ namespace WebAPI
         {
 
             IHost host = CreateHostBuilder(args).Build();
-            
+
             using var scope = host.Services.CreateScope();
             IServiceProvider services = scope.ServiceProvider;
             try

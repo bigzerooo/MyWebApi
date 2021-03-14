@@ -34,7 +34,7 @@ namespace BusinessLogicLayer.Services
                 await unitOfWork.CarStateRepository.AddAsync(carState);
                 return new RequestResultDTO();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.RequestResult();
             }
@@ -48,11 +48,11 @@ namespace BusinessLogicLayer.Services
                 await unitOfWork.CarStateRepository.UpdateAsync(carState);
                 return new RequestResultDTO();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.RequestResult();
             }
-            
+
         }
 
         public async Task<RequestResultDTO> DeleteCarStateAsync(int id)

@@ -1,5 +1,5 @@
-﻿using Blazored.LocalStorage;
-using DataAccessLayer.Parameters;
+﻿using DataAccessLayer.Parameters;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,45 +10,33 @@ using UI.ViewModels;
 
 namespace UI.Services
 {
-    public class CarService
+    public class CarService : BaseService
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILocalStorageService _localStorage;
-        public CarService(HttpClient client, ILocalStorageService localStorage)
-        {
-            _httpClient = client;
-            _localStorage = localStorage;
-        }
+        public CarService(HttpClient httpClient) : base(httpClient) { }
+
         public async Task<List<CarViewModel>> GetCarsAsync(CarParameters parameters)
         {
-            var response = await _httpClient.GetAsync($"api/car?PageSize={parameters.PageSize}&PageNumber={parameters.PageNumber}&MinPrice={parameters.MinPrice}&Brand={parameters.Brand}&MaxPrice={parameters.MaxPrice}&OrderBy={parameters.OrderBy}");
-            if (!response.IsSuccessStatusCode)
-                return null;
-
-            using var responseContent = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<List<CarViewModel>>(responseContent);
+            return await httpClient.GetJsonAsync<List<CarViewModel>>("api/car?" +
+                $"PageSize={parameters.PageSize}&" +
+                $"PageNumber={parameters.PageNumber}&" +
+                $"MinPrice={parameters.MinPrice}&" +
+                $"Brand={parameters.Brand}&" +
+                $"MaxPrice={parameters.MaxPrice}&" +
+                $"OrderBy={parameters.OrderBy}");
         }
+
         public async Task<CarViewModel> GetCarsByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"api/car/{id}");
-            if (!response.IsSuccessStatusCode)
-                return null;
-
-            using var responseContent = await response.Content.ReadAsStreamAsync();
-            return await JsonSerializer.DeserializeAsync<CarViewModel>(responseContent);
+            return await httpClient.GetJsonAsync<CarViewModel>($"api/car/{id}");
         }
+
         public async Task<HttpResponseMessage> InsertCarAsync(CarViewModel car)
         {
-            //добавление токена в запрос
-            string token = await _localStorage.GetItemAsync<string>("authToken");
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            //
-
-            return await _httpClient.PostAsync("api/car", GetStringContentFromObject(car));
+            return await httpClient.PostAsync("api/car", GetStringContentFromObject(car));
         }
         public async Task<int> GetCarCountAsync(CarParameters parameters)
         {
-            var respone = await _httpClient.GetAsync($"api/car/count?minprice={parameters.MinPrice}&Brand={parameters.Brand}&MaxPrice={parameters.MaxPrice}");
+            var respone = await httpClient.GetAsync($"api/car/count?minprice={parameters.MinPrice}&Brand={parameters.Brand}&MaxPrice={parameters.MaxPrice}");
             if (!respone.IsSuccessStatusCode)
                 return 0;
             else
@@ -56,7 +44,7 @@ namespace UI.Services
         }
         public async Task<decimal> CalculatePrice(string id, DateTime expectedEndDate)
         {
-            var response = await _httpClient.GetAsync($"api/car/{id}");
+            var response = await httpClient.GetAsync($"api/car/{id}");
             if (!response.IsSuccessStatusCode)
                 return 0;
 

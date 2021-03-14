@@ -7,13 +7,13 @@ namespace BusinessLogicLayer.Extensions
     {
         public static RequestResultDTO RequestResult(this Exception exception)
         {
-            return new RequestResultDTO 
+            return new RequestResultDTO
             {
-                IsSuccessful = false, 
-                Errors = new[] 
-                { 
-                    exception.GetBaseException().Message 
-                } 
+                IsSuccessful = false,
+                Errors = new[]
+                {
+                    exception.GetBaseException().Message
+                }
             };
         }
     }

@@ -32,10 +32,24 @@ namespace UI
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddSingleton(sp => new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:44337")
+            });
+
             services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
+
+            services.AddScoped<AccountService>();
+            services.AddScoped<CarHiresService>();
+            services.AddScoped<CarService>();
+            services.AddScoped<CarStateService>();
+            services.AddScoped<CarTypeService>();
+            services.AddScoped<ClientService>();
+            services.AddScoped<ClientTypeService>();
+            services.AddScoped<LogsService>();
+            services.AddScoped<NewsService>();
+
             services.AddBlazoredLocalStorage();
-            //services.AddAuthorizationCore();            
-            //services.AddScoped<IAuthService, AuthService>();
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             var supportedCultures = new List<CultureInfo> { new CultureInfo("en"), new CultureInfo("ru") };
@@ -45,52 +59,7 @@ namespace UI
                 options.SupportedUICultures = supportedCultures;
             });
 
-            services.AddHttpClient<CarService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<AccountService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<CarTypeService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<CarStateService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<ClientTypeService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<ClientService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<NewsService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<CarHiresService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-            services.AddHttpClient<LogsService>(client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44337");
-            });
-
-            services.AddSingleton<HttpClient>();
-
             services.AddValidatorsFromAssemblyContaining<CarViewModelValidator>();
-
-
-
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

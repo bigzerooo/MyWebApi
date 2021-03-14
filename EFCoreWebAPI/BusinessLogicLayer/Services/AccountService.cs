@@ -47,7 +47,7 @@ namespace BusinessLogicLayer.Services
         {
             var user = await unitOfWork.UserManager.FindByNameAsync(userDTO.UserName);
 
-            if(user == null)
+            if (user == null)
             {
                 return new LoginResult { Successful = false, Error = "User not found" };
             }
